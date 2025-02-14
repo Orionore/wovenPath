@@ -4,10 +4,11 @@ RUN apt-get update && apt-get install -y \
     git \
     unzip \
     libzip-dev \
-    libpq-dev \
+    default-mysql-client \
+    libpng-dev \
     curl \
     gnupg \
-    && docker-php-ext-install zip pdo pdo_pgsql
+    && docker-php-ext-install zip pdo pdo_mysql
 
 # Installation de Node.js
 RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
@@ -15,7 +16,6 @@ RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
     && apt-get install -y nodejs \
     && node --version \
     && npm --version
-
 
 # Activation et installation de pnpm via corepack
 RUN npm install -g pnpm \
