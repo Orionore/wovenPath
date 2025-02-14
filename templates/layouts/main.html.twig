@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('layout_main') }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('layout_main') }}
+{% endblock %}
+
+{% block body %}
+    {% block header %}
+        {% include 'partials/header.html.twig' %}
+    {% endblock %}
+
+    <main>
+        {% block main %}{% endblock %}
+    </main>
+
+    {% block footer %}
+        {% include 'partials/footer.html.twig' %}
+    {% endblock %}
+{% endblock %}

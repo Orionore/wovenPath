@@ -1,0 +1,27 @@
+{% block header %}
+    <header>
+        <div class="card">
+            <div class="header-container">
+                <div class="header-container-mobile">
+                    <a class="logo-oncompare-header" href="/"><img src="{{ asset('build/images/on-compare/logo-on-compare-svg.svg') }}" alt="home-link"></a>
+                    {% if configTheme is defined and configTheme is not null and configTheme.brandLogoUrl is not null %}
+                        <img class="logo-sub-brand" src="{{ asset( configTheme.brandLogoUrl ) }}" alt="home-link">
+                    {% endif %}
+                    <div class="menu-icon mobile">
+                        <div class="bar"></div>
+                        <div class="bar2"></div>
+                    </div>
+                </div>
+                <div class="header-nav-container">
+                    {% if configTheme is defined and configTheme is not null and configTheme.navTemplate is not null %}
+                        {% if configTheme.navTemplate == "main" %}
+                            {% include "/partials/main-nav.html.twig" %}
+                        {% elseif configTheme.navTemplate == "move" %}
+                            {% include "/partials/move-nav.html.twig" %}
+                        {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </header>
+{% endblock %}

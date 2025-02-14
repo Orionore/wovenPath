@@ -1,0 +1,43 @@
+{% block footer %}
+<footer>
+    <div>
+        <img src="" alt="logo wovenpaths">
+        <div>© {{ year }} on-compare.fr</div>
+        <div>Tous droits réservés</div>
+    </div>
+    <div class="footer-part">
+        <span class="title-footer">À propos</span>
+        <ul>
+            <li><a href="{{ path('app_contact') }}">Contact</a></li>
+            <li><a href="{{ path('app_legal-notice') }}">Mentions Légales</a></li>
+        </ul>
+    </div>
+    <div class="footer-part">
+        <span class="title-footer">Nos comparateurs</span>
+        <ul>
+            <li><a href="{{ path('app_comparator', {'page_slug': 'meilleurs-vpn'}) }}">Comparateur de VPN</a></li>
+            <li><a href="{{ path('app_comparator', {'page_slug': 'meilleurs-hebergeur'}) }}">Comparateur d'hébergeur web</a></li>
+            <li><a href="{{ path('app_comparator', {'page_slug': 'meilleurs-credit-conso'}) }}">Comparateur de Crédit Conso</a></li>
+            <li><a href="{{ path('app_comparator', {'page_slug': 'meilleurs-banques'}) }}">Comparateur de Banque</a></li>
+        </ul>
+    </div>
+    <div class="footer-part">
+        <span class="title-footer">Utilisation du service</span>
+        <ul>
+            {#                    <li><a href="#">Fonctionnement du service</a></li>#}
+            {#                    <li><a href="#">Conditions Générales d’Utilisation</a></li>#}
+            <li><a href="{{ path('app_privacy-policy') }}">Politique de Confidentialité</a></li>
+        </ul>
+    </div>
+
+    <div class="footer-p">
+        <p><em>
+                Aucun versement de quelque nature que ce soit, ne peut être exigé d'un particulier, avant l'obtention d'un ou de plusieurs prêts d'argent.
+                Pour un crédit à la consommation, vous disposez d'un délai de rétractation de 14 jours à compter de la signature du contrat de crédit.
+                Pour un crédit immobilier, vous disposez d'un délai de réflexion de 10 jours à compter de la réception du contrat de crédit.
+                Les simulations de regroupement de crédits réalisées ne sauraient avoir de valeur contractuelle. Les résultats ne constituent en aucune
+                façon une recommandation de faire ou de ne pas faire.
+            </em></p>
+    </div>
+</footer>
+{% endblock %}
