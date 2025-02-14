@@ -25,6 +25,8 @@
 /public/build/
 npm-debug.log
 yarn-error.log
+pnpm-store/
+.pnpm-debug.log
 ###< symfony/webpack-encore-bundle ###
 
 ###> Local Development ###
