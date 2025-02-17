@@ -1,0 +1,23 @@
+@use "../core/mixins" as *;
+@use "../core/font" as *;
+
+header {
+  .header-container {
+    display: flex;
+
+    .logo-container {
+      a {
+        display: flex;
+
+        img {
+          width: 100px;
+        }
+        span {
+          font-family: "Inknut Antiqua", serif;
+          font-style: normal;
+          font-weight: bold;
+        }
+      }
+    }
+  }
+}

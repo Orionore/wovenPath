@@ -1,0 +1,52 @@
+
+$primary:                      rgb(255, 255, 245);
+$secondary:                    rgb(18, 255, 193);
+$tertiary:                     rgb(103, 103, 227);
+
+$success:                      rgb(0, 0, 173);
+$danger:                       rgb(255, 75, 18);
+$warning:                      rgb(255, 173, 25);
+$muted:                        rgb(150, 150, 150);
+
+$move-primary:                 rgb(255, 113, 98);
+$move-text:                    rgb(106, 106, 106);
+
+$light:                        #f8f8f8;
+$disable:                      rgb(200, 200, 200);
+$text:                         rgb(0, 0, 48);
+$secondary-light:              rgb(213, 248, 240);
+$danger-light:                 rgb(244, 220, 212);
+
+$background-color:             #f3f3f3;
+$grey:                         rgb(138, 138, 138);
+$warning-light:                rgb(255, 240, 210);
+$dark-grey:                    #505050;
+$white:                        #fff;
+
+
+$background-primary:           $primary;
+$text-primary:                 #fefefe;
+
+$background-secondary:         $secondary;
+$text-secondary:               $primary;
+
+$background-danger:            $danger;
+$text-danger:                  $primary;
+
+$background-light:             $light;
+$text-light:                   rgb(0, 0, 48);
+
+$background-secondary-light:   $secondary-light;
+$text-secondary-light:         $text;
+
+$background-danger-light:      $danger-light;
+$text-danger-light:            $danger;
+
+$background-warning-light:     $warning-light;
+$text-warning-light:           $text;
+
+$background-dark:              #15161A;
+$text-dark:                    $light;
+
+$radius :                      10px;
+$little-radius :               5px;

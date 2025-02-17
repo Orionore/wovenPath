@@ -1,0 +1,15 @@
+@use "../core/mixins" as *;
+
+@include for-tablet-portrait-down {
+  .desktop {
+    display: none;
+  }
+}
+
+.mobile {
+  display: none;
+
+  @include for-tablet-portrait-down {
+    display: block;
+  }
+}

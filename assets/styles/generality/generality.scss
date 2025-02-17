@@ -1,0 +1,94 @@
+@use "../core/theme" as *;
+@use "../core/mixins" as *;
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  font-size: 2em;
+  font-family: "Poppins", sans-serif;
+  background-color: $background-dark;
+  color: $text-dark;
+}
+
+.card {
+  margin: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px 5px #e8e8e8;
+}
+
+.card-grey {
+  margin: 20px;
+  border-radius: 10px;
+  background-color: $background-color;
+  box-sizing: border-box;
+}
+
+.container {
+  width: 1150px;
+  margin: 0 auto;
+  box-sizing: border-box;
+  
+  @include for-desktop-down {
+    width: auto;
+  }
+
+  //@include for-tablet-portrait-down {
+  //  width: 500px;
+  //  margin: 0 auto;
+  //}
+
+  @include for-phone-portrait-only {
+    width: auto;
+  }
+}
+
+.center {
+  text-align: center;
+}
+
+.margin-bottom {
+  margin-bottom: 20px;
+}
+
+.picto {
+  width: 50px;
+}
+
+.sticky {
+  position: sticky;
+  top: 20px;
+}
+
+strong, .strong {
+  font-weight: bold;
+}
+
+.underline {
+  position: relative;
+  z-index: 1;
+}
+
+.underline::before {
+  background-color: $secondary;
+  content: '';
+  height: 30%;
+  width: calc(100% - 5px);
+  bottom: 5px;
+  left: 10px;
+  position: absolute;
+  z-index: -1;
+}
+
+.clear {
+  clear: both;
+}
+
+em {
+  font-style: italic;
+}
+
+a {
+  color: $primary;
+}

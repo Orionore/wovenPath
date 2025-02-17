@@ -1,0 +1,49 @@
+/* *** Inknut Antiqua *** */
+@font-face {
+  font-family: 'Inknut Antiqua';
+  src: url('../../fonts/inknutAntiqua/woff2/inknut-antiqua-bold.woff2') format('woff2'),
+  url('../../fonts/inknutAntiqua/woff/inknut-antiqua-bold.woff') format('woff');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Inknut Antiqua';
+  src: url('../../fonts/inknutAntiqua/woff2/inknut-antiqua-medium.woff2') format('woff2'),
+  url('../../fonts/inknutAntiqua/woff/inknut-antiqua-medium.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Inknut Antiqua';
+  src: url('../../fonts/inknutAntiqua/woff2/inknut-antiqua-light.woff2') format('woff2'),
+  url('../../fonts/inknutAntiqua/woff/inknut-antiqua-light.woff') format('woff');
+  font-weight: 300;
+  font-style: normal;
+}
+
+/* *** Helvetica *** */
+@font-face {
+  font-family: 'Helvetica';
+  src: url('../../fonts/helvetica/woff2/helvetica-bold.woff2') format('woff2'),
+  url('../../fonts/helvetica/woff/helvetica-bold.woff') format('woff');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Helvetica';
+  src: url('../../fonts/helvetica/woff2/helvetica-font.woff2') format('woff2'),
+  url('../../fonts/helvetica/woff/helvetica-font.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Helvetica';
+  src: url('../../fonts/helvetica/woff2/helvetica-light.woff2') format('woff2'),
+  url('../../fonts/helvetica/woff/helvetica-light.woff') format('woff');
+  font-weight: 300;
+  font-style: normal;
+}

@@ -1,0 +1,42 @@
+@use '../core/theme' as *;
+@use '../core/mixins' as *;
+
+.error {
+  margin: 20px;
+  height: 600px;
+  line-height: 1.5em;
+
+  @include for-tablet-portrait-up {
+    max-width: 800px;
+    margin: 20px auto;
+  }
+
+  .error-content {
+      @include for-tablet-portrait-up {
+        margin: 3em 0;
+      }
+
+    .errno {
+      color: $primary;
+      font-weight: bold;
+      font-size: 2.6rem;
+      margin-bottom: 1em;
+
+      @include for-tablet-portrait-up {
+        font-size: 4rem;
+      }
+    }
+
+    .title {
+      font-weight: bold;
+    }
+
+    .message {
+      font-size: 1.3rem;
+
+      @include for-tablet-portrait-up {
+        font-size: 1.4rem;
+      }
+    }
+  }
+}
