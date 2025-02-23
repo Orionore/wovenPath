@@ -1,22 +1,52 @@
 @use "../core/mixins" as *;
 @use "../core/font" as *;
+@use "../core/theme" as *;
 
 header {
   .header-container {
-    display: flex;
 
     .logo-container {
-      a {
-        display: flex;
+      margin-left: 20px;
+    }
 
-        img {
-          width: 100px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .header-nav-container {
+      ul {
+        display: flex;
+        margin-right: 80px;
+        font-size: 1.6rem;
+
+        li {
+          margin: 0 20px;
         }
-        span {
-          font-family: "Inknut Antiqua", serif;
-          font-style: normal;
-          font-weight: bold;
-        }
+      }
+    }
+
+    @include for-tablet-portrait-down {
+      .menu-icon {
+        display: block;
+        width: 30px;
+        height: 25px;
+        cursor: pointer;
+        padding: 25px;
+      }
+
+      .bar, .bar2 {
+        height: 3px;
+        background-color: $primary;
+        margin: 5px 0;
+        transition: 0.4s;
+      }
+
+      .bar {
+        width: 100%;
+      }
+
+      .bar2 {
+        width: 70%;
       }
     }
   }

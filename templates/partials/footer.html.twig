@@ -1,31 +1,40 @@
 {% block footer %}
-<footer>
-    <div>
-        <img src="" alt="logo wovenpaths">
-        <div>© {{ year }} on-compare.fr</div>
-        <div>Tous droits réservés</div>
-    </div>
-    <div class="footer-part">
-        <span class="title-footer">À propos</span>
-        <ul>
-            <li><a href="#">Contact</a></li>
-            <li><a href="#">Mentions Légales</a></li>
-        </ul>
-    </div>
-    <div class="footer-part">
-        <span class="title-footer">Nos comparateurs</span>
-        <ul>
-            <li><a href="#">Comparateur de VPN</a></li>
-            <li><a href="#">Comparateur d'hébergeur web</a></li>
-            <li><a href="#">Comparateur de Crédit Conso</a></li>
-            <li><a href="#">Comparateur de Banque</a></li>
-        </ul>
-    </div>
-    <div class="footer-part">
-        <span class="title-footer">Utilisation du service</span>
-        <ul>
-            <li><a href="#">Politique de Confidentialité</a></li>
-        </ul>
+<footer class="card-dark">
+    <div class="container">
+        <div class="copyright-container">
+            <div class=logo-container>
+                <a class="logo-woven-paths" href="/">
+                    <img src="{{ asset('build/images/logo/logo-woven-paths.svg') }}" alt="home-link">
+                    <span>WovenPaths</span>
+                </a>
+            </div>
+            <div class="copyright-sentence-container">
+                <span>© {{ year }} on-compare.fr</span>
+                <span>Tous droits réservés</span>
+            </div>
+        </div>
+        <div class="footer-part">
+            <span class="title-footer">À propos</span>
+            <ul>
+                <li><a href="#">Contact</a></li>
+                <li><a href="#">Mentions Légales</a></li>
+            </ul>
+        </div>
+        <div class="footer-part">
+            <span class="title-footer">Nos comparateurs</span>
+            <ul>
+                <li><a href="#">Comparateur de VPN</a></li>
+                <li><a href="#">Comparateur d'hébergeur web</a></li>
+                <li><a href="#">Comparateur de Crédit Conso</a></li>
+                <li><a href="#">Comparateur de Banque</a></li>
+            </ul>
+        </div>
+        <div class="footer-part">
+            <span class="title-footer">Utilisation du service</span>
+            <ul>
+                <li><a href="#">Politique de Confidentialité</a></li>
+            </ul>
+        </div>
     </div>
 </footer>
 {% endblock %}

@@ -15,23 +15,23 @@ body {
 .card {
   margin: 20px;
   border-radius: 10px;
-  box-shadow: 0 0 10px 5px #e8e8e8;
+  background-color: $background-primary;
 }
 
-.card-grey {
+.card-dark {
   margin: 20px;
   border-radius: 10px;
-  background-color: $background-color;
-  box-sizing: border-box;
+  background-color: $background-secondary;
 }
 
 .container {
-  width: 1150px;
-  margin: 0 auto;
+  width: auto;
+  margin: 20px;
   box-sizing: border-box;
   
-  @include for-desktop-down {
-    width: auto;
+  @include for-tablet-portrait-up {
+    width: 1150px;
+    margin: 0 auto;
   }
 
   //@include for-tablet-portrait-down {

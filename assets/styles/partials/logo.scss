@@ -1,0 +1,32 @@
+@use "../core/mixins" as *;
+@use "../core/font" as *;
+@use "../core/theme" as *;
+
+.logo-container {
+  a {
+    display: flex;
+    line-height: 1.3rem;
+
+    img {
+      width: 35px;
+
+      @include for-tablet-portrait-up {
+        width: 60px;
+      }
+    }
+
+    span {
+      font-size: 1.2rem;
+      align-self: flex-end;
+      padding: 0 0 6px 5px;
+      font-family: "Inknut Antiqua", serif;
+      font-style: normal;
+      font-weight: bold;
+
+      @include for-tablet-portrait-up {
+        font-size: 2rem;
+        padding: 0 0 15px 5px;
+      }
+    }
+  }
+}

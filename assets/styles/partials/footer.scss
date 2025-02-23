@@ -1,0 +1,60 @@
+@use "../core/theme" as *;
+@use "../core/mixins" as *;
+
+footer  {
+
+  .container {
+    padding: 1em;
+    line-height: 1.3em;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    color: $primary;
+
+    @include for-tablet-portrait-up {
+      flex-direction: row;
+    }
+
+    .copyright-container {
+      font-size: 1rem;
+
+      .copyright-sentence-container {
+        line-height: 1.1rem;
+
+        span {
+          display: block;
+        }
+      }
+    }
+
+    .footer-part {
+      font-size: 1.3rem;
+
+      @include for-tablet-portrait-down {
+        margin-top: 1em;
+      }
+    }
+
+    .title-footer {
+      font-weight: bold;
+      font-size: 1.4rem;
+      color: $primary;
+
+      @include for-tablet-portrait-up {
+        font-size: 1.6rem;
+      }
+    }
+
+    li {
+      font-size: 1.2rem;
+
+      @include for-tablet-portrait-up {
+        font-size: 1.4rem;
+      }
+
+      a {
+        color: $link;
+      }
+    }
+  }
+}

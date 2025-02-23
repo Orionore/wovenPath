@@ -1,9 +1,25 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
+        <meta name='viewport' id="viewport" content='width=device-width,initial-scale=1,user-scalable=0' />
+        <meta name="description" content="{% block meta_description %}Venez découvrir et créer des histoires aux possibilités infinis.{% endblock %}">
+        <meta name="keywords" content="{% block meta_keywords %}histoire embranchement communauté création auteur autrice science fiction comics{% endblock %}">
+        <link rel="canonical" href="{% block canonical_url %}{{ app.request.uri }}{% endblock %}" />
+
+        {% block meta %}{% endblock %}
+
+        <title>Woven Paths</title>
+
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
+        <link rel="icon" href="{{ asset('build/favicons/favicon.ico') }}" />
+        <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('build/favicons/favicon-16x16.png') }}">
+        <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('build/favicons/favicon-32x32.png') }}">
+        <link rel="icon" type="image/png" sizes="192x192" href="{{ asset('build/favicons/android-chrome-192x192.png') }}">
+        <link rel="icon" type="image/png" sizes="512x512" href="{{ asset('build/favicons/android-chrome-512x512.png') }}">
+        <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('build/favicons/apple-touch-icon.png') }}">
+        <link rel="manifest" href="{{ asset('build/favicons/site.webmanifest') }}">
+
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
         {% endblock %}
