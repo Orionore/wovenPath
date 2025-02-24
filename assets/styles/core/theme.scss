@@ -1,5 +1,5 @@
 
-$primary:                     rgb(243, 243, 243);
+$primary:                     rgb(237, 237, 237);
 $secondary:                   rgb(103, 16, 203);
 $secondary-dark:              rgb(71, 12, 135);
 $tertiary:                    rgb(103, 103, 227);
@@ -50,5 +50,9 @@ $text-warning-light:          $text;
 $background-dark:             #15161A;
 $text-dark:                   $light;
 
-$radius :                     10px;
-$little-radius :              5px;
+$radius:                      30px;
+$medium-radius:               20px;
+$little-radius:               5px;
+
+$main-font:                   'Inknut Antiqua', serif;
+$secondary-font:              'Helvetica', sans-serif;

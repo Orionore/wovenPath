@@ -1,3 +1,4 @@
+//***** mobile
 @mixin for-phone-portrait-only {
   @media screen and (max-width: 575.98px) { @content; }
 }
@@ -11,6 +12,7 @@
   @media screen and (min-width: 576px) { @content; }
 }
 
+//***** tablette
 @mixin for-tablet-portrait-down {
   @media screen and (max-width: 991.98px) { @content; }
 }
@@ -21,6 +23,7 @@
   @media screen and (min-width: 768px) { @content; }
 }
 
+//***** desktop
 @mixin for-desktop-down {
   @media screen and (max-width: 1199.98px) { @content; }
 }

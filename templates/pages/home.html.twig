@@ -2,12 +2,12 @@
 
 {% block stylesheets %}
     {{ parent() }}
-    {{ encore_entry_link_tags('layout_main') }}
+    {{ encore_entry_link_tags('page_home') }}
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
-    {{ encore_entry_script_tags('layout_main') }}
+    {{ encore_entry_script_tags('page_home') }}
 {% endblock %}
 
 {% block main %}
@@ -15,10 +15,31 @@
     <div class="container">
         <div class="welcome-container">
             <img src="{{ asset('build/images/background/Foret-magique.webp') }}" alt="welcome">
-            <span>
-                Bienvenue sur Woven Paths ! Vivez des histoires où vous ferez vos propre choix. Créez des histoires de tous genres.
-            </span>
+            <div>
+                <span>Bienvenue sur Woven Paths !</span>
+                <span>Vivez des histoires où vous ferez vos propres choix.</span>
+                <span>Créez des histoires de tous genres.</span>
+            </div>
         </div>
+
+        <form class="search-container">
+            <select class="genre-select">
+                <option value="" selected>Chercher par genre</option>
+                <option value="fantasy">Fantasy</option>
+                <option value="scifi">Science Fiction</option>
+                <!-- autres genres... -->
+            </select>
+
+            <div class="input-with-icon">
+                <input
+                    type="text"
+                    placeholder="Chercher par nom, genre, auteurs ..."
+                    class="search-input"
+                />
+                <img src="{{ asset('build/images/pictos/search.svg') }}" alt="search">
+            </div>
+            <button type="submit" class="submit-button">Rechercher</button>
+        </form>
     </div>
 
 {% endblock %}

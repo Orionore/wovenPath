@@ -4,9 +4,68 @@
 
 .container {
   .welcome-container {
+    position: relative;
+
     img {
       width: 100%;
-      border-radius: 30px;
+      border-radius: $radius;
+    }
+
+    div {
+      position: absolute;
+      border-radius: $medium-radius;
+      background-color: rgba(0,0,0,.7);
+      padding: 1em;
+      top: 30px;
+      right: 30px;
+      bottom: 30px;
+      left: 30px;
+      font-family: $main-font;
+      line-height: 1.5;
+      text-align: center;
+
+      span {
+        display: block;
+        margin: 15px;
+      }
+    }
+  }
+
+  .search-container {
+    border-radius: $radius;
+    margin: 10px 0;
+    padding: 30px;
+    background-color: $background-primary;
+
+    .genre-select {
+      border: none;
+      width: 100%;
+      padding: 10px;
+      border-radius: $little-radius;
+      background-color: $background-dark;
+      color: $primary;
+      margin-bottom: 10px;
+    }
+
+    .input-with-icon {
+      position: relative;
+
+      input {
+        border: none;
+        width: 100%;
+        padding: 10px;
+        border-radius: $radius;
+        background-color: $background-dark;
+        color: $primary;
+        margin-bottom: 10px;
+        box-sizing: border-box;
+      }
+      img {
+        position: absolute;
+        right: 11px;
+        top: 10px;
+        width: 15px;
+      }
     }
   }
 }
