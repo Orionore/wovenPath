@@ -1,7 +1,8 @@
 import { Application } from '@hotwired/stimulus'
+import MobileMenuController from './controllers/mobile-menu_controller.js'
 
 const app = Application.start()
-// register any custom, 3rd party controllers here
-// app.register('some_controller_name', SomeImportedController);
+
+app.register('mobile-menu', MobileMenuController)
 
 export { app }

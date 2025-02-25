@@ -25,6 +25,25 @@ header {
       }
     }
 
+    .header-nav-container.desktop {
+      display: none;
+
+      @include for-tablet-portrait-up {
+        display: block;
+      }
+    }
+
+    .header-nav-container.desktop.active {
+      display: block;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background-color: #fff;
+      z-index: 100;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
     @include for-tablet-portrait-down {
       .menu-icon {
         display: block;
@@ -38,7 +57,7 @@ header {
         height: 3px;
         background-color: $primary;
         margin: 5px 0;
-        transition: 0.4s;
+        transition: all 0.3s ease;
       }
 
       .bar {
@@ -47,6 +66,16 @@ header {
 
       .bar2 {
         width: 70%;
+      }
+
+      &.active {
+        .bar {
+          transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .bar2 {
+          transform: rotate(-45deg) translate(5px, -5px);
+        }
       }
     }
   }

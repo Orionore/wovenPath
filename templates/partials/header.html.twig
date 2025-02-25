@@ -1,23 +1,40 @@
 {% block header %}
-    <header>
+    <header data-controller="mobile-menu">
         <div class="card">
             <div class="header-container">
-                <div class=logo-container>
+                <div class="logo-container">
                     <a class="logo-woven-paths" href="/">
                         <img src="{{ asset('build/images/logo/logo-woven-paths.svg') }}" alt="home-link">
                         <span>WovenPaths</span>
                     </a>
                 </div>
-                <div class="menu-icon mobile">
+                <div
+                    class="menu-icon mobile"
+                    data-mobile-menu-target="icon"
+                    data-action="click->mobile-menu#toggle"
+                >
                     <div class="bar"></div>
                     <div class="bar2"></div>
                 </div>
-                <div class="header-nav-container desktop">
-                    <ul>
-                        <li><a href="#">profile</a></li>
-                        <li><a href="#">contact</a></li>
-                    </ul>
+
+                <div class="mobile-nav" data-mobile-menu-target="menu">
+                    <div class="header-nav-container">
+                        <ul>
+                            {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                                <li>
+                                    <a href="{{ path('app_logout') }}">Se déconnecter</a>
+                                </li>
+                            {% endif %}
+                            <li>
+                                <a href="#" class="nav-title">Profile</a>
+                            </li>
+                            <li>
+                                <a href="#" class="nav-title">Contact</a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
+
             </div>
         </div>
     </header>
