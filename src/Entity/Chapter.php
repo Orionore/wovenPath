@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\ChapterRepository;
+use DateTimeImmutable;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -28,13 +29,13 @@ class Chapter
     private ?string $content = null;
 
     #[ORM\Column(nullable: true)]
-    private ?\DateTimeImmutable $updated_at = null;
+    private ?DateTimeImmutable $updated_at = null;
 
     #[ORM\Column]
-    private ?\DateTimeImmutable $created_at = null;
+    private ?DateTimeImmutable $created_at = null;
 
     #[ORM\Column(nullable: true)]
-    private ?\DateTimeImmutable $deleted_at = null;
+    private ?DateTimeImmutable $deleted_at = null;
 
     public function getId(): ?int
     {
@@ -58,7 +59,7 @@ class Chapter
         return $this->parent_chapter_id;
     }
 
-    public function setParentChapterId(int $parent_chapter_id): static
+    public function setParentChapterId(?int $parent_chapter_id): static
     {
         $this->parent_chapter_id = $parent_chapter_id;
 
@@ -77,36 +78,36 @@ class Chapter
         return $this;
     }
 
-    public function getEupdatedAt(): ?\DateTimeImmutable
+    public function getEupdatedAt(): ?DateTimeImmutable
     {
         return $this->updated_at;
     }
 
-    public function setEupdatedAt(?\DateTimeImmutable $updated_at): static
+    public function setEupdatedAt(?DateTimeImmutable $updated_at): static
     {
         $this->updated_at = $updated_at;
 
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeImmutable
+    public function getCreatedAt(): ?DateTimeImmutable
     {
         return $this->created_at;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $created_at): static
+    public function setCreatedAt(DateTimeImmutable $created_at): static
     {
         $this->created_at = $created_at;
 
         return $this;
     }
 
-    public function getDeletedAt(): ?\DateTimeImmutable
+    public function getDeletedAt(): ?DateTimeImmutable
     {
         return $this->deleted_at;
     }
 
-    public function setDeletedAt(?\DateTimeImmutable $deleted_at): static
+    public function setDeletedAt(?DateTimeImmutable $deleted_at): static
     {
         $this->deleted_at = $deleted_at;
 

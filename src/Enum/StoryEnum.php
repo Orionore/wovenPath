@@ -4,24 +4,25 @@ namespace App\Enum;
 
 enum StoryEnum: string
 {
-    case POLICIER = 'policier';
+    case DETECTIVE = 'detective';
     case SCIENCE_FICTION = 'science-fiction';
-    case FANTASTIQUE = 'fantastique';
+    case FANTASTIC = 'fantastic';
     case FANTASY = 'fantasy';
     case ROMANCE = 'romance';
-    case AVENTURE = 'aventure';
-    case HISTORIQUE = 'historique';
-    case HORREUR = 'horreur';
+    case ADVENTURE = 'adventure';
+    case HISTORICAL = 'historical';
+    case HORROR = 'horror';
     case THRILLER = 'thriller';
-    case DRAME = 'drame';
-    case COMEDIE = 'comedie';
-    case BIOGRAPHIE = 'biographie';
-    case JEUNESSE = 'jeunesse';
-    case DYSTOPIE = 'dystopie';
+    case DRAMA = 'drama';
+    case COMEDY = 'comedy';
+    case BIOGRAPHY = 'biography';
+    case CHILDREN = 'children';
+    case DYSTOPIA = 'dystopia';
     case WESTERN = 'western';
-    case POESIE = 'poesie';
-    case THEATRE = 'theatre';
-    case CONTE = 'conte';
-    case MYTHOLOGIE = 'mythologie';
+    case POETRY = 'poetry';
+    case THEATER = 'theater';
+    case FAIRYTALE = 'fairytale';
+    case MYTHOLOGY = 'mythology';
     case SATIRE = 'satire';
+    case MYSTERY = 'mystère';
 }

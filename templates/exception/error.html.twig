@@ -1,0 +1,16 @@
+{% extends 'layouts/main.html.twig' %}
+
+{% block title %}Une erreur est survenue sur le serveur{% endblock %}
+
+{% block main %}
+    <div class="error">
+        <div class="error-content">
+            <div class="errno" data-text="{{ status_code }}">{{ status_code }}</div>
+            <p class="title">Une erreur est survenue sur le serveur !</p>
+            <p class="message">Une erreur est survenue lors de l'affichage de la page. Nous vous invitons à réessayer ultérieurement.</p>
+        </div>
+        <div class="center">
+            <a href="{{ path('app_home') }}" class="button primary">Retourner à la page d'accueil</a>
+        </div>
+    </div>
+{% endblock %}

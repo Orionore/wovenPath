@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\ReadinProgressRepository;
+use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ReadinProgressRepository::class)]
@@ -32,7 +33,7 @@ class ReadinProgress
     private ?array $path = null;
 
     #[ORM\Column]
-    private ?\DateTimeImmutable $last_read_at = null;
+    private ?DateTimeImmutable $last_read_at = null;
 
     public function getId(): ?int
     {
@@ -87,12 +88,12 @@ class ReadinProgress
         return $this;
     }
 
-    public function getLastReadAt(): ?\DateTimeImmutable
+    public function getLastReadAt(): ?DateTimeImmutable
     {
         return $this->last_read_at;
     }
 
-    public function setLastReadAt(\DateTimeImmutable $last_read_at): static
+    public function setLastReadAt(DateTimeImmutable $last_read_at): static
     {
         $this->last_read_at = $last_read_at;
 
