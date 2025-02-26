@@ -2,12 +2,7 @@
     <header data-controller="mobile-menu">
         <div class="card">
             <div class="header-container">
-                <div class="logo-container">
-                    <a class="logo-woven-paths" href="/">
-                        <img src="{{ asset('build/images/logo/logo-woven-paths.svg') }}" alt="home-link">
-                        <span>WovenPaths</span>
-                    </a>
-                </div>
+                {% include 'partials/logo.html.twig' %}
                 <div
                     class="menu-icon mobile"
                     data-mobile-menu-target="icon"
@@ -24,10 +19,15 @@
                                 <li>
                                     <a href="{{ path('app_logout') }}">Se déconnecter</a>
                                 </li>
+                                <li>
+                                    <a href="#" class="nav-title">Profile</a>
+                                </li>
+                            {% else %}
+                                <li>
+                                    <a href="{{ path('app_login') }}">Se connecter</a>
+                                </li>
                             {% endif %}
-                            <li>
-                                <a href="#" class="nav-title">Profile</a>
-                            </li>
+
                             <li>
                                 <a href="#" class="nav-title">Contact</a>
                             </li>

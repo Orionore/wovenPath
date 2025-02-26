@@ -3,13 +3,20 @@
 namespace App\Entity;
 
 use App\Repository\ChapterRepository;
+use App\Util\Doctrine\CreatedAtTrait;
+use App\Util\Doctrine\UpdatedAtTrait;
 use DateTimeImmutable;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
 
 #[ORM\Entity(repositoryClass: ChapterRepository::class)]
 class Chapter
 {
+    use CreatedAtTrait;
+    use UpdatedAtTrait;
+    use SoftDeleteableEntity;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -27,15 +34,6 @@ class Chapter
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $content = null;
-
-    #[ORM\Column(nullable: true)]
-    private ?DateTimeImmutable $updated_at = null;
-
-    #[ORM\Column]
-    private ?DateTimeImmutable $created_at = null;
-
-    #[ORM\Column(nullable: true)]
-    private ?DateTimeImmutable $deleted_at = null;
 
     public function getId(): ?int
     {
@@ -74,42 +72,6 @@ class Chapter
     public function setContent(?string $content): static
     {
         $this->content = $content;
-
-        return $this;
-    }
-
-    public function getEupdatedAt(): ?DateTimeImmutable
-    {
-        return $this->updated_at;
-    }
-
-    public function setEupdatedAt(?DateTimeImmutable $updated_at): static
-    {
-        $this->updated_at = $updated_at;
-
-        return $this;
-    }
-
-    public function getCreatedAt(): ?DateTimeImmutable
-    {
-        return $this->created_at;
-    }
-
-    public function setCreatedAt(DateTimeImmutable $created_at): static
-    {
-        $this->created_at = $created_at;
-
-        return $this;
-    }
-
-    public function getDeletedAt(): ?DateTimeImmutable
-    {
-        return $this->deleted_at;
-    }
-
-    public function setDeletedAt(?DateTimeImmutable $deleted_at): static
-    {
-        $this->deleted_at = $deleted_at;
 
         return $this;
     }

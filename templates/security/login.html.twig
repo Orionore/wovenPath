@@ -1,41 +1,75 @@
-{% extends 'base.html.twig' %}
+{% extends 'layouts/main.html.twig' %}
 
-{% block title %}Log in!{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('page_login') }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('page_login') }}
+{% endblock %}
 
 {% block body %}
-    <form method="post">
-        {% if error %}
-            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-        {% endif %}
+    <body class="login-page">
 
-        {% if app.user %}
-            <div class="mb-3">
-                You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
-            </div>
-        {% endif %}
+    <div class="box">
+        {% include 'partials/logo.html.twig' %}
+        <!-- /.login-logo -->
+        <div class="card">
 
-        <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-        <label for="username">Email</label>
-        <input type="email" value="{{ last_username }}" name="_username" id="username" class="form-control" autocomplete="email" required autofocus>
-        <label for="password">Password</label>
-        <input type="password" name="_password" id="password" class="form-control" autocomplete="current-password" required>
+            {% if error %}
+                <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+            {% endif %}
 
-        <input type="hidden" name="_csrf_token"
-               value="{{ csrf_token('authenticate') }}"
-        >
+            {% if app.user %}
 
-        {#
-            Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
-            See https://symfony.com/doc/current/security/remember_me.html
+                <div class="mb-3">
+                    Vous êtes logué en tant que {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Se déconnecter</a>
+                </div>
 
-            <div class="checkbox mb-3">
-                <input type="checkbox" name="_remember_me" id="_remember_me">
-                <label for="_remember_me">Remember me</label>
-            </div>
-        #}
+            {% else %}
 
-        <button class="btn btn-lg btn-primary" type="submit">
-            Sign in
-        </button>
-    </form>
+                <span class="title">Connectez-vous</span>
+
+                <form action="{{ path('app_login') }}" method="post">
+
+                    <label class="form-controls">
+                        <input type="email" class="email" id="email" name="email" placeholder="Email" required />
+                    </label>
+                    <label class="form-controls">
+                        <input type="password" class="password" id="password" name="password" placeholder="Password" required />
+                    </label>
+
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="_remember_me" id="flexCheckDefault" />
+                        <label class="form-check-label" for="flexCheckDefault">
+                            Se souvenir de moi
+                        </label>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Se connecter</button>
+
+                </form>
+
+
+                <div class="links-container">
+                    <a href="{{ path('app_forgot_password_request') }}">
+                        J'ai oublié mon mot de passe
+                    </a>
+                    <a href="{{ path('app_register') }}">
+                        Créer un nouveau compte
+                    </a>
+                </div>
+
+            {% endif %}
+
+        </div>
+        <!-- /.login-card-body -->
+    </div>
+    <!-- /.login-box -->
+
+    </body>
 {% endblock %}

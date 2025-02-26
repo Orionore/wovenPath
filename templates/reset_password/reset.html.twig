@@ -1,0 +1,25 @@
+{% extends 'layouts/main.html.twig' %}
+
+{% block title %}Reset your password{% endblock %}
+
+{% block body %}
+
+<div class="box">
+
+    <div class="logo">
+        <img src="{{ asset('build/images/on-compare/logo-on-compare-RVB-couleur.svg') }}" alt="on compare login page">
+        <span>On Compare</span>
+    </div>
+
+    <div class="card">
+        <span class="title">Changer votre mot de passe</span>
+
+        {{ form_start(resetForm) }}
+            {{ form_row(resetForm.plainPassword) }}
+            <button class="btn btn-primary">Changer le mot de passe</button>
+        {{ form_end(resetForm) }}
+    </div>
+
+</div>
+
+{% endblock %}

@@ -2,12 +2,7 @@
 <footer class="card-dark">
     <div class="container">
         <div class="copyright-container">
-            <div class=logo-container>
-                <a class="logo-woven-paths" href="/">
-                    <img src="{{ asset('build/images/logo/logo-woven-paths.svg') }}" alt="home-link">
-                    <span>WovenPaths</span>
-                </a>
-            </div>
+            {% include 'partials/logo.html.twig' %}
             <div class="copyright-sentence-container">
                 <span>© {{ year }} on-compare.fr</span>
                 <span>Tous droits réservés</span>

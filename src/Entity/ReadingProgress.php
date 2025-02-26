@@ -2,12 +2,12 @@
 
 namespace App\Entity;
 
-use App\Repository\ReadinProgressRepository;
+use App\Repository\ReadingProgressRepository;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: ReadinProgressRepository::class)]
-class ReadinProgress
+#[ORM\Entity(repositoryClass: ReadingProgressRepository::class)]
+class ReadingProgress
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]

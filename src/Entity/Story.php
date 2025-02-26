@@ -4,13 +4,20 @@ namespace App\Entity;
 
 use App\Enum\StoryEnum;
 use App\Repository\StoryRepository;
+use App\Util\Doctrine\CreatedAtTrait;
+use App\Util\Doctrine\UpdatedAtTrait;
 use DateTimeImmutable;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
 
 #[ORM\Entity(repositoryClass: StoryRepository::class)]
 class Story
 {
+    use CreatedAtTrait;
+    use UpdatedAtTrait;
+    use SoftDeleteableEntity;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -29,15 +36,6 @@ class Story
 
     #[ORM\Column]
     private ?bool $status = null;
-
-    #[ORM\Column]
-    private ?DateTimeImmutable $created_at = null;
-
-    #[ORM\Column(nullable: true)]
-    private ?DateTimeImmutable $updated_at = null;
-
-    #[ORM\Column(nullable: true)]
-    private ?DateTimeImmutable $deleted_at = null;
 
     #[ORM\Column(type: Types::SIMPLE_ARRAY, enumType: StoryEnum::class)]
     private array $genre = [];
@@ -91,42 +89,6 @@ class Story
     public function setStatus(bool $status): static
     {
         $this->status = $status;
-
-        return $this;
-    }
-
-    public function getCreatedAt(): ?DateTimeImmutable
-    {
-        return $this->created_at;
-    }
-
-    public function setCreatedAt(DateTimeImmutable $created_at): static
-    {
-        $this->created_at = $created_at;
-
-        return $this;
-    }
-
-    public function getUpdatedAt(): ?DateTimeImmutable
-    {
-        return $this->updated_at;
-    }
-
-    public function setUpdatedAt(?DateTimeImmutable $updated_at): static
-    {
-        $this->updated_at = $updated_at;
-
-        return $this;
-    }
-
-    public function getDeletedAt(): ?DateTimeImmutable
-    {
-        return $this->deleted_at;
-    }
-
-    public function setDeletedAt(?DateTimeImmutable $deleted_at): static
-    {
-        $this->deleted_at = $deleted_at;
 
         return $this;
     }

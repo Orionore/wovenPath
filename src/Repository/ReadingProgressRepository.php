@@ -9,7 +9,7 @@ use Doctrine\Persistence\ManagerRegistry;
 /**
  * @extends ServiceEntityRepository<ReadinProgress>
  */
-class ReadinProgressRepository extends ServiceEntityRepository
+class ReadingProgressRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
