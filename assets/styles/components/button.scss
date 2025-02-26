@@ -1,0 +1,28 @@
+@use "../core/theme" as *;
+
+@mixin btn-base {
+  background-color: $background-button;
+  color: $text-primary;
+  padding: 10px 30px;
+  border-radius: 10px;
+  border: none;
+  margin: 10px auto;
+  display: block;
+  cursor: pointer;
+
+  &:hover {
+    background-color: $background-primary;
+  }
+}
+
+@mixin btn-primary {
+  @include btn-base;
+  background-color: $secondary;
+  color: $primary;
+}
+
+@mixin btn-secondary {
+  @include btn-base;
+  background-color: $tertiary;
+  color: $primary;
+}

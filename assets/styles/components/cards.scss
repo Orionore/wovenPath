@@ -1,0 +1,6 @@
+
+@mixin card($bg-color, $border-radius) {
+  margin: 20px;
+  border-radius: $border-radius;
+  background-color: $bg-color;
+}

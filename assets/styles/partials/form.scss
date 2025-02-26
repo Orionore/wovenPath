@@ -1,26 +1,23 @@
 @use "../core/theme" as *;
 @use "../core/mixins" as *;
 
+@use "../components/validation";
+
+@use "../components/button" as btn;
+@use "../components/cards" as card;
+
+
 .box {
-
-  .logo-container {
-    margin: 40px auto 20px;
-    width: 400px;
-
-    img {
-      width: 64px;
-    }
-
-    span {
-      display: block;
-    }
-  }
-
   .card {
+    @include card.card($background-primary, $radius);
     padding: 20px;
-    width: 400px;
+    max-width: 400px;
     font-size: 1.4rem;
-    margin: 0 auto;
+    margin: 50px 20px 150px;
+
+    @include for-tablet-portrait-up {
+      margin: 15% auto;
+    }
 
     .title {
       font-size: 1.6rem;
@@ -47,7 +44,7 @@
       }
     }
 
-    .form-controls input {
+    input {
       margin: 10px 0;
       padding: 10px;
       border: 2px solid $primary;
@@ -56,21 +53,25 @@
       box-sizing: border-box;
     }
 
-    button {
-      background-color: $secondary;
-      color: $primary;
-      padding: 10px 30px;
-      border-radius: 10px;
-      border: none;
-      margin: 10px auto;
-      display: block;
-      cursor: pointer;
+    .form-check {
+      margin-top: 10px;
+      display: flex;
+    }
+
+    .form-check-input {
+      width: 14px;
+      margin: 0 5px;
+    }
+
+    .btn-primary {
+      @include btn.btn-base;
     }
 
     .links-container {
       margin-top: 20px;
 
       a {
+        color: $link;
         display: block;
         line-height: 1.5em;
       }

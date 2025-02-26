@@ -1,17 +1,21 @@
 @use "../core/mixins" as *;
 @use "../core/font" as *;
 @use "../core/theme" as *;
+@use "../components/cards"  as card;
 
 header {
+  .card {
+    @include card.card($background-primary, $medium-radius);
+  }
+
   .header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 
     .logo-container {
       margin-left: 20px;
     }
-
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
 
     .header-nav-container {
       ul {

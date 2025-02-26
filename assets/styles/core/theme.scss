@@ -9,14 +9,16 @@ $danger:                      rgb(255, 75, 18);
 $warning:                     rgb(255, 173, 25);
 $muted:                       rgb(150, 150, 150);
 $link:                        rgb(176, 176, 255);
+$button:                      rgb(46, 0, 70);
 
 $move-primary:                rgb(255, 113, 98);
 $move-text:                   rgb(106, 106, 106);
 
 $light:                       #f8f8f8;
 $disable:                     rgb(200, 200, 200);
-$text:                        rgb(0, 0, 48);
-$secondary-light:             rgb(213, 248, 240);
+
+$secondary-light:             rgb(165, 114, 223);
+$tertiary-light:              rgb(152, 152, 213);
 $danger-light:                rgb(244, 220, 212);
 
 $background-color:            #f3f3f3;
@@ -27,28 +29,32 @@ $white:                       #fff;
 
 
 $background-primary:          $secondary;
-$text-primary:                #fefefe;
+$text-primary:                $primary;
+
+$background-primary-light:    $secondary-light;
+$text-primary-light:          $primary;
 
 $background-secondary:        $secondary-dark;
 $text-secondary:              $primary;
 
+$background-button:           $button;
+$text-button:                 $primary;
+
 $background-danger:           $danger;
 $text-danger:                 $primary;
 
-$background-light:            $light;
-$text-light:                  rgb(0, 0, 48);
-
 $background-secondary-light:  $secondary-light;
-$text-secondary-light:        $text;
+$text-secondary-light:        $primary;
 
 $background-danger-light:     $danger-light;
 $text-danger-light:           $danger;
 
 $background-warning-light:    $warning-light;
-$text-warning-light:          $text;
+$text-warning-light:          $secondary-dark;
 
 $background-dark:             #15161A;
 $text-dark:                   $light;
+
 
 $radius:                      30px;
 $medium-radius:               20px;

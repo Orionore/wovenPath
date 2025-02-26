@@ -29,6 +29,7 @@ Encore
     //pages
     .addEntry('page_home', './assets/js/pages/home.js')
     .addEntry('page_login', './assets/js/pages/login.js')
+    .addEntry('page_register', './assets/js/pages/register.js')
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()
