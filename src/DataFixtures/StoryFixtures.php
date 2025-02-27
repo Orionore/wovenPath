@@ -5,7 +5,6 @@ namespace App\DataFixtures;
 use App\Entity\Story;
 use App\Entity\User;
 use App\Enum\StoryEnum;
-use DateTimeImmutable;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
@@ -49,7 +48,7 @@ class StoryFixtures extends Fixture implements DependentFixtureInterface
             $story->setUserId($user->getId());
 
             $story->setGenre($storyData['genre']);
-            $story->setCreatedAt(new DateTimeImmutable('now'));
+            $story->prePersist();
 
             $manager->persist($story);
 

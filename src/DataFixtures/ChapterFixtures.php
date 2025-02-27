@@ -82,7 +82,7 @@ class ChapterFixtures extends Fixture implements DependentFixtureInterface
         }
 
         $chapter->setContent($content);
-        $chapter->setCreatedAt(new DateTimeImmutable('now'));
+        $chapter->prePersist();
 
         $manager->persist($chapter);
 

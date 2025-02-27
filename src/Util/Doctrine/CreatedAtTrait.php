@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Util\Doctrine;
 
 use DateTimeImmutable;
@@ -12,11 +13,8 @@ trait CreatedAtTrait
     #[Ignore]
     protected DateTimeImmutable $createdAt;
 
-    public function getCreatedAt(): ?DateTimeImmutable
+    public function getCreatedAt(): DateTimeImmutable
     {
-        if(!isset($this->createdAt)) {
-            return NULL;
-        }
         return $this->createdAt;
     }
     

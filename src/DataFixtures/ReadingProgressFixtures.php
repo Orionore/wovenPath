@@ -3,7 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\Chapter;
-use App\Entity\ReadinProgress;
+use App\Entity\ReadingProgress;
 use App\Entity\Story;
 use App\Entity\User;
 use DateTimeImmutable;
@@ -52,7 +52,7 @@ class ReadingProgressFixtures extends Fixture implements DependentFixtureInterfa
         string $currentChapterRef,
         array $path
     ): void {
-        $readingProgress = new ReadinProgress();
+        $readingProgress = new ReadingProgress();
 
         // Récupérer les références
         $user = $this->getReference($userRef, User::class);

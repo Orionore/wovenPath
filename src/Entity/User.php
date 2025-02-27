@@ -45,9 +45,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'boolean')]
     private bool $isVerified = false;
 
-    #[ORM\Column(nullable: true)]
-    private ?DateTimeImmutable $deleted_at = null;
-
     public function getId(): ?int
     {
         return $this->id;
