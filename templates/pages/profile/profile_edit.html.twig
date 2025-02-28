@@ -1,0 +1,39 @@
+{% extends 'layouts/main.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('page_profile_edit') }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('page_profile_edit') }}
+{% endblock %}
+
+{% block title %}Modifier le profil{% endblock %}
+
+{% block main %}
+    <section class="container">
+        <div class="card">
+            <h1>Modifier votre profil</h1>
+
+            {{ form_start(form, {'attr': {'class': 'profile-edit-form'}}) }}
+            <div class="row">
+                <div class="col-md-6">
+                    {{ form_row(form.username) }}
+                </div>
+            </div>
+            {{ form_row(form.email) }}
+
+            <div class="form-group">
+                <a href="{{ path('app_profile') }}" class="btn">Annuler</a>
+                <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
+            </div>
+            {{ form_end(form) }}
+            
+            <div class="edit-password-container">
+                <a href="{{ path('app_forgot_password_request') }}" class="btn">Modifier le mot de passe</a>
+            </div>
+        </div>
+    </section>
+{% endblock %}

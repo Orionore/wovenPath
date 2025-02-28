@@ -1,0 +1,29 @@
+{% extends 'layouts/main.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('page_profile') }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('page_profile') }}
+{% endblock %}
+
+{% block title %}Profil{% endblock %}
+
+{% block main %}
+    <section class="card">
+        <div class="profile-container">
+            <h1>{{ user.username }}</h1>
+
+            <div class="profile-info">
+                <p>Email : {{ user.email }}</p>
+                <p>Prénom : {{ user.username }}</p>
+
+                <p>Compte créé le : {{ user.createdAt|date('d/m/Y') }}</p>
+            </div>
+            <a class="btn" href="{{ path('app_profile_edit') }}">Modifier le profil</a>
+        </div>
+    </section>
+{% endblock %}

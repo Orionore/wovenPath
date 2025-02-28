@@ -14,7 +14,7 @@ class UserChecker implements UserCheckerInterface
 {
     public function checkPreAuth(UserInterface $user): void
     {
-        if (!in_array('ROLE_ADMIN', $user->getRoles())) {
+        if (!in_array('ROLE_USER', $user->getRoles())) {
             throw new CustomUserMessageAuthenticationException(
                 'Vous n\'avez pas les autorisations requises pour vous connecter.'
             );
@@ -23,7 +23,7 @@ class UserChecker implements UserCheckerInterface
 
     public function checkPostAuth(UserInterface $user): void
     {
-        if (!in_array('ROLE_ADMIN', $user->getRoles())) {
+        if (!in_array('ROLE_USER', $user->getRoles())) {
             throw new CustomUserMessageAuthenticationException(
                 'Vous n\'avez pas les autorisations requises pour vous connecter.'
             );

@@ -13,14 +13,14 @@
 {% block main %}
 
     <div class="container">
-        <div class="welcome-container">
+        <section class="welcome-container">
             <img src="{{ asset('build/images/background/Foret-magique.webp') }}" alt="welcome">
             <div>
                 <span>Bienvenue sur Woven Paths !</span>
                 <span>Vivez des histoires où vous ferez vos propres choix.</span>
                 <span>Créez des histoires de tous genres.</span>
             </div>
-        </div>
+        </section>
 
         <form class="search-container">
             <select class="genre-select">
@@ -40,6 +40,34 @@
             </div>
             <button type="submit" class="submit-button">Rechercher</button>
         </form>
+
+        <section class="stories-container">
+            {% if stories|length > 0 %}
+                <div class="row">
+                    {% for story in stories %}
+                        <div class="col-md-4 mb-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ story.title }}</h5>
+                                    <p class="card-text">{{ story.description }}</p>
+                                    <p class="card-text">
+                                        <small class="text-muted">
+                                            Genres:
+                                            {% for genre in story.genre %}
+                                                {{ genre.value }}{% if not loop.last %}, {% endif %}
+                                            {% endfor %}
+                                        </small>
+                                    </p>
+                                    <a href="{{ path('app_story_show', {'id': story.id}) }}" class="btn">Voir détails</a>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p>Aucune histoire trouvée.</p>
+            {% endif %}
+        </section>
     </div>
 
 {% endblock %}

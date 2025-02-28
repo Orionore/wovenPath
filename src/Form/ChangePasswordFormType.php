@@ -11,7 +11,6 @@ use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\NotCompromisedPassword;
 use Symfony\Component\Validator\Constraints\PasswordStrength;
-use Symfony\Component\Validator\Constraints\Regex;
 
 class ChangePasswordFormType extends AbstractType
 {
@@ -28,34 +27,15 @@ class ChangePasswordFormType extends AbstractType
                 'first_options' => [
                     'constraints' => [
                         new NotBlank([
-                            'message' => 'Veuillez entrer un mot de passe',
+                            'message' => 'Please enter a password',
                         ]),
                         new Length([
                             'min' => 12,
-                            'minMessage' => 'Votre mot de passe doit comporter au moins {{ limit }} caractères',
+                            'minMessage' => 'Your password should be at least {{ limit }} characters',
+                            // max length allowed by Symfony for security reasons
                             'max' => 4096,
                         ]),
-                        new Regex([
-                            'pattern' => '/[A-Z]/',
-                            'message' => 'Votre mot de passe doit contenir au moins une lettre majuscule',
-                        ]),
-                        new Regex([
-                            'pattern' => '/[a-z]/',
-                            'message' => 'Votre mot de passe doit contenir au moins une lettre minuscule',
-                        ]),
-                        new Regex([
-                            'pattern' => '/[0-9]/',
-                            'message' => 'Votre mot de passe doit contenir au moins un chiffre',
-                        ]),
-                        new Regex([
-                            'pattern' => '/[\W]/',
-                            'message' => 'Votre mot de passe doit contenir au moins un caractère spécial (ex. @, #, $, etc.)',
-                        ]),
-//                        new PasswordStrength([
-//                            // Définit le niveau minimum de force du mot de passe
-//                            'minScore' => 4, // Plus le score est élevé, plus le mot de passe doit être complexe
-//                            'message' => 'Votre mot de passe est trop faible. Il doit comporter des lettres, chiffres et caractères spéciaux.',
-//                        ]),
+                        new PasswordStrength(),
                         new NotCompromisedPassword(),
                     ],
                     'label' => 'New password',

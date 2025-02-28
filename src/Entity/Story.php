@@ -6,10 +6,11 @@ use App\Enum\StoryEnum;
 use App\Repository\StoryRepository;
 use App\Util\Doctrine\CreatedAtTrait;
 use App\Util\Doctrine\UpdatedAtTrait;
-use DateTimeImmutable;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: StoryRepository::class)]
 class Story
@@ -39,6 +40,16 @@ class Story
 
     #[ORM\Column(type: Types::SIMPLE_ARRAY, enumType: StoryEnum::class)]
     private array $genre = [];
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $imageName = null;
+
+    #[Assert\Image(
+        maxSize: '2M',
+        mimeTypes: ['image/jpeg', 'image/png', 'image/webp'],
+        mimeTypesMessage: 'Veuillez uploader une image valide (JPEG, PNG, WEBP)'
+    )]
+    private ?File $imageFile = null;
 
     public function getId(): ?int
     {
@@ -104,6 +115,34 @@ class Story
     public function setGenre(array $genre): static
     {
         $this->genre = $genre;
+
+        return $this;
+    }
+
+    public function getImageName(): ?string
+    {
+        return $this->imageName;
+    }
+
+    public function setImageName(?string $imageName): self
+    {
+        $this->imageName = $imageName;
+
+        return $this;
+    }
+
+    public function getImageFile(): ?File
+    {
+        return $this->imageFile;
+    }
+
+    public function setImageFile(?File $imageFile): self
+    {
+        $this->imageFile = $imageFile;
+
+        if ($imageFile) {
+            $this->updatedNow();
+        }
 
         return $this;
     }

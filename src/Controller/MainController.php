@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\StoryRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -9,8 +10,12 @@ use Symfony\Component\Routing\Attribute\Route;
 class MainController extends AbstractController
 {
     #[Route('/', name: 'app_home')]
-    public function homePage(): Response
+    public function homePage(StoryRepository $storyRepository): Response
     {
-        return $this->render('pages/home.html.twig');
+        $stories = $storyRepository->findAll();
+
+        return $this->render('pages/home.html.twig', [
+            'stories' => $stories,
+        ]);
     }
 }
