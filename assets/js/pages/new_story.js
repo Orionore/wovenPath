@@ -1,0 +1,1 @@
+import "../../styles/pages/profile/story/new_story.scss";

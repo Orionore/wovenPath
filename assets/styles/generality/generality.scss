@@ -1,13 +1,15 @@
 @use "../core/theme" as *;
 @use "../core/mixins" as *;
+@use "../core/font" as *;
 
 html {
   font-size: 62.5%;
 }
 
 body {
-  font-size: 2em;
-  font-family: "Poppins", sans-serif;
+  font-size: 1.6rem;
+  line-height: 1.5;
+  font-family: 'Helvetica', sans-serif;
   background-color: $background-dark;
   color: $text-dark;
 }
@@ -78,5 +80,10 @@ em {
 }
 
 a {
-  color: $primary;
+  color: $link;
+}
+
+h1 {
+  font-family: "Inknut Antiqua", serif;
+  font-size: 1.8rem;
 }

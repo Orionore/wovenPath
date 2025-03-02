@@ -24,5 +24,3 @@ trait CreatedAtTrait
         $this->createdAt = new DateTimeImmutable();
     }
 }
-
-

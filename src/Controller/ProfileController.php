@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\ChangePasswordFormType;
 use App\Form\ProfileEditType;
+use App\Repository\StoryRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,17 +18,24 @@ class ProfileController extends AbstractController
 {
     #[Route('/profile', name: 'app_profile')]
     #[IsGranted('ROLE_USER')]
-    public function profile(): Response
+    public function profile(StoryRepository $storyRepository): Response
     {
-
         $user = $this->getUser();
 
         if (!$user) {
             throw $this->createAccessDeniedException('Vous devez être connecté pour accéder à cette page.');
         }
 
+        // Récupérer les dernières histoires de l'utilisateur
+        $recentStories = $storyRepository->findBy(
+            ['user_id' => $user->getId()],
+            ['createdAt' => 'DESC'],
+            3
+        );
+
         return $this->render('pages/profile/profile.html.twig', [
             'user' => $user,
+            'recentStories' => $recentStories
         ]);
     }
 

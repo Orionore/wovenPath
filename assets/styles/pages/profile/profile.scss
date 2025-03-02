@@ -1,0 +1,20 @@
+@use "../../core/mixins" as *;
+@use "../../core/font" as *;
+@use "../../core/theme" as *;
+@use "../../components/cards" as card;
+@use "../../components/button" as btn;
+
+.profile-container {
+  @include card.card($background-primary, $radius);
+  padding: 20px;
+  max-width: 400px;
+}
+
+.btn {
+  @include btn.btn-base();
+}
+
+.stories-container {
+  padding: 20px;
+
+}

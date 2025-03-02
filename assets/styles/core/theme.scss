@@ -3,12 +3,14 @@ $primary:                     rgb(237, 237, 237);
 $secondary:                   rgb(103, 16, 203);
 $secondary-dark:              rgb(71, 12, 135);
 $tertiary:                    rgb(103, 103, 227);
+$dark:                        rgb(25, 3, 48);
 
 $success:                     rgb(7, 189, 0);
 $danger:                      rgb(255, 75, 18);
 $warning:                     rgb(255, 173, 25);
 $muted:                       rgb(150, 150, 150);
 $link:                        rgb(176, 176, 255);
+
 $button:                      rgb(46, 0, 70);
 
 $move-primary:                rgb(255, 113, 98);
@@ -36,6 +38,9 @@ $text-primary-light:          $primary;
 
 $background-secondary:        $secondary-dark;
 $text-secondary:              $primary;
+
+$background-dark-primary:     $dark;
+$text-dark-primary:           $primary;
 
 $background-button:           $button;
 $text-button:                 $primary;

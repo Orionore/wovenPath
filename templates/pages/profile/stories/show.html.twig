@@ -1,0 +1,201 @@
+{# templates/pages/profile/stories/show.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ story.title }}{% endblock %}
+
+{% block body %}
+    <div class="container mx-auto px-4 py-8">
+        <div class="mb-6">
+            <h1 class="text-2xl font-bold mb-2">{{ story.title }}</h1>
+            <div class="flex space-x-4">
+                <a href="{{ path('app_profile_stories_index') }}" class="text-blue-500 hover:text-blue-700">
+                    Retour à la liste
+                </a>
+                <a href="{{ path('app_profile_stories_edit', {'id': story.id}) }}" class="text-yellow-500 hover:text-yellow-700">
+                    Modifier
+                </a>
+            </div>
+        </div>
+
+        {% include 'includes/flash_messages.html.twig' %}
+
+        <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+            <div class="md:flex">
+                <div class="md:flex-shrink-0 md:w-1/3">
+                    {% if story.imageName %}
+                        <img src="{{ asset('uploads/stories/' ~ story.imageName) }}" alt="{{ story.title }}" class="w-full h-64 object-cover md:h-full">
+                    {% else %}
+                        <div class="w-full h-64 bg-gray-200 flex items-center justify-center md:h-full">
+                            <span class="text-gray-500">Pas d'image</span>
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="p-6 md:w-2/3">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-2xl font-bold">{{ story.title }}</h2>
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium {{ story.status ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800' }}">
+                            {{ story.status ? 'Publié' : 'Brouillon' }}
+                        </span>
+                    </div>
+
+                    <div class="mb-6">
+                        <h3 class="text-lg font-medium text-gray-700 mb-2">Description</h3>
+                        <p class="text-gray-600 whitespace-pre-line">{{ story.description }}</p>
+                    </div>
+
+                    <div class="mb-6">
+                        <h3 class="text-lg font-medium text-gray-700 mb-2">Genres</h3>
+                        <div class="flex flex-wrap">
+                            {% for genre in story.genre %}
+                                <span class="inline-block bg-gray-100 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
+                                    {{ genre.label() }}
+                                </span>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <div class="text-sm text-gray-500">
+                        <p>Créé le: {{ story.createdAt|date('d/m/Y H:i') }}</p>
+                        {% if story.updatedAt %}
+                            <p>Dernière modification: {{ story.updatedAt|date('d/m/Y H:i') }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-6 flex justify-between">
+            <a href="{{ path('app_profile_stories_edit', {'id': story.id}) }}" class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded">
+                Modifier
+            </a>
+            <form method="post" action="{{ path('app_profile_stories_delete', {'id': story.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette histoire ?');">
+                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ story.id) }}">
+                <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Supprimer</button>
+            </form>
+        </div>
+
+        {% if story.status %}
+            <div class="mt-10 bg-blue-50 rounded-lg p-6">
+                <h3 class="text-lg font-semibold text-blue-700 mb-3">Partager cette histoire</h3>
+                <div class="flex flex-wrap gap-3">
+                    <button
+                        class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg"
+                        onclick="copyToClipboard('{{ absolute_url(path('app_profile_stories_show', {'id': story.id})) }}')"
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                        </svg>
+                        Copier le lien
+                    </button>
+
+                    <a
+                        href="https://www.facebook.com/sharer/sharer.php?u={{ absolute_url(path('app_profile_stories_show', {'id': story.id}))|url_encode }}"
+                        target="_blank"
+                        class="inline-flex items-center px-4 py-2 bg-blue-800 hover:bg-blue-900 text-white rounded-lg"
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm3 8h-1.35c-.538 0-.65.221-.65.778v1.222h2l-.209 2h-1.791v7h-3v-7h-2v-2h2v-2.308c0-1.769.931-2.692 3.029-2.692h1.971v3z"/>
+                        </svg>
+                        Facebook
+                    </a>
+
+                    <a
+                        href="https://twitter.com/intent/tweet?text={{ story.title|url_encode }}&url={{ absolute_url(path('app_profile_stories_show', {'id': story.id}))|url_encode }}"
+                        target="_blank"
+                        class="inline-flex items-center px-4 py-2 bg-blue-400 hover:bg-blue-500 text-white rounded-lg"
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm6.066 9.645c.183 4.04-2.83 8.544-8.164 8.544-1.622 0-3.131-.476-4.402-1.291 1.524.18 3.045-.244 4.252-1.189-1.256-.023-2.317-.854-2.684-1.995.451.086.895.061 1.298-.049-1.381-.278-2.335-1.522-2.304-2.853.388.215.83.344 1.301.359-1.279-.855-1.641-2.544-.889-3.835 1.416 1.738 3.533 2.881 5.92 3.001-.419-1.796.944-3.527 2.799-3.527.825 0 1.572.349 2.096.907.654-.128 1.27-.368 1.824-.697-.215.671-.67 1.233-1.263 1.589.581-.07 1.135-.224 1.649-.453-.384.578-.87 1.084-1.433 1.489z"/>
+                        </svg>
+                        Twitter
+                    </a>
+
+                    <a
+                        href="https://www.linkedin.com/shareArticle?mini=true&url={{ absolute_url(path('app_profile_stories_show', {'id': story.id}))|url_encode }}&title={{ story.title|url_encode }}"
+                        target="_blank"
+                        class="inline-flex items-center px-4 py-2 bg-blue-700 hover:bg-blue-800 text-white rounded-lg"
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-2 16h-2v-6h2v6zm-1-6.891c-.607 0-1.1-.496-1.1-1.109 0-.612.492-1.109 1.1-1.109s1.1.497 1.1 1.109c0 .613-.493 1.109-1.1 1.109zm8 6.891h-1.998v-2.861c0-1.881-2.002-1.722-2.002 0v2.861h-2v-6h2v1.093c.872-1.616 4-1.736 4 1.548v3.359z"/>
+                        </svg>
+                        LinkedIn
+                    </a>
+
+                    <a
+                        href="mailto:?subject={{ story.title|url_encode }}&body={{ 'Découvrez cette histoire: '|url_encode }}{{ absolute_url(path('app_profile_stories_show', {'id': story.id}))|url_encode }}"
+                        class="inline-flex items-center px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-lg"
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                        </svg>
+                        Email
+                    </a>
+                </div>
+            </div>
+        {% endif %}
+
+        <div class="mt-10">
+            <h3 class="text-xl font-bold mb-4">Activité de l'histoire</h3>
+            <div class="bg-white rounded-lg shadow-lg p-6">
+                <div class="space-y-4">
+                    {% if story.createdAt %}
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0">
+                                <div class="h-8 w-8 rounded-full bg-green-100 flex items-center justify-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="ml-3">
+                                <h4 class="text-sm font-medium text-gray-900">Histoire créée</h4>
+                                <p class="text-sm text-gray-500">{{ story.createdAt|date('d/m/Y H:i') }}</p>
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    {% if story.updatedAt %}
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0">
+                                <div class="h-8 w-8 rounded-full bg-blue-100 flex items-center justify-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="ml-3">
+                                <h4 class="text-sm font-medium text-gray-900">Dernière modification</h4>
+                                <p class="text-sm text-gray-500">{{ story.updatedAt|date('d/m/Y H:i') }}</p>
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    <div class="flex items-start">
+                        <div class="flex-shrink-0">
+                            <div class="h-8 w-8 rounded-full bg-{{ story.status ? 'green' : 'yellow' }}-100 flex items-center justify-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-{{ story.status ? 'green' : 'yellow' }}-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="ml-3">
+                            <h4 class="text-sm font-medium text-gray-900">Statut actuel</h4>
+                            <p class="text-sm text-gray-500">{{ story.status ? 'Publié' : 'Brouillon' }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                // Optionnel: Ajouter une notification visuelle que le lien a été copié
+                alert('Lien copié dans le presse-papiers');
+            }).catch(err => {
+                console.error('Erreur lors de la copie: ', err);
+            });
+        }
+    </script>
+{% endblock %}

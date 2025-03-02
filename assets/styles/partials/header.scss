@@ -15,37 +15,9 @@ header {
 
     .logo-container {
       margin-left: 20px;
-    }
-
-    .header-nav-container {
-      ul {
-        display: flex;
-        margin-right: 80px;
-        font-size: 1.6rem;
-
-        li {
-          margin: 0 20px;
-        }
+      a {
+        color: $primary;
       }
-    }
-
-    .header-nav-container.desktop {
-      display: none;
-
-      @include for-tablet-portrait-up {
-        display: block;
-      }
-    }
-
-    .header-nav-container.desktop.active {
-      display: block;
-      position: absolute;
-      top: 100%;
-      left: 0;
-      right: 0;
-      background-color: #fff;
-      z-index: 100;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
 
     @include for-tablet-portrait-down {
@@ -80,6 +52,46 @@ header {
         .bar2 {
           transform: rotate(-45deg) translate(5px, -5px);
         }
+      }
+    }
+  }
+
+  .mobile-nav {
+    display: none;
+
+    @include for-tablet-portrait-up {
+      display: block;
+
+      ul {
+        display: flex;
+        padding: 0 20px;
+        font-size: 1.6rem;
+
+        li {
+          margin: 0 10px;
+        }
+      }
+    }
+
+    &.active {
+      display: block;
+      position: absolute;
+      top: 60px;
+      right: 20px;
+      background-color: $background-primary;
+      color: $text-primary;
+      z-index: 100;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+      @include card.card($background-secondary, $medium-radius);
+
+      ul {
+        display: flex;
+        flex-direction: column;
+        line-height: 1.7;
+        text-align: right;
+        padding: 20px;
+        font-size: 1.6rem;
       }
     }
   }

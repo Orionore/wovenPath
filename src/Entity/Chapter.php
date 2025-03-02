@@ -11,6 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
 
 #[ORM\Entity(repositoryClass: ChapterRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Chapter
 {
     use CreatedAtTrait;

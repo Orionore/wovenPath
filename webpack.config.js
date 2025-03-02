@@ -33,6 +33,8 @@ Encore
     .addEntry('page_profile','./assets/js/pages/profile.js')
     .addEntry('page_profile_edit','./assets/js/pages/profile_edit.js')
 
+    .addEntry('page_new_story','./assets/js/pages/new_story.js')
+
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()
 

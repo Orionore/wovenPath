@@ -16,28 +16,47 @@ class StoryRepository extends ServiceEntityRepository
         parent::__construct($registry, Story::class);
     }
 
-    //    /**
-    //     * @return Story[] Returns an array of Story objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('s')
-    //            ->andWhere('s.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('s.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+    /**
+     * Trouve toutes les histoires publiées
+     */
+    public function findPublished()
+    {
+        return $this->createQueryBuilder('s')
+            ->where('s.status = :status')
+            ->andWhere('s.deletedAt IS NULL')
+            ->setParameter('status', true)
+            ->orderBy('s.createdAt', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
 
-    //    public function findOneBySomeField($value): ?Story
-    //    {
-    //        return $this->createQueryBuilder('s')
-    //            ->andWhere('s.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+    /**
+     * Trouve les histoires publiées par un utilisateur spécifique
+     */
+    public function findPublishedByUser(int $userId)
+    {
+        return $this->createQueryBuilder('s')
+            ->where('s.user_id = :userId')
+            ->andWhere('s.status = :status')
+            ->andWhere('s.deletedAt IS NULL')
+            ->setParameter('userId', $userId)
+            ->setParameter('status', true)
+            ->orderBy('s.createdAt', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * Trouve toutes les histoires (publiées et brouillons) d'un utilisateur
+     */
+    public function findAllByUser(int $userId)
+    {
+        return $this->createQueryBuilder('s')
+            ->where('s.user_id = :userId')
+            ->andWhere('s.deletedAt IS NULL')
+            ->setParameter('userId', $userId)
+            ->orderBy('s.createdAt', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
 }
