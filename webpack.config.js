@@ -35,6 +35,7 @@ Encore
 
     .addEntry('page_new_story','./assets/js/pages/new_story.js')
 
+    .addEntry('admin_user','./assets/js/pages/new_story.js')
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()
 

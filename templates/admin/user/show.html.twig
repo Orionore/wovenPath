@@ -1,0 +1,75 @@
+{% extends 'layouts/main.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('admin_user') }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('admin_user') }}
+{% endblock %}
+
+{% block main %}
+    <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h1 class="h3 mb-0">Détails de l'utilisateur</h1>
+            <div>
+                <a href="{{ path('app_admin_user_index') }}" class="btn btn-secondary btn-sm">Retour à la liste</a>
+                {% if app.user != user %}
+                    <a href="{{ path('app_admin_user_edit', {'id': user.id}) }}" class="btn btn-warning btn-sm">Modifier les rôles</a>
+                {% endif %}
+            </div>
+        </div>
+        <div class="card-body">
+            <table class="table">
+                <tbody>
+                <tr>
+                    <th>ID</th>
+                    <td>{{ user.id }}</td>
+                </tr>
+                <tr>
+                    <th>Email</th>
+                    <td>{{ user.email }}</td>
+                </tr>
+                <tr>
+                    <th>Nom d'utilisateur</th>
+                    <td>{{ user.username }}</td>
+                </tr>
+                <tr>
+                    <th>Rôles</th>
+                    <td>
+                        {% for role in user.roles %}
+                            <span class="badge bg-info">{{ role }}</span>
+                        {% endfor %}
+                    </td>
+                </tr>
+                <tr>
+                    <th>Vérifié</th>
+                    <td>
+                            <span class="badge bg-{{ user.verified ? 'success' : 'secondary' }}">
+                                {{ user.verified ? 'Oui' : 'Non' }}
+                            </span>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Date d'inscription</th>
+                    <td>{{ user.createdAt ? user.createdAt|date('d/m/Y H:i') : '' }}</td>
+                </tr>
+                <tr>
+                    <th>Dernière mise à jour</th>
+                    <td>{{ user.updatedAt ? user.updatedAt|date('d/m/Y H:i') : '' }}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        {% if app.user != user %}
+            <div class="card-footer">
+                <form method="post" action="{{ path('app_admin_user_delete', {'id': user.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur?');">
+                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ user.id) }}">
+                    <button class="btn btn-danger">Supprimer</button>
+                </form>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}
