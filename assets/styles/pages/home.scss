@@ -5,11 +5,16 @@
 .container {
   .welcome-container {
     position: relative;
-
-    img {
-      width: 100%;
-      border-radius: $radius;
-    }
+    background-image: url('/assets/images/background/Foret-magique.webp');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 1000px;
+    height: 320px;
+    max-height: 400px;
+    border-radius: $radius;
 
     div {
       position: absolute;
@@ -23,6 +28,10 @@
       font-family: $main-font;
       line-height: 1.5;
       text-align: center;
+
+      @include for-tablet-portrait-up {
+        padding: 4em;
+      }
 
       span {
         display: block;

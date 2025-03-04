@@ -21,7 +21,7 @@ class ProfileEditType extends AbstractType
     {
         $builder
             ->add('username', TextType::class, [
-                'label' => 'Prénom',
+                'label' => 'Pseudo',
                 'constraints' => [
                     new Length([
                         'min' => 2,
@@ -31,13 +31,6 @@ class ProfileEditType extends AbstractType
                     ]),
                 ],
                 'required' => false,
-            ])
-            ->add('email', EmailType::class, [
-                'label' => 'Email',
-                'constraints' => [
-                    new NotBlank(['message' => 'Veuillez entrer votre email']),
-                    new Email(['message' => 'Veuillez entrer un email valide']),
-                ],
             ])
         ;
     }

@@ -18,7 +18,6 @@
 
         <div class="profile-info">
             <p><span class="text-secondary">Email :</span> {{ user.email }}</p>
-            <p><span class="text-secondary">Prénom :</span> {{ user.username }}</p>
             <p><span class="text-secondary">Compte créé le :</span> {{ user.createdAt|date('d/m/Y') }}</p>
         </div>
         <a href="{{ path('app_profile_edit') }}" class="btn">Modifier le profil</a>
@@ -41,14 +40,14 @@
                 {% for story in recentStories %}
                     <div class="bg-white rounded-lg shadow-lg overflow-hidden">
                         {% if story.imageName %}
-                            <img src="{{ asset('uploads/stories/' ~ story.imageName) }}" alt="{{ story.title }}" class="w-full h-40 object-cover">
+                            <img src="{{ asset('uploads/stories/' ~ story.imageName) }}" alt="{{ story.title }}" class="">
                         {% else %}
-                            <div class="w-full h-40 bg-gray-200 flex items-center justify-center">
+                            <div class="">
                                 <span class="text-gray-500">Pas d'image</span>
                             </div>
                         {% endif %}
                         <div class="p-4">
-                            <div class="flex justify-between items-start">
+                            <div class="">
                                 <h3 class="text-lg font-semibold">{{ story.title }}</h3>
                                 <span class="statu {{ story.status ? 'published' : 'not-published' }}">
                                     {{ story.status ? 'Publié' : 'Brouillon' }}
