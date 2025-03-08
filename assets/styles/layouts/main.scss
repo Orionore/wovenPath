@@ -8,3 +8,9 @@
 @use "../partials/logo";
 
 @use "../exception/error";
+
+@use "../components/button" as btn;
+
+.btn {
+  @include btn.btn-base();
+}

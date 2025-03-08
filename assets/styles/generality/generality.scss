@@ -2,16 +2,33 @@
 @use "../core/mixins" as *;
 @use "../core/font" as *;
 
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
 html {
   font-size: 62.5%;
 }
 
 body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+
   font-size: 1.6rem;
   line-height: 1.5;
   font-family: 'Helvetica', sans-serif;
   background-color: $background-dark;
   color: $text-dark;
+}
+
+main {
+  flex: 1 0 auto;
+}
+
+footer {
+  flex-shrink: 0;
 }
 
 .container {

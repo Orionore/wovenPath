@@ -1,0 +1,23 @@
+{% block nav %}
+    <div class="nav-container">
+        <div>
+            {% if return_path is defined %}
+                <a href="{{ return_path }}" class="return">
+                    {{ return_text|default('Retour à la liste') }}
+                </a>
+            {% endif %}
+        </div>
+
+        <div>
+            <h1>{{ title|default('Mes histoires') }}</h1>
+
+            {% if actions is defined and actions is not empty %}
+                {% for action in actions %}
+                    <a href="{{ action.path }}" class="{{ action.class|default('btn') }}">
+                        {{ action.text }}
+                    </a>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

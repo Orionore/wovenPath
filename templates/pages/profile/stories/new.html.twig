@@ -14,13 +14,14 @@
 {% block title %}Créer une nouvelle histoire{% endblock %}
 
 {% block main %}
+
     <div class="container">
-        <div class="nav-container">
-            <a href="{{ path('app_profile_stories_index') }}" class="text-blue-500 hover:text-blue-700">
-                Retour à la liste
-            </a>
-            <h1>Créer une nouvelle histoire</h1>
-        </div>
+
+        {% include 'components/_nav.html.twig' with {
+            'title': 'Créer une nouvelle histoire',
+            'return_path': path('app_profile_stories_index'),
+            'return_text': 'Retour à la liste',
+        } %}
 
         {% include 'includes/flash_messages.html.twig' %}
 

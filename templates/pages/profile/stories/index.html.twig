@@ -12,21 +12,29 @@
 
 {% block title %}Mes histoires{% endblock %}
 
-{% block body %}
-    <div class="container mx-auto px-4 py-8">
-        <div class="flex justify-between items-center mb-6">
-            <h1 class="text-2xl font-bold">Mes histoires</h1>
-            <a href="{{ path('app_profile_stories_new') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                Créer une histoire
-            </a>
-        </div>
+{% block main %}
+
+    <div class="container">
+
+        {% include 'partials/main-nav.html.twig' with {
+            'title': 'Mes histoires',
+            'return_path': path('app_profile'),
+            'return_text': 'Retour au profil',
+            'actions': [
+                {
+                    'path': path('app_profile_stories_new'),
+                    'text': 'Créer une histoire'
+                }
+            ]
+        } %}
+
 
         {% include 'includes/flash_messages.html.twig' %}
 
         {% if stories|length > 0 %}
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="grid">
                 {% for story in stories %}
-                    <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+                    <div class="">
                         {% if story.imageName %}
                             <img src="{{ asset('uploads/stories/' ~ story.imageName) }}" alt="{{ story.title }}" class="w-full h-48 object-cover">
                         {% else %}

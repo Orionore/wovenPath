@@ -7,7 +7,7 @@ footer  {
     @include card.card($background-secondary, $medium-radius)
   }
 
-  .container {
+  .footer-container {
     padding: 1em;
     line-height: 1.3em;
     display: flex;

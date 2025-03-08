@@ -7,8 +7,9 @@
   border-radius: 10px;
   border: none;
   margin: 10px auto;
-  display: block;
+  display: inline-block;
   cursor: pointer;
+  box-sizing: border-box;
 
   &:hover {
     background-color: $background-primary;
