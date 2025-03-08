@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Story;
 use App\Form\StoryType;
+use App\Repository\ChapterRepository;
 use App\Repository\StoryRepository;
 use App\Service\MediaService;
 use DateTime;
@@ -76,20 +77,36 @@ class StoryController extends AbstractController
     }
 
     #[Route('/story/{id}', name: 'app_story_show', methods: ['GET'])]
-    public function showStory(Story $story): Response
+    public function showStory(Story $story, ChapterRepository $chapterRepository): Response
     {
-        return $this->render('pages/profile/stories/index.html.twig', [
+        if (!$story->isStatus() && $story->getUserId() !== $this->getUser()?->getId()) {
+            throw $this->createAccessDeniedException('Vous n\'avez pas les permissions pour voir cette histoire');
+        }
+
+        $chapters = $chapterRepository->findByStory($story);
+        $hasChapters = count($chapters) > 0;
+
+        return $this->render('pages/profile/stories/show.html.twig', [
             'story' => $story,
+            'chapters' => $chapters,
+            'hasChapters' => $hasChapters,
         ]);
     }
 
     #[Route('/{id}', name: 'app_profile_stories_show', methods: ['GET'])]
-    public function show(Story $story): Response
+    public function show(Story $story, ChapterRepository $chapterRepository): Response
     {
-        $this->denyAccessUnlessGranted('view', $story);
+        if (!$story->isStatus() && $story->getUserId() !== $this->getUser()?->getId()) {
+            throw $this->createAccessDeniedException('Vous n\'avez pas les permissions pour voir cette histoire');
+        }
+
+        $chapters = $chapterRepository->findByStory($story);
+        $hasChapters = count($chapters) > 0;
 
         return $this->render('pages/profile/stories/show.html.twig', [
             'story' => $story,
+            'chapters' => $chapters,
+            'hasChapters' => $hasChapters,
         ]);
     }
 
@@ -111,11 +128,12 @@ class StoryController extends AbstractController
 
             if ($imageFile) {
                 try {
-                    // Supprimer l'ancienne image si elle existe
+                    // Suppression de l'ancienne image si elle existe
                     if ($story->getImageName()) {
                         $mediaService->deleteImage($story->getImageName());
                     }
 
+                    // Traitement et enregistrement de la nouvelle image
                     $imageName = $mediaService->processAndSaveImage($imageFile);
                     $story->setImageName($imageName);
                 } catch (Exception $e) {
@@ -152,12 +170,10 @@ class StoryController extends AbstractController
         $this->denyAccessUnlessGranted('delete', $story);
 
         if ($this->isCsrfTokenValid('delete'.$story->getId(), $request->request->get('_token'))) {
-            // Si vous voulez supprimer l'image lors d'une suppression logique
             if ($story->getImageName()) {
                 $mediaService->deleteImage($story->getImageName());
             }
 
-            // Soft delete en mettant à jour deletedAt
             $story->setDeletedAt(new DateTime());
             $entityManager->flush();
 
@@ -165,5 +181,43 @@ class StoryController extends AbstractController
         }
 
         return $this->redirectToRoute('app_profile_stories_index');
+    }
+
+    #[Route('/{id}/publish', name: 'app_profile_stories_publish', methods: ['POST'])]
+    public function publish(
+        Request $request,
+        Story $story,
+        EntityManagerInterface $entityManager
+    ): Response
+    {
+        $this->denyAccessUnlessGranted('edit', $story);
+
+        if ($this->isCsrfTokenValid('publish'.$story->getId(), $request->request->get('_token'))) {
+            $story->setStatus(true);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Votre histoire a été publiée avec succès.');
+        }
+
+        return $this->redirectToRoute('app_profile_stories_show', ['id' => $story->getId()]);
+    }
+
+    #[Route('/{id}/unpublish', name: 'app_profile_stories_unpublish', methods: ['POST'])]
+    public function unpublish(
+        Request $request,
+        Story $story,
+        EntityManagerInterface $entityManager
+    ): Response
+    {
+        $this->denyAccessUnlessGranted('edit', $story);
+
+        if ($this->isCsrfTokenValid('unpublish'.$story->getId(), $request->request->get('_token'))) {
+            $story->setStatus(false);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Votre histoire a été retirée de la publication.');
+        }
+
+        return $this->redirectToRoute('app_profile_stories_show', ['id' => $story->getId()]);
     }
 }

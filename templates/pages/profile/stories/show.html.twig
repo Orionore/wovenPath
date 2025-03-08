@@ -23,8 +23,12 @@
             {
                 'path': path('app_profile_stories_edit', {'id': story.id}),
                 'text': 'Modifier l\'histoire'
-            }
-        ]
+            },
+                {
+                    'path': path('app_story_chapters', {'id': story.id}),
+                    'text': 'Gérer les chapitres'
+                }
+            ]
         } %}
 
         {% include 'includes/flash_messages.html.twig' %}
@@ -125,6 +129,32 @@
             </div>
 
         </div>
+
+        {% if hasChapters %}
+        <div class="list-group mb-4">
+            {% for chapter in chapters %}
+            <a href="{{ path('app_chapter_read', {'id': chapter.id}) }}" class="list-group-item list-group-item-action">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">{{ chapter.position }}. {{ chapter.title }}</h5>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+
+        <div class="text-center">
+            <a href="{{ path('app_story_read_first_chapter', {'storyId': story.id}) }}" class="btn btn-success">
+                Commencer la lecture
+            </a>
+        </div>
+        {% else %}
+        <div class="alert alert-info">
+            Cette histoire n'a pas encore de chapitres.
+            {% if app.user and app.user.id == story.userId %}
+            <a href="{{ path('app_chapter_new', {'id': story.id}) }}">Cliquez ici pour ajouter le premier chapitre</a>.
+            {% endif %}
+        </div>
+        {% endif %}
+
     </div>
 
 {% endblock %}

@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Chapter;
+use App\Entity\Story;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -16,28 +17,62 @@ class ChapterRepository extends ServiceEntityRepository
         parent::__construct($registry, Chapter::class);
     }
 
-    //    /**
-    //     * @return Chapter[] Returns an array of Chapter objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('c')
-    //            ->andWhere('c.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('c.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+    public function findByStory(Story $story, $orderBy = ['position' => 'ASC'])
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.story = :story')
+            ->setParameter('story', $story)
+            ->orderBy('c.position', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
 
-    //    public function findOneBySomeField($value): ?Chapter
-    //    {
-    //        return $this->createQueryBuilder('c')
-    //            ->andWhere('c.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+    public function findFirstChapter(Story $story)
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.story = :story')
+            ->setParameter('story', $story)
+            ->orderBy('c.position', 'ASC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
+    public function findNextChapter(Chapter $currentChapter)
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.story = :story')
+            ->andWhere('c.position > :position')
+            ->setParameter('story', $currentChapter->getStory())
+            ->setParameter('position', $currentChapter->getPosition())
+            ->orderBy('c.position', 'ASC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
+    public function findPreviousChapter(Chapter $currentChapter)
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.story = :story')
+            ->andWhere('c.position < :position')
+            ->setParameter('story', $currentChapter->getStory())
+            ->setParameter('position', $currentChapter->getPosition())
+            ->orderBy('c.position', 'DESC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
+    public function getMaxPosition(Story $story): int
+    {
+        $result = $this->createQueryBuilder('c')
+            ->select('MAX(c.position)')
+            ->andWhere('c.story = :story')
+            ->setParameter('story', $story)
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        return $result ? (int) $result : 0;
+    }
 }

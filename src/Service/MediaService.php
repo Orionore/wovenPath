@@ -1,5 +1,4 @@
 <?php
-// src/Service/MediaService.php
 
 namespace App\Service;
 
@@ -39,38 +38,30 @@ class MediaService
      */
     public function processAndSaveImage(UploadedFile $imageFile, string $subDirectory = 'stories'): ?string
     {
-        // Valider le fichier
         $violations = $this->validateImage($imageFile);
         if (count($violations) > 0) {
-            // Récupérer le premier message d'erreur
             throw new Exception($violations[0]->getMessage());
         }
 
-        // Créer le répertoire de destination s'il n'existe pas
         $targetDirectory = $this->uploadsDirectory . '/' . $subDirectory;
         if (!file_exists($targetDirectory)) {
             mkdir($targetDirectory, 0777, true);
         }
 
-        // Générer un nom de fichier unique
         $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
         $safeFilename = $this->slugger->slug($originalFilename);
-        $newFilename = $safeFilename . '-' . uniqid() . '.webp';
 
-        // Déplacer le fichier temporaire dans le répertoire cible
+        // Génération d'un nom unique avec une chaîne de caractères aléatoire
+        $randomString = bin2hex(random_bytes(8));
+        $newFilename = $randomString . '-' . uniqid() . '.webp';
+
         $imageFile->move($targetDirectory, $newFilename);
         $fullPath = $targetDirectory . '/' . $newFilename;
-
-        // Traiter l'image avec Intervention Image
         $image = $this->imageManager->read($fullPath);
-
-        // Redimensionner l'image à 300x150px
         $image = $image->cover(300, 150);
-
-        // Convertir et sauvegarder en WebP
         $image->toWebp(90)->save($fullPath);
 
-        // Retourner uniquement le nom du fichier
+        // Retourner seulement le nom du fichier pour rester compatible avec le code existant
         return $newFilename;
     }
 

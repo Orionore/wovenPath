@@ -10,7 +10,7 @@
     {{ encore_entry_script_tags('page_story') }}
 {% endblock %}
 
-{% block page_title %}{{ story.title }}{% endblock %}
+{% block title %}{{ story.title }}{% endblock %}
 
 {% block main %}
     <div class="container">
@@ -32,19 +32,9 @@
                 <p>{{ story.description }}</p>
             </div>
         </div>
-        Copy    <div class="story-content mt-4">
+        <div class="story-content mt-4">
             {% if hasChapters %}
-                <h2>Chapitres</h2>
-                <div class="chapters-list">
-                    {% for chapter in chapters %}
-                        <div class="chapter-item">
-                            <a href="{{ path('app_chapter_show', {'id': chapter.id}) }}" class="chapter-link">
-                                <span class="chapter-number">{{ chapter.position }}</span>
-                                <span class="chapter-title">{{ chapter.title }}</span>
-                            </a>
-                        </div>
-                    {% endfor %}
-                </div>
+                <a href="{{ path('app_chapter_read', {'id': story.id}) }}" class="btn btn-secondary">Commencer l'histoire</a>
             {% else %}
                 <div class="alert alert-info">
                     Cette histoire n'a pas encore de chapitres.
@@ -56,7 +46,7 @@
             <a href="{{ path('app_home') }}" class="btn btn-secondary">Retour à la liste</a>
 
             {% if app.user and app.user.id == story.userId %}
-                <a href="{{ path('app_profile_stories_edit', {'id': story.id}) }}" class="btn btn-primary">Modifier cette histoire</a>
+                <a href="{{ path('app_profile_stories_edit', {'id': story.id}) }}" class="btn">Modifier cette histoire</a>
             {% endif %}
         </div>
     </div>

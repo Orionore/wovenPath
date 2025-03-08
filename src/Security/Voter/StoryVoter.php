@@ -27,9 +27,19 @@ class StoryVoter extends Voter
         $story = $subject;
 
         return match($attribute) {
-            'view', 'edit', 'delete' => $this->canManage($story, $user),
+            'view' => $this->canView($story, $user),
+            'edit', 'delete' => $this->canManage($story, $user),
             default => false,
         };
+    }
+
+    private function canView(Story $story, User $user): bool
+    {
+        if ($story->isStatus()) {
+            return true;
+        }
+
+        return $this->canManage($story, $user);
     }
 
     private function canManage(Story $story, User $user): bool

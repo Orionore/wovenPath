@@ -1,0 +1,53 @@
+{% extends 'layouts/profile.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('page_chapter') }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('page_chapter') }}
+{% endblock %}
+
+{% block title %}Nouveau chapitre pour {{ story.title }}{% endblock %}
+
+{% block main %}
+    <div class="container">
+
+    {% include 'partials/main-nav.html.twig' with {
+        'title': 'Nouveau chapitre pour ' ~ story.title,
+        'return_path': path('app_profile_stories_index'),
+        'return_text': 'Retour à la liste',
+    } %}
+
+    {% include 'includes/flash_messages.html.twig' %}
+
+        <div class="row">
+            <div class="col-md-10 mx-auto">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h1 class="h3 mb-0">Nouveau chapitre pour "{{ story.title }}"</h1>
+                        <a href="{{ path('app_story_chapters', {'id': story.id}) }}" class="btn btn-secondary">Retour aux chapitres</a>
+                    </div>
+                    <div class="card-body">
+                        {{ form_start(form) }}
+                        <div class="mb-3">
+                            {{ form_label(form.title) }}
+                            {{ form_widget(form.title, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_errors(form.title) }}
+                        </div>
+                        <div class="mb-3">
+                            {{ form_label(form.content) }}
+                            {{ form_widget(form.content, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_errors(form.content) }}
+                        </div>
+                        <button type="submit" class="btn btn-primary">Enregistrer</button>
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}

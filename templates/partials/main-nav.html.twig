@@ -13,9 +13,11 @@
 
             {% if actions is defined and actions is not empty %}
                 {% for action in actions %}
-                    <a href="{{ action.path }}" class="{{ action.class|default('btn') }}">
-                        {{ action.text }}
-                    </a>
+                    {% if action.condition is not defined or action.condition %}
+                        <a href="{{ action.path }}" class="{{ action.class|default('btn') }}">
+                            {{ action.text }}
+                        </a>
+                    {% endif %}
                 {% endfor %}
             {% endif %}
         </div>

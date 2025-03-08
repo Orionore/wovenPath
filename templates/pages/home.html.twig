@@ -21,24 +21,14 @@
             </div>
         </section>
 
-        <form class="search-container">
-            <select class="genre-select">
-                <option value="" selected>Chercher par genre</option>
-                <option value="fantasy">Fantasy</option>
-                <option value="scifi">Science Fiction</option>
-                <!-- autres genres... -->
-            </select>
-
-            <div class="input-with-icon">
-                <input
-                    type="text"
-                    placeholder="Chercher par nom, genre, auteurs ..."
-                    class="search-input"
-                />
-                <img src="{{ asset('build/images/pictos/search.svg') }}" alt="search">
-            </div>
-            <button type="submit" class="submit-button">Rechercher</button>
-        </form>
+        {{ form_start(form, {'attr': {'class': 'search-container'}}) }}
+        {{ form_widget(form.genre) }}
+        <div class="input-with-icon">
+            {{ form_widget(form.query) }}
+            <img src="{{ asset('build/images/pictos/search.svg') }}" alt="search">
+        </div>
+        {{ form_widget(form.submit) }}
+        {{ form_end(form) }}
 
         <section class="stories-container">
             {% if stories|length > 0 %}
@@ -48,6 +38,11 @@
                             <div class="card">
                                 <div class="card-body">
                                     <h5 class="card-title">{{ story.title }}</h5>
+                                    {% if story.imageName %}
+                                        <img src="{{ asset('uploads/stories/' ~ story.imageName) }}" alt="{{ story.title }}" class="img-fluid">
+                                    {% else %}
+                                        <img src="{{ asset('images/default/default.webp') }}" alt="{{ story.title }}" class="img-fluid">
+                                    {% endif %}
                                     <p class="card-text">{{ story.description }}</p>
                                     <p class="card-text">
                                         <small class="text-muted">
@@ -57,14 +52,49 @@
                                             {% endfor %}
                                         </small>
                                     </p>
-                                    <a href="{{ path('app_story_show', {'id': story.id}) }}" class="btn">Voir détails</a>
+                                    <a href="{{ path('app_main_story_show', {'id': story.id}) }}" class="btn">Voir détails</a>
                                 </div>
                             </div>
                         </div>
                     {% endfor %}
                 </div>
+
+                {# Navigation de pagination #}
+                {% if totalPages > 1 %}
+                    <nav aria-label="Navigation des pages" class="mt-4">
+                        <ul class="pagination justify-content-center">
+                            {% if currentPage > 1 %}
+                                <li class="page-item">
+                                    <a class="page-link" href="{{ path('app_home', {'page': currentPage - 1}|merge(app.request.query.all|filter((v, k) => k != 'page'))) }}">Précédent</a>
+                                </li>
+                            {% else %}
+                                <li class="page-item disabled">
+                                    <span class="page-link">Précédent</span>
+                                </li>
+                            {% endif %}
+
+                            {% for i in 1..totalPages %}
+                                <li class="page-item {{ i == currentPage ? 'active' : '' }}">
+                                    <a class="page-link" href="{{ path('app_home', {'page': i}|merge(app.request.query.all|filter((v, k) => k != 'page'))) }}">{{ i }}</a>
+                                </li>
+                            {% endfor %}
+
+                            {% if currentPage < totalPages %}
+                                <li class="page-item">
+                                    <a class="page-link" href="{{ path('app_home', {'page': currentPage + 1}|merge(app.request.query.all|filter((v, k) => k != 'page'))) }}">Suivant</a>
+                                </li>
+                            {% else %}
+                                <li class="page-item disabled">
+                                    <span class="page-link">Suivant</span>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </nav>
+                {% endif %}
             {% else %}
-                <p>Aucune histoire trouvée.</p>
+                <div class="alert alert-info">
+                    Aucune histoire trouvée.
+                </div>
             {% endif %}
         </section>
     </div>
