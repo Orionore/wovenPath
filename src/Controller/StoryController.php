@@ -5,14 +5,15 @@ namespace App\Controller;
 use App\Entity\Story;
 use App\Form\StoryType;
 use App\Repository\StoryRepository;
+use App\Service\MediaService;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
-use Symfony\Component\String\Slugger\SluggerInterface;
-use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 #[Route('/profile/stories')]
 #[IsGranted('ROLE_USER')]
@@ -30,7 +31,11 @@ class StoryController extends AbstractController
     }
 
     #[Route('/new', name: 'app_profile_stories_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
+    public function new(
+        Request $request,
+        EntityManagerInterface $entityManager,
+        MediaService $mediaService
+    ): Response
     {
         $story = new Story();
         $story->setUserId($this->getUser()->getId());
@@ -43,18 +48,16 @@ class StoryController extends AbstractController
             $imageFile = $form->get('imageFile')->getData();
 
             if ($imageFile) {
-                $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
-                $safeFilename = $slugger->slug($originalFilename);
-                $newFilename = $safeFilename . '-' . uniqid() . '.' . $imageFile->guessExtension();
-
                 try {
-                    $imageFile->move(
-                        $this->getParameter('stories_directory'),
-                        $newFilename
-                    );
-                    $story->setImageName($newFilename);
-                } catch (FileException $e) {
-                    $this->addFlash('error', 'Une erreur est survenue lors de l\'upload de l\'image');
+                    $imageName = $mediaService->processAndSaveImage($imageFile);
+                    $story->setImageName($imageName);
+                } catch (Exception $e) {
+                    $this->addFlash('error', 'Une erreur est survenue lors du traitement de l\'image : ' . $e->getMessage());
+
+                    return $this->render('pages/profile/stories/new.html.twig', [
+                        'story' => $story,
+                        'form' => $form,
+                    ]);
                 }
             }
 
@@ -75,7 +78,6 @@ class StoryController extends AbstractController
     #[Route('/story/{id}', name: 'app_story_show', methods: ['GET'])]
     public function showStory(Story $story): Response
     {
-
         return $this->render('pages/profile/stories/index.html.twig', [
             'story' => $story,
         ]);
@@ -92,7 +94,12 @@ class StoryController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_profile_stories_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Story $story, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
+    public function edit(
+        Request $request,
+        Story $story,
+        EntityManagerInterface $entityManager,
+        MediaService $mediaService
+    ): Response
     {
         $this->denyAccessUnlessGranted('edit', $story);
 
@@ -103,24 +110,21 @@ class StoryController extends AbstractController
             $imageFile = $form->get('imageFile')->getData();
 
             if ($imageFile) {
-                $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
-                $safeFilename = $slugger->slug($originalFilename);
-                $newFilename = $safeFilename . '-' . uniqid() . '.' . $imageFile->guessExtension();
-
                 try {
-                    $imageFile->move(
-                        $this->getParameter('stories_directory'),
-                        $newFilename
-                    );
-
                     // Supprimer l'ancienne image si elle existe
-                    if ($story->getImageName() && file_exists($this->getParameter('stories_directory').'/'.$story->getImageName())) {
-                        unlink($this->getParameter('stories_directory').'/'.$story->getImageName());
+                    if ($story->getImageName()) {
+                        $mediaService->deleteImage($story->getImageName());
                     }
 
-                    $story->setImageName($newFilename);
-                } catch (FileException $e) {
-                    $this->addFlash('error', 'Une erreur est survenue lors de l\'upload de l\'image');
+                    $imageName = $mediaService->processAndSaveImage($imageFile);
+                    $story->setImageName($imageName);
+                } catch (Exception $e) {
+                    $this->addFlash('error', 'Une erreur est survenue lors du traitement de l\'image : ' . $e->getMessage());
+
+                    return $this->render('pages/profile/stories/edit.html.twig', [
+                        'story' => $story,
+                        'form' => $form,
+                    ]);
                 }
             }
 
@@ -138,13 +142,23 @@ class StoryController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_profile_stories_delete', methods: ['POST'])]
-    public function delete(Request $request, Story $story, EntityManagerInterface $entityManager): Response
+    public function delete(
+        Request $request,
+        Story $story,
+        EntityManagerInterface $entityManager,
+        MediaService $mediaService
+    ): Response
     {
         $this->denyAccessUnlessGranted('delete', $story);
 
         if ($this->isCsrfTokenValid('delete'.$story->getId(), $request->request->get('_token'))) {
+            // Si vous voulez supprimer l'image lors d'une suppression logique
+            if ($story->getImageName()) {
+                $mediaService->deleteImage($story->getImageName());
+            }
+
             // Soft delete en mettant à jour deletedAt
-            $story->setDeletedAt(new \DateTime());
+            $story->setDeletedAt(new DateTime());
             $entityManager->flush();
 
             $this->addFlash('success', 'Histoire supprimée avec succès.');

@@ -25,6 +25,7 @@ Encore
 
     //layouts
     .addEntry('layout_main', './assets/js/layouts/main.js')
+    .addEntry('layout_profile', './assets/js/layouts/profile.js')
 
     //pages
     .addEntry('page_home', './assets/js/pages/home.js')
@@ -32,8 +33,9 @@ Encore
     .addEntry('page_register', './assets/js/pages/register.js')
     .addEntry('page_profile','./assets/js/pages/profile.js')
     .addEntry('page_profile_edit','./assets/js/pages/profile_edit.js')
-
     .addEntry('page_new_story','./assets/js/pages/new_story.js')
+    .addEntry('page_show_story','./assets/js/pages/show_story.js')
+    .addEntry('page_edit_story','./assets/js/pages/edit_story.js')
 
     .addEntry('admin_user','./assets/js/admin/users.js')
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.

@@ -14,3 +14,7 @@
 .btn {
   @include btn.btn-base();
 }
+
+.btn-danger {
+  @include btn.btn-danger();
+}

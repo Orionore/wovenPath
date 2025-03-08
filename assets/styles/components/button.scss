@@ -27,3 +27,9 @@
   background-color: $tertiary;
   color: $primary;
 }
+
+@mixin btn-danger {
+  @include btn-base;
+  background-color: $background-danger;
+  color: $text-danger;
+}

@@ -1,0 +1,21 @@
+@use "../../../core/mixins" as *;
+@use "../../../core/font" as *;
+@use "../../../core/theme" as *;
+
+@use "../../../components/cards" as card;
+@use "../../../components/button" as btn;
+
+.container {
+  .story-activity-container {
+    .picto-container {
+      width: 20px;
+      margin-right: 10px;
+    }
+  }
+
+  .created-at-container, .updated-at-container, .status-at-container {
+    display: flex;
+    margin: 20px 0;
+    align-items: center;
+  }
+}
