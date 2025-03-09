@@ -1,13 +1,13 @@
-{% extends 'layouts/profile.html.twig' %}
+{% extends 'layouts/main.html.twig' %}
 
 {% block stylesheets %}
     {{ parent() }}
-    {{ encore_entry_link_tags('page_chapter') }}
+    {{ encore_entry_link_tags('page_read_chapter') }}
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
-    {{ encore_entry_script_tags('page_chapter') }}
+    {{ encore_entry_script_tags('page_read_chapter') }}
 {% endblock %}
 
 {% block title %}{{ chapter.title }} - {{ story.title }}{% endblock %}
@@ -38,38 +38,35 @@
         {% include 'includes/flash_messages.html.twig' %}
 
         <div class="content-container">
-            <div class="col-md-10 mx-auto">
 
-                <div class="card mb-5">
-                    <div class="card-body">
-                        <div class="chapter-content">
-                            {{ chapter.content|nl2br }}
-                        </div>
-                    </div>
-                </div>
-
-                <div class="navigation-controls d-flex justify-content-between mb-4">
-                    {% if previousChapter %}
-                        <a href="{{ path('app_chapter_read', {'id': previousChapter.id}) }}" class="btn btn-outline-primary">
-                            <i class="bi bi-arrow-left"></i> Chapitre précédent
-                        </a>
-                    {% else %}
-                        <a href="{{ path('app_story_show', {'id': story.id}) }}" class="btn btn-outline-secondary">
-                            <i class="bi bi-arrow-left"></i> Retour à l'histoire
-                        </a>
-                    {% endif %}
-
-                    {% if nextChapter %}
-                        <a href="{{ path('app_chapter_read', {'id': nextChapter.id}) }}" class="btn btn-outline-primary">
-                            Chapitre suivant
-                        </a>
-                    {% else %}
-                        <a href="{{ path('app_story_show', {'id': story.id}) }}" class="btn btn-outline-secondary">
-                            Fin de l'histoire
-                        </a>
-                    {% endif %}
+            <div class="card">
+                <div class="chapter-content">
+                    {{ chapter.content }}
                 </div>
             </div>
+
+            <div class="navigation-chapter-container">
+                {% if previousChapter %}
+                    <a href="{{ path('app_chapter_read', {'id': previousChapter.id}) }}" class="btn-nav">
+                        Chapitre précédent
+                    </a>
+                {% else %}
+                    <a href="{{ path('app_story_show', {'id': story.id}) }}" class="btn-nav">
+                        Retour à l'histoire
+                    </a>
+                {% endif %}
+
+                {% if nextChapter %}
+                    <a href="{{ path('app_chapter_read', {'id': nextChapter.id}) }}" class="btn-nav">
+                        Chapitre suivant
+                    </a>
+                {% else %}
+                    <a href="{{ path('app_story_show', {'id': story.id}) }}" class="btn-nav">
+                        Fin de l'histoire
+                    </a>
+                {% endif %}
+            </div>
+
         </div>
     </div>
 {% endblock %}

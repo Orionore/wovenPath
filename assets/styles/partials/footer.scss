@@ -4,7 +4,12 @@
 
 footer  {
   &.card {
-    @include card.card($background-secondary, $medium-radius)
+    @include card.card($background-footer, $medium-radius);
+    margin-top: 5em;
+  }
+
+  a {
+    color: $text;
   }
 
   .footer-container {
@@ -13,51 +18,75 @@ footer  {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-    color: $primary;
+    color: $text;
 
     @include for-tablet-portrait-up {
-      flex-direction: row;
+      max-width: 800px;
+      margin: 0 auto;
     }
 
-    .copyright-container {
-      font-size: 1rem;
+    .footer-content-container {
 
-      .copyright-sentence-container {
-        line-height: 1.1rem;
+      @include for-tablet-portrait-up {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 50px;
 
-        span {
-          display: block;
+        & > * {
+          border-left: 1px solid $text;
+          padding-left: 1em;
         }
       }
-    }
 
-    .footer-part {
-      font-size: 1.3rem;
+      .copyright-container {
+        font-size: 1rem;
 
-      @include for-tablet-portrait-down {
-        margin-top: 1em;
+        @include for-tablet-portrait-up {
+          font-size: 1.4rem;
+        }
+
+        .copyright-sentence-container {
+          line-height: 1.1rem;
+
+          span {
+            display: block;
+            line-height: 1.5;
+          }
+        }
       }
-    }
 
-    .title-footer {
-      font-weight: bold;
-      font-size: 1.4rem;
-      color: $primary;
+      .footer-part {
+        font-size: 1.3rem;
 
-      @include for-tablet-portrait-up {
-        font-size: 1.6rem;
+        a {
+          color: $text;
+        }
+
+        @include for-tablet-portrait-down {
+          margin-top: 1em;
+        }
       }
-    }
 
-    li {
-      font-size: 1.2rem;
-
-      @include for-tablet-portrait-up {
+      .title-footer {
+        font-weight: bold;
         font-size: 1.4rem;
+        color: $text;
+
+        @include for-tablet-portrait-up {
+          font-size: 1.6rem;
+        }
       }
 
-      a {
-        color: $link;
+      li {
+        font-size: 1.2rem;
+
+        @include for-tablet-portrait-up {
+          font-size: 1.4rem;
+        }
+
+        a {
+          color: $link;
+        }
       }
     }
   }

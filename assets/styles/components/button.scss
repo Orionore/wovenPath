@@ -1,8 +1,7 @@
 @use "../core/theme" as *;
 
 @mixin btn-base {
-  background-color: $background-button;
-  color: $text-primary;
+
   padding: 10px 30px;
   border-radius: 10px;
   border: none;
@@ -10,26 +9,42 @@
   display: inline-block;
   cursor: pointer;
   box-sizing: border-box;
+  font-weight: bold;
 
   &:hover {
     background-color: $background-primary;
   }
 }
 
-@mixin btn-primary {
+.btn-primary {
   @include btn-base;
-  background-color: $secondary;
-  color: $primary;
+  background-color: $background-primary;
+  color: $text-primary;
 }
 
-@mixin btn-secondary {
+.btn-secondary {
   @include btn-base;
-  background-color: $tertiary;
-  color: $primary;
+  background-color: $background-primary;
+  color: $text-primary;
 }
 
-@mixin btn-danger {
+.btn-danger {
   @include btn-base;
   background-color: $background-danger;
   color: $text-danger;
+}
+
+.btn-nav {
+  @include btn-base;
+  border-radius: 30px;
+  background-color: $background-primary;
+  color: $text-primary;
+}
+
+.btn-author {
+  @include btn-base;
+  border-radius: 30px;
+  border: 1px solid $text;
+  background-color: $background-dark;
+  color: $text-dark;
 }

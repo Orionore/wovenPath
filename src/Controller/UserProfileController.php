@@ -24,7 +24,6 @@ class UserProfileController extends AbstractController
             throw $this->createAccessDeniedException('Vous devez être connecté pour accéder à cette page.');
         }
 
-        // Récupérer les dernières histoires de l'utilisateur
         $recentStories = $storyRepository->findBy(
             ['user_id' => $user->getId()],
             ['createdAt' => 'DESC'],

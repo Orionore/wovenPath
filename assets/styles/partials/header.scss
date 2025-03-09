@@ -6,6 +6,7 @@
 header {
   .card {
     @include card.card($background-primary, $medium-radius);
+    padding: 7px;
   }
 
   .header-container {
@@ -13,14 +14,15 @@ header {
     justify-content: space-between;
     align-items: center;
 
-    .logo-container {
-      margin-left: 20px;
-      a {
-        color: $primary;
-      }
+    a {
+      color: $text;
     }
 
-    @include for-tablet-portrait-down {
+    .logo-container {
+      margin-left: 20px;
+    }
+
+    @include for-phone-portrait-and-landscape-only {
       .menu-icon {
         display: block;
         width: 30px;
@@ -31,7 +33,7 @@ header {
 
       .bar, .bar2 {
         height: 3px;
-        background-color: $primary;
+        background-color: $text;
         margin: 5px 0;
         transition: all 0.3s ease;
       }
@@ -81,17 +83,18 @@ header {
       background-color: $background-primary;
       color: $text-primary;
       z-index: 100;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      box-shadow: rgba(0, 0, 0, 1) 0 5px 15px;
 
-      @include card.card($background-secondary, $medium-radius);
+      @include card.card($background-primary, $medium-radius);
 
       ul {
         display: flex;
         flex-direction: column;
         line-height: 1.7;
         text-align: right;
-        padding: 20px;
-        font-size: 1.6rem;
+        padding: 25px;
+        font-size: 1.8rem;
+
       }
     }
   }

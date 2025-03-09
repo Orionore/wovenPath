@@ -1,13 +1,13 @@
-{% extends 'layouts/profile.html.twig' %}
+{% extends 'layouts/main.html.twig' %}
 
 {% block stylesheets %}
     {{ parent() }}
-    {{ encore_entry_link_tags('page_chapter') }}
+    {{ encore_entry_link_tags('page_list_chapter') }}
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
-    {{ encore_entry_script_tags('page_chapter') }}
+    {{ encore_entry_script_tags('page_list_chapter') }}
 {% endblock %}
 
 {% block title %}Chapitres de {{ story.title }}{% endblock %}

@@ -1,13 +1,13 @@
-{% extends 'layouts/profile.html.twig' %}
+{% extends 'layouts/main.html.twig' %}
 
 {% block stylesheets %}
     {{ parent() }}
-    {{ encore_entry_link_tags('page_edit_story') }}
+    {{ encore_entry_link_tags('page_author_edit_story') }}
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
-    {{ encore_entry_script_tags('page_edit_story') }}
+    {{ encore_entry_script_tags('page_author_edit_story') }}
 {% endblock %}
 
 {% block title %}Modifier l'histoire{% endblock %}
@@ -16,7 +16,7 @@
 
     <div class="container">
 
-        {% include 'partials/main-nav.html.twig' with {
+        {% include 'partials/main_nav.html.twig' with {
             'title': 'Modifier l\'histoire',
             'return_path': path('app_author_stories_index'),
             'return_text': 'Retour à la liste',

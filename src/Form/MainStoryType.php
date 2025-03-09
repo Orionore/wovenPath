@@ -33,14 +33,14 @@ class MainStoryType extends AbstractType
                 'label' => false,
                 'required' => false,
                 'attr' => [
-                    'placeholder' => 'Chercher par nom, genre, auteurs ...',
+                    'placeholder' => 'Chercher une histoire...',
                     'class' => 'search-input'
                 ]
             ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Rechercher',
                 'attr' => [
-                    'class' => 'submit-button'
+                    'class' => 'submit-button btn'
                 ]
             ]);
     }

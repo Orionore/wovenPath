@@ -1,0 +1,28 @@
+@use "../../core/mixins" as *;
+@use "../../core/font" as *;
+@use "../../core/theme" as *;
+
+@use "../../components/cards" as card;
+
+.content-container {
+  .card {
+    padding: 1em;
+    max-width: 600px;
+    line-height: 2;
+    margin: 0 auto;
+    font-family: $main-font;
+  }
+
+  .navigation-chapter-container {
+    display: flex;
+    justify-content: space-between;
+    max-width: 600px;
+    margin: 0 auto;
+
+    font-size: 1.2rem;
+
+    a {
+      margin: 0;
+    }
+  }
+}

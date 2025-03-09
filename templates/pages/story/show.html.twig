@@ -2,12 +2,12 @@
 
 {% block stylesheets %}
     {{ parent() }}
-    {{ encore_entry_link_tags('page_story') }}
+    {{ encore_entry_link_tags('page_show_story') }}
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
-    {{ encore_entry_script_tags('page_story') }}
+    {{ encore_entry_script_tags('page_show_story') }}
 {% endblock %}
 
 {% block title %}{{ story.title }}{% endblock %}
@@ -28,11 +28,12 @@
                 <div class="story-meta">
                     <div class="genre-tags">
                         {% for genre in story.genre %}
-                            <span class="badge badge-primary">{{ genre.value }}</span>
+                            <p>Genre : <span class="badge badge-primary">{{ genre.value }}</span></p>
+
                         {% endfor %}
                     </div>
                     {% if story.imageName %}
-                        <div class="story-image">
+                        <div class="story-img">
                             <img src="{{ asset('uploads/stories/' ~ story.imageName) }}" alt="{{ story.title }}" class="img-fluid">
                         </div>
                     {% endif %}
@@ -52,10 +53,9 @@
             </div>
 
             <div class="actions mt-4">
-                <a href="{{ path('app_home') }}" class="btn btn-secondary">Retour à la liste</a>
 
                 {% if app.user and app.user.id == story.userId %}
-                    <a href="{{ path('app_author_stories_edit', {'id': story.id}) }}" class="btn">Modifier cette histoire</a>
+                    <a href="{{ path('app_author_stories_edit', {'id': story.id}) }}" class="btn-author">Modifier cette histoire</a>
                 {% endif %}
             </div>
         </div>

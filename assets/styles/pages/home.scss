@@ -2,6 +2,10 @@
 @use "../core/font" as *;
 @use "../core/theme" as *;
 
+@use "../partials/stories_grid.scss";
+
+@use "../components/cards" as card;
+
 .container {
   .welcome-container {
     position: relative;
@@ -16,7 +20,7 @@
     max-height: 400px;
     border-radius: $radius;
 
-    div {
+    h2 {
       position: absolute;
       border-radius: $medium-radius;
       background-color: rgba(0,0,0,.7);
@@ -42,18 +46,35 @@
 
   .search-container {
     border-radius: $radius;
-    margin: 10px 0;
+    margin: 20px auto;
     padding: 30px;
     background-color: $background-primary;
+    max-width: 700px;
+    text-align: center;
+
+    & > *:not(:last-child) {
+      margin-bottom: 20px;
+    }
 
     .genre-select {
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+
+      background-image: url("data:image/svg+xml;utf8,<svg fill='white' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      background-size: 20px;
+
       border: none;
       width: 100%;
       padding: 10px;
       border-radius: $little-radius;
       background-color: $background-dark;
-      color: $primary;
-      margin-bottom: 10px;
+      color: $text-dark;
+
+      cursor: pointer;
+      user-select: none;
     }
 
     .input-with-icon {
@@ -65,16 +86,23 @@
         padding: 10px;
         border-radius: $radius;
         background-color: $background-dark;
-        color: $primary;
-        margin-bottom: 10px;
+        color: $text-dark;
         box-sizing: border-box;
       }
       img {
         position: absolute;
-        right: 11px;
+        right: 17px;
         top: 10px;
         width: 15px;
       }
     }
+
+    #main_story_submit {
+      margin: 0;
+      background-color: $background-dark;
+      color: $text-dark;
+    }
   }
+
+
 }

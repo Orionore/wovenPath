@@ -1,0 +1,7 @@
+@use "../core/theme.scss" as *;
+
+.story-img {
+  img {
+    border-radius: $radius;
+  }
+}

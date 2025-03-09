@@ -1,13 +1,13 @@
-{% extends 'layouts/profile.html.twig' %}
+{% extends 'layouts/main.html.twig' %}
 
 {% block stylesheets %}
     {{ parent() }}
-    {{ encore_entry_link_tags('page_show_story') }}
+    {{ encore_entry_link_tags('page_author_show_story') }}
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
-    {{ encore_entry_script_tags('page_show_story') }}
+    {{ encore_entry_script_tags('page_author_show_story') }}
 {% endblock %}
 
 {% block title %}{{ story.title }}{% endblock %}

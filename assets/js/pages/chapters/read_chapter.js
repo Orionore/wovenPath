@@ -1,0 +1,1 @@
+import "../../../styles/pages/chapters/read_chapter.scss";

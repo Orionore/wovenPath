@@ -1,0 +1,17 @@
+@use "../core/theme" as *;
+
+.container {
+  .nav-container {
+    border-bottom: 1px solid $primary;
+    padding-bottom: 1em;
+    margin-bottom: 3em;
+
+    a {
+      font-size: 1.3rem;
+
+      &::before {
+        content: "";
+      }
+    }
+  }
+}
