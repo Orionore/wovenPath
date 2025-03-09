@@ -1,0 +1,144 @@
+{% extends 'layouts/main.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('page_author_show_story') }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('page_author_show_story') }}
+{% endblock %}
+
+{% block title %}{{ story.title }}{% endblock %}
+
+{% block main %}
+    <div class="container">
+
+        {% include 'partials/main_nav.html.twig' with {
+            'title': story.title,
+            'return_path': path('app_author_stories_index'),
+            'return_text': 'Retour à la liste',
+            'actions': [
+            {
+                'path': path('app_author_stories_edit', {'id': story.id}),
+                'text': 'Modifier l\'histoire'
+            },
+                {
+                    'path': path('app_author_story_chapters', {'id': story.id}),
+                    'text': 'Gérer les chapitres'
+                }
+            ]
+        } %}
+
+        {% include 'includes/flash_messages.html.twig' %}
+
+        <div class="content-container">
+
+            <div class="flex">
+                <div class="img-container">
+                    {% if story.imageName %}
+                        <img src="{{ asset('uploads/stories/' ~ story.imageName) }}" alt="{{ story.title }}">
+                    {% else %}
+                        <img src="{{ asset('images/default/default.webp') }}" alt="{{ story.title }}">
+                    {% endif %}
+                </div>
+
+                <div class="story-information-container">
+                    <div class="story-title-container">
+                        <h2>titre : {{ story.title }}</h2>
+                        <span class=" {{ story.status ? 'published' : 'not-published' }}">
+                            {{ story.status ? 'Publié' : 'Brouillon' }}
+                        </span>
+                    </div>
+
+                    <div class="description-container">
+                        <h3>Description :</h3>
+                        <p>{{ story.description }}</p>
+                    </div>
+
+                    <div class="genre-container">
+                        <h3>Genres :</h3>
+                        <div>
+                            {% for genre in story.genre %}
+                                <span>{{ genre.value }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <a href="{{ path('app_author_stories_edit', {'id': story.id}) }}" class="btn-primary">
+                Modifier
+            </a>
+            <form method="post" action="{{ path('app_author_stories_delete', {'id': story.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette histoire ?');">
+                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ story.id) }}">
+                <button class="btn-danger">Supprimer</button>
+            </form>
+        </div>
+
+        <div class="story-activity-container">
+            <h3>Activité de l'histoire</h3>
+
+            {% if story.createdAt %}
+                <div class="created-at-container">
+                    <div class="picto-container">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                        </svg>
+                    </div>
+                    <div class="text-container">
+                        <h4>Histoire créée</h4>
+                        <p>{{ story.createdAt|date('d/m/Y H:i') }}</p>
+                    </div>
+                </div>
+            {% endif %}
+
+            {% if story.updatedAt %}
+                <div class="updated-at-container">
+                    <div class="picto-container">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                        </svg>
+                    </div>
+                    <div class="text-container">
+                        <h4>Dernière modification</h4>
+                        <p>{{ story.updatedAt|date('d/m/Y H:i') }}</p>
+                    </div>
+                </div>
+            {% endif %}
+
+        </div>
+
+        {% if hasChapters %}
+        <div class="chapters-container">
+            <h3>Chapitres de l'histoire :</h3>
+            {% for chapter in chapters %}
+            <a href="{{ path('app_chapter_read', {'id': chapter.id}) }}" class="list-group-item list-group-item-action">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">{{ chapter.position }}. {{ chapter.title }}</h5>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+
+        <div class="text-center">
+            <a href="{{ path('app_story_read', {'storyId': story.id}) }}" class="btn-primary">
+                Commencer la lecture
+            </a>
+        </div>
+        {% else %}
+        <div class="alert alert-info">
+            Cette histoire n'a pas encore de chapitres.
+            {% if app.user and app.user.id == story.userId %}
+            <a href="{{ path('app_author_chapter_new', {'id': story.id}) }}">Cliquez ici pour ajouter le premier chapitre</a>.
+            {% endif %}
+        </div>
+        {% endif %}
+
+    </div>
+
+{% endblock %}

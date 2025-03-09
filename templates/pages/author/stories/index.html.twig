@@ -1,0 +1,101 @@
+{% extends 'layouts/main.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('page_author_stories') }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('page_author_stories') }}
+{% endblock %}
+
+{% block title %}Mes histoires{% endblock %}
+
+{% block main %}
+
+    <div class="container">
+
+        {% include 'partials/main_nav.html.twig' with {
+            'title': 'Mes histoires',
+            'return_path': path('app_profile'),
+            'return_text': 'Retour au profil',
+            'actions': [
+                {
+                    'path': path('app_author_stories_new'),
+                    'text': 'Créer une histoire'
+                }
+            ]
+        } %}
+
+        {% include 'includes/flash_messages.html.twig' %}
+
+        {% if stories|length > 0 %}
+            <div class="stories-container content-container">
+                    <div class="grid">
+                        {% for story in stories %}
+                        <div class="story-container">
+
+                            <div class="card-header">
+                                <h2 class="story-title">{{ story.title }}</h2>
+
+                                <p>
+                                    Genre :
+                                    {% for genre in story.genre %}
+                                        {{ genre.value }}
+                                    {% endfor %}
+                                </p>
+
+                            </div>
+
+                            <div class="card-body">
+                                <div class="img-container">
+                                    {% if story.imageName %}
+                                        <img src="{{ asset('uploads/stories/' ~ story.imageName) }}" alt="{{ story.title }}">
+                                    {% else %}
+                                        <img src="{{ asset('images/default/default.webp') }}" alt="{{ story.title }}">
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            <div class="card-footer">
+
+                                <span class="statu {{ story.status ? 'published' : 'not-published' }}">
+                                    {{ story.status ? 'Publié' : 'Brouillon' }}
+                                </span>
+                                <p class="description">{{ story.description }}</p>
+
+                                <div class="story-information-container">
+
+                                    <div class="story-btn-container">
+                                        <a href="{{ path('app_author_stories_show', {'id': story.id}) }}" class="btn-primary">
+                                            Voir l'histoire
+                                        </a>
+                                        <a href="{{ path('app_author_stories_edit', {'id': story.id}) }}" class="btn-primary">
+                                            Modifier
+                                        </a>
+                                        <form method="post" action="{{ path('app_author_stories_delete', {'id': story.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette histoire ?');">
+                                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ story.id) }}">
+                                            <button class="btn-danger">Supprimer</button>
+                                        </form>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+                        {% endfor %}
+                    </div>
+
+            </div>
+        {% else %}
+            <div class="bg-gray-100 p-8 rounded-lg text-center">
+                <p class="text-lg text-gray-600 mb-4">Vous n'avez pas encore créé d'histoires.</p>
+                <a href="{{ path('app_profile_stories_new') }}" class="inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                    Créer ma première histoire
+                </a>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

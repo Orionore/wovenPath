@@ -1,10 +1,20 @@
 @use "../generality/generality.scss";
 
-@use "../partials/header.scss";
-@use "../partials/footer.scss";
-
 @use "../generality/display-none";
 
 @use "../partials/logo";
+@use "../partials/header.scss";
+@use "../partials/footer.scss";
+@use "../partials/main_nav.scss";
+@use "../partials/img_stories.scss";
 
 @use "../exception/error";
+
+@use "../components/button";
+
+@use "../core/mixins" as *;
+@use "../core/font" as *;
+@use "../core/theme" as *;
+
+@use "../components/cards" as card;
+@use "../components/button" as btn;

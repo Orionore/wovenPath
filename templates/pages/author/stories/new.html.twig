@@ -2,66 +2,68 @@
 
 {% block stylesheets %}
     {{ parent() }}
-    {{ encore_entry_link_tags('page_new_story') }}
+    {{ encore_entry_link_tags('page_author_new_story') }}
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
-    {{ encore_entry_script_tags('page_new_story') }}
+    {{ encore_entry_script_tags('page_author_new_story') }}
 {% endblock %}
-
 
 {% block title %}Créer une nouvelle histoire{% endblock %}
 
 {% block main %}
+
     <div class="container">
-        <div class="nav-container">
-            <a href="{{ path('app_profile_stories_index') }}" class="text-blue-500 hover:text-blue-700">
-                Retour à la liste
-            </a>
-            <h1>Créer une nouvelle histoire</h1>
-        </div>
+
+        {% include 'partials/main_nav.html.twig' with {
+            'title': 'Créer une nouvelle histoire',
+            'return_path': path('app_author_stories_index'),
+            'return_text': 'Retour à la liste',
+        } %}
 
         {% include 'includes/flash_messages.html.twig' %}
 
-        <div class="new-story-container">
+        <div class="form-story-container content-container">
             {{ form_start(form) }}
 
             {# ****** title ****** #}
             <div class="form-title-container">
-                {{ form_label(form.title, null, {'label_attr': {'class': 'block'}}) }}
+                {{ form_label(form.title, null, {'label_attr': {'class': 'title'}}) }}
                 {{ form_widget(form.title, {'attr': {'class': 'block'}}) }}
-                {{ form_errors(form.title, {'attr': {'class': 'text'}}) }}
+                {{ form_errors(form.title, {'errors_attr': {'class': 'form-error'}}) }}
             </div>
 
             {# ****** description ****** #}
             <div class="form-description-container">
-                {{ form_label(form.description, null, {'label_attr': {'class': 'block'}}) }}
+                {{ form_label(form.description, null, {'label_attr': {'class': 'title'}}) }}
                 {{ form_widget(form.description, {'attr': {'class': 'block'}}) }}
-                {{ form_errors(form.description, {'attr': {'class': 'text'}}) }}
+                {{ form_errors(form.description, {'errors_attr': {'class': 'form-error'}}) }}
             </div>
 
             {# ****** genre ****** #}
             <div class="form-genre-container">
-                {{ form_label(form.genre, 'Genre', {'label_attr': {'class': 'block mb-2 font-medium text-gray-700'}}) }}
+                {{ form_label(form.genre, 'Genre', {'label_attr': {'class': 'title'}}) }}
 
-                {{ form_widget(form.genre, {
-                    'attr': {
-                        'class': 'w-full p-2 border rounded-md max-h-60',
-                        'size': '8'
-                    }
-                }) }}
+                {{ form_widget(form.genre) }}
 
-                {{ form_errors(form.genre, {'attr': {'class': 'text-red-500 mt-1'}}) }}
+                {{ form_errors(form.genre, {'errors_attr': {'class': 'form-error'}}) }}
             </div>
 
             {# ****** images ****** #}
             <div class="story-image-preview ">
-                {{ form_label(form.imageFile, null, {'label_attr': {'class': 'block mb-2 font-medium text-gray-700'}}) }}
+                {{ form_label(form.imageFile, null, {'label_attr': {'class': 'title'}}) }}
                 <div
                     {{ stimulus_controller('story-image-preview') }}
                     class="mt-1"
                 >
+                    {% if story.imageName %}
+                        <div class="mb-3">
+                            <p class="text-sm text-gray-600 mb-1">Image actuelle:</p>
+                            <img src="{{ asset('uploads/stories/' ~ story.imageName) }}" alt="{{ story.title }}" class="max-h-48 rounded">
+                        </div>
+                    {% endif %}
+
                     <div class="custom-file-upload">
                         {{ form_widget(form.imageFile, {
                             'attr': {
@@ -75,23 +77,23 @@
                             <span class="file-name" data-story-image-preview-target="fileName">Aucun fichier choisi</span>
                         </label>
                     </div>
-                    <div class="mt-2 hidden" data-story-image-preview-target="preview">
-                        <img src="#" class="max-h-48 rounded" data-story-image-preview-target="image" alt="">
+                    <div data-story-image-preview-target="preview">
+                        <img src="#" data-story-image-preview-target="image" alt="">
                     </div>
                 </div>
-                {{ form_errors(form.imageFile, {'attr': {'class': 'text-red-500 text-sm mt-1'}}) }}
+                {{ form_errors(form.imageFile, {'attr': {'class': 'form-error'}}) }}
             </div>
 
             {# ****** set publish ****** #}
             <div>
                 {{ form_widget(form.status, {'attr': {'class': 'h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500 mr-2'}}) }}
                 {{ form_label(form.status, null, {'label_attr': {'class': 'text-sm font-medium text-gray-700'}}) }}
-                {{ form_errors(form.status, {'attr': {'class': 'text-red-500 text-sm mt-1'}}) }}
+                {{ form_errors(form.status, {'errors_attr': {'class': 'form-error'}}) }}
             </div>
 
             <div class="flex justify-end">
-                <button type="submit" class="btn">
-                    Créer l'histoire
+                <button type="submit" class="btn-primary">
+                    Enregistrer les modifications
                 </button>
             </div>
             {{ form_end(form) }}

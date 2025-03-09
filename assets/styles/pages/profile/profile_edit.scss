@@ -1,0 +1,28 @@
+@use "../../partials/form_error";
+@use "../../core/theme" as *;
+
+.container {
+
+  h1 {
+    margin-bottom: 20px;
+  }
+
+  label {
+    display: block;
+  }
+
+  input {
+    margin: 10px 0;
+    padding: 10px;
+    border: 2px solid $primary;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 400px;
+    box-sizing: border-box;
+  }
+
+  .btn-primary {
+    font-size: 1.6rem;
+    line-height: 1.5;
+  }
+}

@@ -1,0 +1,10 @@
+@use "../core/theme" as *;
+
+.form-error {
+  background-color: $background-danger-light;
+  color: $text-danger-light;
+
+  padding: 10px;
+  border-radius: $little-radius;
+  margin: 10px 0;
+}

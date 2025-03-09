@@ -3,18 +3,16 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Form\ChangePasswordFormType;
 use App\Form\ProfileEditType;
 use App\Repository\StoryRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-class ProfileController extends AbstractController
+class UserProfileController extends AbstractController
 {
     #[Route('/profile', name: 'app_profile')]
     #[IsGranted('ROLE_USER')]
@@ -26,14 +24,13 @@ class ProfileController extends AbstractController
             throw $this->createAccessDeniedException('Vous devez être connecté pour accéder à cette page.');
         }
 
-        // Récupérer les dernières histoires de l'utilisateur
         $recentStories = $storyRepository->findBy(
             ['user_id' => $user->getId()],
             ['createdAt' => 'DESC'],
             3
         );
 
-        return $this->render('pages/profile/profile.html.twig', [
+        return $this->render('pages/author/profile.html.twig', [
             'user' => $user,
             'recentStories' => $recentStories
         ]);
@@ -57,7 +54,7 @@ class ProfileController extends AbstractController
             return $this->redirectToRoute('app_profile');
         }
 
-        return $this->render('pages/profile/profile_edit.html.twig', [
+        return $this->render('pages/author/profile_edit.html.twig', [
             'form' => $form,
         ]);
     }

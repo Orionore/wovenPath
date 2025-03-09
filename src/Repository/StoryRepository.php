@@ -3,7 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\Story;
+use App\Enum\StoryEnum;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -58,5 +60,56 @@ class StoryRepository extends ServiceEntityRepository
             ->orderBy('s.createdAt', 'DESC')
             ->getQuery()
             ->getResult();
+    }
+
+    public function findLatestPublished(int $page = 1, int $limit = 10): Paginator
+    {
+        $query = $this->createQueryBuilder('s')
+            ->where('s.status = :status')
+            ->andWhere('s.deletedAt IS NULL')
+            ->setParameter('status', true)
+            ->orderBy('s.createdAt', 'DESC')
+            ->setFirstResult(($page - 1) * $limit)
+            ->setMaxResults($limit)
+            ->getQuery();
+
+        return new Paginator($query);
+    }
+
+    public function searchStories(?string $query = null, ?string $genre = null, int $page = 1, int $limit = 10): Paginator
+    {
+        $queryBuilder = $this->createQueryBuilder('s')
+            ->where('s.status = :status')
+            ->andWhere('s.deletedAt IS NULL')
+            ->setParameter('status', true);
+
+        if ($query) {
+            $queryBuilder
+                ->andWhere('s.title LIKE :query OR s.description LIKE :query')
+                ->setParameter('query', '%' . $query . '%');
+        }
+
+        if ($genre && $genre !== '') {
+            $genreExists = false;
+            foreach (StoryEnum::cases() as $storyEnum) {
+                if ($storyEnum->name === $genre) {
+                    $genreExists = true;
+                    break;
+                }
+            }
+
+            if ($genreExists) {
+                $queryBuilder
+                    ->andWhere('s.genre LIKE :genre')
+                    ->setParameter('genre', '%' . $genre . '%');
+            }
+        }
+
+        $queryBuilder
+            ->orderBy('s.createdAt', 'DESC')
+            ->setFirstResult(($page - 1) * $limit)
+            ->setMaxResults($limit);
+
+        return new Paginator($queryBuilder->getQuery());
     }
 }

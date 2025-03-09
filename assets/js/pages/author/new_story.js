@@ -1,0 +1,1 @@
+import "../../../styles/pages/author/new_edit_story.scss";

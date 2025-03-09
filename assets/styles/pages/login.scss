@@ -1,0 +1,22 @@
+@use "../partials/form_error";
+@use "../core/theme" as *;
+
+.box {
+  .card {
+    .title {
+      font-size: 2rem;
+      font-weight: bold;
+      color: $text;
+      margin-bottom: 10px;
+      display: block;
+    }
+  }
+
+  .alert-danger {
+    background-color: $background-danger-light;
+    color: $text-danger-light;
+    padding: 10px;
+    border-radius: $little-radius;
+    margin: 10px 0;
+  }
+}

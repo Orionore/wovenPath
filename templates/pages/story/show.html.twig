@@ -1,0 +1,64 @@
+{% extends 'layouts/main.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('page_show_story') }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('page_show_story') }}
+{% endblock %}
+
+{% block title %}{{ story.title }}{% endblock %}
+
+{% block main %}
+    <div class="container">
+
+        {% include 'partials/main_nav.html.twig' with {
+            'title': story.title,
+            'return_path': path('app_home'),
+            'return_text': 'Retour à la recherche d\'histoires',
+        } %}
+
+        {% include 'includes/flash_messages.html.twig' %}
+
+        <div class="content-container">
+            <div class="story-header">
+                <div class="story-meta">
+                    <div class="genre-tags">
+                        {% for genre in story.genre %}
+                            <p>Genre : <span class="badge badge-primary">{{ genre.value }}</span></p>
+
+                        {% endfor %}
+                    </div>
+                    {% if story.imageName %}
+                        <div class="story-img">
+                            <img src="{{ asset('uploads/stories/' ~ story.imageName) }}" alt="{{ story.title }}" class="img-fluid">
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="story-description">
+                    <p>{{ story.description }}</p>
+                </div>
+            </div>
+            <div class="chapter-container">
+                {% if hasChapters %}
+                    <a href="{{ path('app_story_read', {'storyId': story.id}) }}" class="btn btn-secondary">Commencer l'histoire</a>
+                {% else %}
+                    <div class="alert alert-info">
+                        Cette histoire n'a pas encore de chapitres.
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="button-container">
+
+                {% if app.user and app.user.id == story.userId %}
+                    <a href="{{ path('app_author_stories_edit', {'id': story.id}) }}" class="btn-author">Modifier cette histoire</a>
+                {% endif %}
+            </div>
+        </div>
+
+    </div>
+{% endblock %}

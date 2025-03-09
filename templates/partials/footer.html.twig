@@ -1,26 +1,34 @@
 {% block footer %}
 <footer class="card">
-    <div class="container">
-        <div class="copyright-container">
-            {% include 'partials/logo.html.twig' %}
-            <div class="copyright-sentence-container">
-                <span>© {{ year }} Woven Paths</span>
-                <span>Tous droits réservés</span>
-            </div>
+    <div class="footer-container">
+        {% include 'partials/logo.html.twig' %}
+
+        <div class="footer-content-container">
+
+            <section class="copyright-container">
+                <div class="copyright-sentence-container">
+                    <span>© {{ year }} Woven Paths</span>
+                    <span>Tous droits réservés</span>
+                </div>
+            </section>
+
+            <section class="footer-part">
+                <span class="title-footer">À propos</span>
+                <ul>
+                    <li><a href="#">Contact</a></li>
+                    <li><a href="#">Mentions Légales</a></li>
+                </ul>
+            </section>
+
+            <section class="footer-part">
+                <span class="title-footer">Utilisation du service</span>
+                <ul>
+                    <li><a href="#">Politique de Confidentialité</a></li>
+                </ul>
+            </section>
+
         </div>
-        <div class="footer-part">
-            <span class="title-footer">À propos</span>
-            <ul>
-                <li><a href="#">Contact</a></li>
-                <li><a href="#">Mentions Légales</a></li>
-            </ul>
-        </div>
-        <div class="footer-part">
-            <span class="title-footer">Utilisation du service</span>
-            <ul>
-                <li><a href="#">Politique de Confidentialité</a></li>
-            </ul>
-        </div>
+
     </div>
 </footer>
 {% endblock %}

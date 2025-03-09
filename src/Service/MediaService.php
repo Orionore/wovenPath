@@ -1,128 +1,104 @@
 <?php
-// src/Service/ImageUploader.php
 
 namespace App\Service;
 
+use Exception;
 use Intervention\Image\ImageManager;
-use Intervention\Image\Drivers\Gd\Driver;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
-use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Symfony\Component\Validator\ConstraintViolationListInterface;
 
 class MediaService
 {
-    private $params;
-    private $slugger;
-    private $imageManager;
+    private string $uploadsDirectory;
+    private SluggerInterface $slugger;
+    private ImageManager $imageManager;
+    private ValidatorInterface $validator;
 
-    public function __construct(ParameterBagInterface $params, SluggerInterface $slugger)
-    {
-        $this->params = $params;
+    public function __construct(
+        string $uploadsDirectory,
+        SluggerInterface $slugger,
+        ValidatorInterface $validator,
+        ImageManager $imageManager
+    ) {
+        $this->uploadsDirectory = $uploadsDirectory;
         $this->slugger = $slugger;
-
-        // Initialisation du gestionnaire d'image avec le driver GD
-        // Vous pouvez aussi utiliser 'imagick' si l'extension est disponible
-        $this->imageManager = new ImageManager(new Driver());
+        $this->validator = $validator;
+        $this->imageManager = $imageManager;
     }
 
-    public function upload(UploadedFile $file, int $width = 300, int $height = 150): string
+    /**
+     * Traite et enregistre une image
+     * @param UploadedFile $imageFile
+     * @param string $subDirectory
+     * @return string|null Le nom du fichier uniquement (sans le chemin)
+     * @throws Exception
+     */
+    public function processAndSaveImage(UploadedFile $imageFile, string $subDirectory = 'stories'): ?string
     {
-        $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+        $violations = $this->validateImage($imageFile);
+        if (count($violations) > 0) {
+            throw new Exception($violations[0]->getMessage());
+        }
+
+        $targetDirectory = $this->uploadsDirectory . '/' . $subDirectory;
+        if (!file_exists($targetDirectory)) {
+            mkdir($targetDirectory, 0777, true);
+        }
+
+        $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
         $safeFilename = $this->slugger->slug($originalFilename);
-        $fileName = $safeFilename . '-' . uniqid() . '.' . 'jpg'; // On sauvegarde en JPG pour la cohérence
-        $targetPath = $this->getTargetDirectory() . '/' . $fileName;
 
-        try {
-            // Créer l'image avec Intervention
-            $image = $this->imageManager->read($file->getPathname());
+        // Génération d'un nom unique avec une chaîne de caractères aléatoire
+        $randomString = bin2hex(random_bytes(8));
+        $newFilename = $randomString . '-' . uniqid() . '.webp';
 
-            // Redimensionnement avec conservation du ratio et puis recadrage précis
-            $image->cover($width, $height);
+        $imageFile->move($targetDirectory, $newFilename);
+        $fullPath = $targetDirectory . '/' . $newFilename;
+        $image = $this->imageManager->read($fullPath);
+        $image = $image->cover(300, 150);
+        $image->toWebp(90)->save($fullPath);
 
-            // Alternative: resize proportionnellement sans recadrage
-            // $image->scale(width: $width, height: $height);
-
-            // Sauvegarder l'image avec une qualité de 85%
-            $image->toJpeg(85)->save($targetPath);
-
-        } catch (\Exception $e) {
-            throw new \Exception('Une erreur est survenue pendant le traitement de l\'image: ' . $e->getMessage());
-        }
-
-        return $fileName;
+        // Retourner seulement le nom du fichier pour rester compatible avec le code existant
+        return $newFilename;
     }
 
     /**
-     * Redimensionne une image existante
+     * Valide le fichier image
      */
-    public function resize(string $filename, int $width = 300, int $height = 150): bool
+    private function validateImage(UploadedFile $file): ConstraintViolationListInterface
     {
-        $filePath = $this->getTargetDirectory() . '/' . $filename;
+        $constraints = new Assert\Collection([
+            'file' => [
+                new Assert\File([
+                    'maxSize' => '2M',
+                    'mimeTypes' => [
+                        'image/jpeg',
+                        'image/png',
+                        'image/webp'
+                    ],
+                    'mimeTypesMessage' => 'Veuillez télécharger une image valide (JPG, PNG ou WebP).',
+                    'maxSizeMessage' => 'L\'image ne doit pas dépasser 2 Mo.',
+                ])
+            ]
+        ]);
 
-        if (!file_exists($filePath)) {
-            return false;
-        }
-
-        try {
-            $image = $this->imageManager->read($filePath);
-            $image->cover($width, $height);
-            $image->toJpeg(85)->save($filePath);
-
-            return true;
-        } catch (\Exception $e) {
-            return false;
-        }
+        return $this->validator->validate(['file' => $file], $constraints);
     }
 
     /**
-     * Crée une miniature d'une image existante
+     * Supprime une image
      */
-    public function createThumbnail(string $filename, string $thumbFilename, int $width = 100, int $height = 100): bool
+    public function deleteImage(string $imageName, string $subDirectory = 'stories'): bool
     {
-        $filePath = $this->getTargetDirectory() . '/' . $filename;
-        $thumbPath = $this->getTargetDirectory() . '/thumbnails/' . $thumbFilename;
+        $fullPath = $this->uploadsDirectory . '/' . $subDirectory . '/' . $imageName;
 
-        // Créer le répertoire des miniatures s'il n'existe pas
-        if (!is_dir($this->getTargetDirectory() . '/thumbnails/')) {
-            mkdir($this->getTargetDirectory() . '/thumbnails/', 0755, true);
+        if (file_exists($fullPath)) {
+            return unlink($fullPath);
         }
 
-        if (!file_exists($filePath)) {
-            return false;
-        }
-
-        try {
-            $image = $this->imageManager->read($filePath);
-            $image->cover($width, $height);
-            $image->toJpeg(80)->save($thumbPath);
-
-            return true;
-        } catch (\Exception $e) {
-            return false;
-        }
-    }
-
-    public function getTargetDirectory(): string
-    {
-        return $this->params->get('story_images_directory');
-    }
-
-    public function remove(string $filename): bool
-    {
-        $file = $this->getTargetDirectory() . '/' . $filename;
-        $thumb = $this->getTargetDirectory() . '/thumbnails/' . $filename;
-
-        $success = true;
-
-        if (file_exists($file)) {
-            $success = unlink($file) && $success;
-        }
-
-        if (file_exists($thumb)) {
-            $success = unlink($thumb) && $success;
-        }
-
-        return $success;
+        return false;
     }
 }

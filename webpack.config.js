@@ -29,11 +29,24 @@ Encore
     //pages
     .addEntry('page_home', './assets/js/pages/home.js')
     .addEntry('page_login', './assets/js/pages/login.js')
-    .addEntry('page_register', './assets/js/pages/register.js')
     .addEntry('page_profile','./assets/js/pages/profile.js')
     .addEntry('page_profile_edit','./assets/js/pages/profile_edit.js')
+    .addEntry('page_register','./assets/js/pages/registration/register.js')
+    .addEntry('page_reset_password','./assets/js/pages/registration/reset_password.js')
 
-    .addEntry('page_new_story','./assets/js/pages/new_story.js')
+
+    .addEntry('page_author_stories','./assets/js/pages/author/stories.js')
+    .addEntry('page_author_show_story','./assets/js/pages/author/show_story.js')
+    .addEntry('page_author_edit_story','./assets/js/pages/author/edit_story.js')
+    .addEntry('page_author_new_story','./assets/js/pages/author/new_story.js')
+
+    .addEntry('page_edit_chapter','./assets/js/pages/chapters/edit_chapter.js')
+    .addEntry('page_list_chapter','./assets/js/pages/chapters/list_chapter.js')
+    .addEntry('page_new_chapter','./assets/js/pages/chapters/new_chapter.js')
+    .addEntry('page_read_chapter','./assets/js/pages/chapters/read_chapter.js')
+
+    .addEntry('page_story','./assets/js/pages/story/story.js')
+    .addEntry('page_show_story','./assets/js/pages/story/show_story.js')
 
     .addEntry('admin_user','./assets/js/admin/users.js')
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.

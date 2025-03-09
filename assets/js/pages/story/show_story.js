@@ -1,0 +1,1 @@
+import "../../../styles/pages/story/show_story.scss";

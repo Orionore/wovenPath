@@ -1,0 +1,39 @@
+@use "../../core/mixins" as *;
+@use "../../core/font" as *;
+@use "../../core/theme" as *;
+
+@use "../../components/cards" as card;
+@use "../../components/button" as btn;
+
+.content-container {
+
+  .story-header {
+    .genre-tags {
+      font-family: $main-font;
+      margin-bottom: 1em;
+    }
+
+    .story-img {
+      max-width: 350px;
+
+      img {
+        width: 100%;
+      }
+    }
+  }
+
+  .story-description {
+    margin: 1em;
+
+    @include for-tablet-portrait-up {
+      margin: 3em;
+      max-width: 600px;
+    }
+  }
+
+  @include for-phone-portrait-only {
+    .chapter-container {
+      text-align: center;
+    }
+  }
+}

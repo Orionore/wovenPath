@@ -6,6 +6,7 @@ use App\Enum\StoryEnum;
 use App\Repository\StoryRepository;
 use App\Util\Doctrine\CreatedAtTrait;
 use App\Util\Doctrine\UpdatedAtTrait;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
@@ -51,6 +52,15 @@ class Story
         mimeTypesMessage: 'Veuillez uploader une image valide (JPEG, PNG, WEBP)'
     )]
     private ?File $imageFile = null;
+
+    #[ORM\OneToMany(targetEntity: Chapter::class, mappedBy: 'story', orphanRemoval: true)]
+    #[ORM\OrderBy(['position' => 'ASC'])]
+    private $chapters;
+
+    public function __construct()
+    {
+        $this->chapters = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -143,6 +153,36 @@ class Story
 
         if ($imageFile) {
             $this->updatedNow();
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Chapter[]
+     */
+    public function getChapters()
+    {
+        return $this->chapters;
+    }
+
+    public function addChapter(Chapter $chapter): self
+    {
+        if (!$this->chapters->contains($chapter)) {
+            $this->chapters[] = $chapter;
+            $chapter->setStory($this);
+        }
+
+        return $this;
+    }
+
+    public function removeChapter(Chapter $chapter): self
+    {
+        if ($this->chapters->removeElement($chapter)) {
+            // set the owning side to null (unless already changed)
+            if ($chapter->getStory() === $this) {
+                $chapter->setStory(null);
+            }
         }
 
         return $this;

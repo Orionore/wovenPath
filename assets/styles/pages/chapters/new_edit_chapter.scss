@@ -1,0 +1,59 @@
+@use "../../core/theme" as *;
+
+.content-container {
+
+  form {
+    > div {
+      margin-bottom: 1em;
+    }
+
+    label {
+      margin-bottom: 0.5em;
+    }
+
+    .title {
+      font-family: $main-font;
+      margin: 10px 0;
+      font-size: 1.8rem;
+    }
+
+    input, textarea {
+      box-sizing: border-box;
+    }
+
+    textarea {
+      min-height: 400px;
+      height: fit-content;
+      resize: none;
+    }
+
+    .title-container, .content-container {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .title-container {
+      input {
+        border: none;
+        padding: 5px;
+        width: 100%;
+        max-width: 600px;
+        border-radius: $little-radius;
+        background-color: $background-dark-primary;
+        color: $text-dark-primary;
+      }
+    }
+
+    .content-container {
+      textarea {
+        border: none;
+        padding: 5px;
+        width: 100%;
+        max-width: 600px;
+        border-radius: $little-radius;
+        background-color: $background-dark-primary;
+        color: $text-dark-primary;
+      }
+    }
+  }
+}

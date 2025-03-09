@@ -11,7 +11,7 @@
       width: 35px;
 
       @include for-tablet-portrait-up {
-        width: 60px;
+        width: 55px;
       }
     }
 
@@ -24,7 +24,7 @@
       font-weight: bold;
 
       @include for-tablet-portrait-up {
-        font-size: 2rem;
+        font-size: 1.6rem;
         padding: 0 0 15px 5px;
       }
     }

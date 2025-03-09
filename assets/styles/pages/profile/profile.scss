@@ -1,20 +1,117 @@
 @use "../../core/mixins" as *;
 @use "../../core/font" as *;
 @use "../../core/theme" as *;
+
 @use "../../components/cards" as card;
-@use "../../components/button" as btn;
 
 .profile-container {
   @include card.card($background-primary, $radius);
-  padding: 20px;
+  padding: 40px;
   max-width: 400px;
-}
+  line-height: 3;
 
-.btn {
-  @include btn.btn-base();
+  .btn-author {
+    line-height: 1.5;
+  }
 }
 
 .stories-container {
-  padding: 20px;
 
+  h2 {
+    font-family: $main-font;
+    border-bottom: 1px solid $text;
+    padding-bottom: 1em;
+  }
+
+  @include for-tablet-portrait-up {
+    .buttons-container {
+      margin: 20px;
+
+      a {
+        margin: 0 20px;
+      }
+    }
+  }
+
+  .stories-list {
+    max-width: 750px;
+    margin: 0 auto;
+
+    .grid {
+
+      @include for-tablet-portrait-up {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 20px;
+        align-items: stretch;
+      }
+
+      .story-container {
+        @include card.card($background-primary-dark, $radius);
+        margin: 20px 0;
+        box-sizing: border-box;
+        display: grid;
+        grid-template-rows: auto 1fr auto;
+        min-height: 0;
+        padding: 20px;
+
+        @include for-tablet-portrait-up {
+          margin: 0;
+        }
+
+        .card-header {
+          font-family: $main-font;
+          font-weight: 300;
+          color: #bfbbc6;
+          font-size: 12px;
+          margin-bottom: 13px;
+
+          h3 {
+            font-size: 1.6rem;
+          }
+
+          h3, p {
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            margin: 0;
+          }
+        }
+
+        .card-body {
+          img {
+            width: 100%;
+            border-radius: $radius;
+          }
+        }
+
+        .card-footer {
+
+          .published, .not-published {
+            padding: 1px 15px;
+            border-radius: $radius;
+            margin-bottom: 1em;
+            display: block;
+            width: fit-content;
+          }
+
+          .published {
+            background-color: $background-success;
+            color: $text-success;
+          }
+
+          .not-published {
+            background-color: $background-warning;
+            color: $text-warning;
+          }
+
+           .button-container {
+             text-align: center;
+           }
+
+          padding-top: 15px;
+        }
+      }
+    }
+  }
 }

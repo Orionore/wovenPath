@@ -14,57 +14,61 @@
 
     <div class="container">
         <section class="welcome-container">
-            <div>
+            <h2>
                 <span>Bienvenue sur Woven Paths !</span>
                 <span>Vivez des histoires où vous ferez vos propres choix.</span>
                 <span>Créez des histoires de tous genres.</span>
-            </div>
+            </h2>
         </section>
 
-        <form class="search-container">
-            <select class="genre-select">
-                <option value="" selected>Chercher par genre</option>
-                <option value="fantasy">Fantasy</option>
-                <option value="scifi">Science Fiction</option>
-                <!-- autres genres... -->
-            </select>
-
-            <div class="input-with-icon">
-                <input
-                    type="text"
-                    placeholder="Chercher par nom, genre, auteurs ..."
-                    class="search-input"
-                />
-                <img src="{{ asset('build/images/pictos/search.svg') }}" alt="search">
-            </div>
-            <button type="submit" class="submit-button">Rechercher</button>
-        </form>
+        {{ form_start(form, {'attr': {'class': 'search-container'}}) }}
+        {{ form_widget(form.genre) }}
+        <div class="input-with-icon">
+            {{ form_widget(form.query) }}
+            <img src="{{ asset('build/images/pictos/search.svg') }}" alt="search">
+        </div>
+        {{ form_widget(form.submit, {'attr': {'class': 'btn-nav'}}) }}
+        {{ form_end(form) }}
 
         <section class="stories-container">
             {% if stories|length > 0 %}
-                <div class="row">
+                <div class="grid">
                     {% for story in stories %}
-                        <div class="col-md-4 mb-4">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h5 class="card-title">{{ story.title }}</h5>
-                                    <p class="card-text">{{ story.description }}</p>
-                                    <p class="card-text">
-                                        <small class="text-muted">
-                                            Genres:
-                                            {% for genre in story.genre %}
-                                                {{ genre.value }}{% if not loop.last %}, {% endif %}
-                                            {% endfor %}
-                                        </small>
-                                    </p>
-                                    <a href="{{ path('app_story_show', {'id': story.id}) }}" class="btn">Voir détails</a>
-                                </div>
+                        <div class="story-container">
+
+                            <div class="card-header">
+                                <h3 class="card-title">{{ story.title }}</h3>
+                                <p class="card-text">
+                                    <small class="text-muted">
+                                        {% for genre in story.genre %}
+                                            {{ genre.value }}{% if not loop.last %}, {% endif %}
+                                        {% endfor %}
+                                    </small>
+                                </p>
                             </div>
+
+                            <div class="card-body">
+                                {% if story.imageName %}
+                                    <img src="{{ asset('uploads/stories/' ~ story.imageName) }}" alt="{{ story.title }}" class="img-fluid">
+                                {% else %}
+                                    <img src="{{ asset('images/default/default.webp') }}" alt="{{ story.title }}" class="img-fluid">
+                                {% endif %}
+                            </div>
+
+                            <div class="card-footer">
+                                <a href="{{ path('app_story_show', {'id': story.id}) }}" class="btn-primary">Découvrir</a>
+                            </div>
+
                         </div>
                     {% endfor %}
                 </div>
+
+                {% include 'partials/nav_story_research.html.twig' %}
+
             {% else %}
-                <p>Aucune histoire trouvée.</p>
+                <div class="alert alert-info">
+                    Aucune histoire trouvée.
+                </div>
             {% endif %}
         </section>
     </div>

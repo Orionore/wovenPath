@@ -1,0 +1,88 @@
+{% extends 'layouts/main.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('page_list_chapter') }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('page_list_chapter') }}
+{% endblock %}
+
+{% block title %}Chapitres de {{ story.title }}{% endblock %}
+
+{% block main %}
+
+    <div class="container">
+
+        {% include 'partials/main_nav.html.twig' with {
+            'title': 'Chapitres de ' ~ story.title,
+            'return_path': path('app_author_stories_show', {'id': story.id}),
+            'return_text': 'Retour à l\'histoire',
+            'actions': [
+                {
+                    'path': path('app_author_chapter_new', {'id': story.id}),
+                    'text': 'Ajouter un chapitre'
+                }
+            ]
+        } %}
+
+        {% include 'includes/flash_messages.html.twig' %}
+
+        <div class="content-container">
+            {% if chapters|length > 0 %}
+                    {% for chapter in chapters %}
+                        <div class="chapter-container">
+                            <div class="title-container">
+                                <a href="{{ path('app_chapter_read', {'id': chapter.id}) }}" class="text-decoration-none">
+                                    <h2>{{ chapter.position }}. {{ chapter.title }}</h2>
+                                </a>
+                                <small>Créé le {{ chapter.createdAt|date('d/m/Y H:i') }}</small>
+                            </div>
+
+                            {% if app.user and app.user.id == story.userId %}
+                                <div class="btn-container">
+                                    <form method="post" action="{{ path('app_author_chapter_move', {'id': chapter.id, 'direction': 'up'}) }}" class="d-inline">
+                                        <button
+                                            class="btn-primary {% if chapter.position == 1 %}btn-disabled{% endif %}"
+                                            {% if chapter.position == 1 %}disabled{% endif %}
+                                        >
+                                            Monter la position du chapitre
+                                        </button>
+                                    </form>
+
+                                    <form method="post" action="{{ path('app_author_chapter_move', {'id': chapter.id, 'direction': 'down'}) }}" class="d-inline">
+                                        <button
+                                            class="btn-primary {% if loop.last %}btn-disabled{% endif %}"
+                                            {% if loop.last %}disabled{% endif %}
+                                        >
+                                            Descendre la position du chapitre
+                                        </button>
+                                    </form>
+
+                                    <a href="{{ path('app_author_chapter_edit', {'id': chapter.id}) }}" class="btn-primary">
+                                        Éditer le chapitre
+                                    </a>
+
+                                    <form method="post" action="{{ path('app_author_chapter_delete', {'id': chapter.id}) }}">
+                                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ chapter.id) }}">
+                                        <button type="submit" class="btn btn-danger">Supprimer</button>
+                                    </form>
+                                </div>
+
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+
+            {% else %}
+                <div class="alert alert-info">
+                    Cette histoire n'a pas encore de chapitres.
+                    {% if app.user and app.user.id == story.userId %}
+                        <a href="{{ path('app_author_chapter_new', {'id': story.id}) }}">Cliquez ici pour ajouter le premier chapitre</a>.
+                    {% endif %}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

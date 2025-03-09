@@ -14,25 +14,23 @@
 
 {% block main %}
     <section class="container">
-        <div class="card">
             <h1>Modifier votre profil</h1>
 
             {{ form_start(form, {'attr': {'class': 'profile-edit-form'}}) }}
-            <div class="row">
-                <div class="col-md-6">
+            <div class="username-container">
                     {{ form_row(form.username) }}
-                </div>
             </div>
 
             <div class="form-group">
-                <a href="{{ path('app_profile') }}" class="btn">Annuler</a>
-                <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
+                <a href="{{ path('app_profile') }}" class="btn-primary">Annuler</a>
+                <button type="submit" class="btn-primary">Enregistrer les modifications</button>
             </div>
             {{ form_end(form) }}
             
             <div class="edit-password-container">
-                <a href="{{ path('app_forgot_password_request') }}" class="btn">Modifier le mot de passe</a>
+                <p>Mot de passe oublié ?</p>
+                <a href="{{ path('app_forgot_password_request') }}" >Modifier le mot de passe</a>
             </div>
-        </div>
+
     </section>
 {% endblock %}

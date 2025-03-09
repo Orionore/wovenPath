@@ -1,0 +1,7 @@
+"Invalid credentials.": "Identifiants invalides."
+"Invalid CSRF token.": "Jeton CSRF invalide."
+"Username could not be found.": "Cet utilisateur n'existe pas."
+"The presented password is invalid.": "Le mot de passe est incorrect."
+"Account is locked.": "Votre compte est verrouillé."
+"Account is disabled.": "Votre compte est désactivé."
+"Too many failed login attempts, please try again later.": "Trop de tentatives de connexion échouées, veuillez réessayer plus tard."

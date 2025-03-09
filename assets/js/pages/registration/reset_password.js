@@ -1,0 +1,1 @@
+import "../../../styles/pages/registration/reset_password.scss";
