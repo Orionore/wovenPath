@@ -13,6 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\Validator\Constraints\Length;
 
 class StoryType extends AbstractType
 {
@@ -23,6 +24,12 @@ class StoryType extends AbstractType
                 'label' => 'Titre',
                 'attr' => [
                     'placeholder' => 'Titre de votre histoire'
+                ],
+                'constraints' => [
+                    new Length([
+                        'max' => 30,
+                        'maxMessage' => 'Le titre ne peut pas dépasser {{ limit }} caractères'
+                    ])
                 ]
             ])
             ->add('description', TextareaType::class, [
@@ -30,6 +37,12 @@ class StoryType extends AbstractType
                 'attr' => [
                     'placeholder' => 'Description de votre histoire',
                     'rows' => 5
+                ],
+                'constraints' => [
+                    new Length([
+                        'max' => 250,
+                        'maxMessage' => 'La description ne peut pas dépasser {{ limit }} caractères'
+                    ])
                 ]
             ])
             ->add('status', CheckboxType::class, [

@@ -32,47 +32,62 @@
 
         {% if stories|length > 0 %}
             <div class="stories-container content-container">
-                {% for story in stories %}
-                    <div class="story-container">
-                        <div class="img-container">
-                            {% if story.imageName %}
-                                <img src="{{ asset('uploads/stories/' ~ story.imageName) }}" alt="{{ story.title }}">
-                            {% else %}
-                                <img src="{{ asset('images/default/default.webp') }}" alt="{{ story.title }}">
-                            {% endif %}
-                        </div>
-                        
-                        <div class="story-information-container">
-                            <div class="story-title-container">
+                    <div class="grid">
+                        {% for story in stories %}
+                        <div class="story-container">
+
+                            <div class="card-header">
                                 <h2 class="story-title">{{ story.title }}</h2>
-                                <span class="story-status {{ story.status ? 'publish' : 'unpublish' }}">
+
+                                <p>
+                                    Genre :
+                                    {% for genre in story.genre %}
+                                        {{ genre.value }}
+                                    {% endfor %}
+                                </p>
+
+                            </div>
+
+                            <div class="card-body">
+                                <div class="img-container">
+                                    {% if story.imageName %}
+                                        <img src="{{ asset('uploads/stories/' ~ story.imageName) }}" alt="{{ story.title }}">
+                                    {% else %}
+                                        <img src="{{ asset('images/default/default.webp') }}" alt="{{ story.title }}">
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            <div class="card-footer">
+
+                                <span class="statu {{ story.status ? 'published' : 'not-published' }}">
                                     {{ story.status ? 'Publié' : 'Brouillon' }}
                                 </span>
-                            </div>
-                            <p class="story-description">{{ story.description }}</p>
+                                <p class="description">{{ story.description }}</p>
 
-                            <div class="story-genre-container">
-                                {% for genre in story.genre %}
-                                    <span class="inline-block bg-gray-100 rounded-full px-3 py-1 text-xs font-semibold text-gray-700 mr-2 mb-2">
-                                    </span>
-                                {% endfor %}
+                                <div class="story-information-container">
+
+                                    <div class="story-btn-container">
+                                        <a href="{{ path('app_author_stories_show', {'id': story.id}) }}" class="btn-primary">
+                                            Voir l'histoire
+                                        </a>
+                                        <a href="{{ path('app_author_stories_edit', {'id': story.id}) }}" class="btn-primary">
+                                            Modifier
+                                        </a>
+                                        <form method="post" action="{{ path('app_author_stories_delete', {'id': story.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette histoire ?');">
+                                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ story.id) }}">
+                                            <button class="btn-danger">Supprimer</button>
+                                        </form>
+                                    </div>
+
+                                </div>
+
                             </div>
 
-                            <div class="story-btn-container">
-                                <a href="{{ path('app_author_stories_show', {'id': story.id}) }}" class="btn">
-                                    Voir
-                                </a>
-                                <a href="{{ path('app_author_stories_edit', {'id': story.id}) }}" class="btn">
-                                    Modifier
-                                </a>
-                                <form method="post" action="{{ path('app_author_stories_delete', {'id': story.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette histoire ?');">
-                                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ story.id) }}">
-                                    <button class="btn-danger">Supprimer</button>
-                                </form>
-                            </div>
                         </div>
+                        {% endfor %}
                     </div>
-                {% endfor %}
+
             </div>
         {% else %}
             <div class="bg-gray-100 p-8 rounded-lg text-center">

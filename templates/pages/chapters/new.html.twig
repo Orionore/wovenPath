@@ -24,24 +24,20 @@
     {% include 'includes/flash_messages.html.twig' %}
 
         <div class="content-container">
-            <div class="col-md-10 mx-auto">
-                <div class="card">
-                    <div class="card-body">
-                        {{ form_start(form) }}
-                        <div class="mb-3">
-                            {{ form_label(form.title) }}
-                            {{ form_widget(form.title, {'attr': {'class': 'form-control'}}) }}
-                            {{ form_errors(form.title) }}
-                        </div>
-                        <div class="mb-3">
-                            {{ form_label(form.content) }}
-                            {{ form_widget(form.content, {'attr': {'class': 'form-control'}}) }}
-                            {{ form_errors(form.content) }}
-                        </div>
-                        <button type="submit" class="btn btn-primary">Enregistrer</button>
-                        {{ form_end(form) }}
-                    </div>
+            <div class="form-container">
+                {{ form_start(form) }}
+                <div class="title-container">
+                    {{ form_label(form.title, null, {'label_attr': {'class': 'title'}}) }}
+                    {{ form_widget(form.title, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.title) }}
                 </div>
+                <div class="content-container">
+                    {{ form_label(form.content, null, {'label_attr': {'class': 'title'}}) }}
+                    {{ form_widget(form.content, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.content) }}
+                </div>
+                <button type="submit" class="btn btn-primary">Enregistrer</button>
+                {{ form_end(form) }}
             </div>
         </div>
 

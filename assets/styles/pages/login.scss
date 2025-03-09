@@ -1,0 +1,17 @@
+@use "../partials/form_error";
+@use "../core/theme" as *;
+
+.card {
+
+  .title {
+    font-size: 1.6rem;
+    font-weight: bold;
+    color: $primary;
+    margin-bottom: 10px;
+    display: block;
+  }
+
+  .center {
+    text-align: center;
+  }
+}

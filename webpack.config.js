@@ -29,9 +29,11 @@ Encore
     //pages
     .addEntry('page_home', './assets/js/pages/home.js')
     .addEntry('page_login', './assets/js/pages/login.js')
-    .addEntry('page_register', './assets/js/pages/register.js')
     .addEntry('page_profile','./assets/js/pages/profile.js')
     .addEntry('page_profile_edit','./assets/js/pages/profile_edit.js')
+    .addEntry('page_register','./assets/js/pages/registration/register.js')
+    .addEntry('page_reset_password','./assets/js/pages/registration/reset_password.js')
+
 
     .addEntry('page_author_stories','./assets/js/pages/author/stories.js')
     .addEntry('page_author_show_story','./assets/js/pages/author/show_story.js')

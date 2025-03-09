@@ -3,7 +3,64 @@
 @use "../../core/theme" as *;
 
 .container {
+
+  .content-container {
+    .img-container {
+      img {
+        border-radius: $radius;
+      }
+    }
+  }
+
+  h2, h3 {
+    font-family: $main-font;
+    margin: 20px 0;
+  }
+
+  .story-information-container {
+
+    .story-title-container {
+
+      .published, .not-published {
+        padding: 1px 15px;
+        border-radius: $radius;
+        margin-bottom: 1em;
+        display: block;
+        width: fit-content;
+      }
+
+      .published {
+        background-color: $background-success;
+        color: $text-success;
+      }
+
+      .not-published {
+        background-color: $background-warning;
+        color: $text-warning;
+      }
+    }
+
+    .genre-container {
+      margin: 10px 0;
+
+      .span {
+        display: block;
+      }
+    }
+
+    .description-container {
+      max-width: 600px;
+      margin: 10px 0;
+    }
+  }
+
   .story-activity-container {
+    border: 1px solid $text;
+    border-radius: $radius;
+    padding: 1em;
+    width: fit-content;
+    margin: 20px;
+
     .picto-container {
       width: 20px;
       margin-right: 10px;

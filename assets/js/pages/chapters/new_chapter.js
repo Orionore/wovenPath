@@ -1,1 +1,1 @@
-import "../../../styles/pages/chapters/new_chapter.scss";
+import "../../../styles/pages/chapters/new_edit_chapter.scss";

@@ -1,0 +1,167 @@
+@use "../core/theme" as *;
+@use "./form_error" as *;
+
+.form-story-container {
+  margin-top: 2em;
+  max-width: 600px;
+
+  form {
+    > div {
+      margin-bottom: 1em;
+    }
+
+    label {
+      margin-bottom: 0.5em;
+    }
+
+    .title {
+      font-family: $main-font;
+      margin: 10px 0;
+      font-size: 1.8rem;
+    }
+
+    input, textarea {
+      box-sizing: border-box;
+    }
+
+    textarea {
+      min-height: 100px;
+      height: fit-content;
+      resize: none;
+    }
+
+    .form-title-container {
+      input {
+        border: none;
+        padding: 5px;
+        width: 100%;
+        border-radius: $little-radius;
+        background-color: $background-dark-primary;
+        color: $text-dark-primary;
+      }
+    }
+
+    .form-description-container {
+      textarea {
+        border: none;
+        padding: 5px;
+        width: 100%;
+        border-radius: $little-radius;
+        background-color: $background-dark-primary;
+        color: $text-dark-primary;
+      }
+    }
+
+    select[multiple][name$="[genre][]"] {
+      height: 200px;
+      width: 100%;
+      padding: 0.5rem;
+      border-radius: $little-radius;
+      border: none;
+      background-color: $background-dark-primary;
+      color: $text-dark-primary;
+
+      option {
+        padding: 0.5rem;
+        border-radius: $little-radius;
+        margin: 5px;
+
+        &:checked {
+          background-color: $background-primary-light;
+          color: $text-primary-light;
+        }
+
+        &:hover {
+          background-color: $background-primary;
+        }
+      }
+
+      // scrollbar - Webkit (Chrome, Safari, newer Edge)
+      &::-webkit-scrollbar {
+        width: 10px;
+      }
+
+      &::-webkit-scrollbar-track {
+        background: #1a0933;
+        border-radius: 4px;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background: #9747FF;
+        border-radius: 4px;
+      }
+
+      &::-webkit-scrollbar-thumb:hover {
+        background: #b57aff;
+      }
+
+      // Firefox
+      scrollbar-width: thin;
+      scrollbar-color: #9747FF #1a0933;
+    }
+
+    .story-image-preview {
+      .custom-file-upload {
+        position: relative;
+        display: flex;
+        align-items: center;
+        width: 100%;
+      }
+
+      .file-input {
+        position: absolute;
+        width: 0.1px;
+        height: 0.1px;
+        opacity: 0;
+        overflow: hidden;
+        z-index: -1;
+      }
+
+      .file-label {
+        display: flex;
+        align-items: center;
+        width: fit-content;
+        cursor: pointer;
+      }
+
+      .button {
+        display: inline-block;
+        padding: 0.5rem 1rem;
+        background-color: $background-primary;
+        color: $text-primary;
+        border-radius: 0.375rem;
+        font-size: 1.4rem;
+        font-weight: 500;
+        white-space: nowrap;
+      }
+
+      .button:active {
+        background-color: #3730a3;
+      }
+
+      .file-name {
+        margin-left: 0.75rem;
+        color: #6b7280;
+        font-size: 0.875rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .file-input:focus + .file-label .button {
+        outline: 2px solid #4f46e5;
+        outline-offset: 2px;
+      }
+
+      [data-story-image-preview-target="preview"] {
+        margin-top: 0.75rem;
+      }
+
+      [data-story-image-preview-target="image"] {
+        border-radius: 0.375rem;
+        max-height: 12rem;
+        object-fit: contain;
+      }
+    }
+  }
+}

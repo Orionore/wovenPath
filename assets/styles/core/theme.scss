@@ -25,6 +25,9 @@ $dark-grey:                             #505050;
 $background-primary:                    $primary;
 $text-primary:                          $text;
 
+$background-primary-light:              $primary-light;
+$text-primary-light:                    $dark;
+
 $background-secondary:                  $secondary;
 $text-secondary:                        $dark;
 
@@ -48,6 +51,9 @@ $text-warning:                          $text;
 
 $background-warning-light:              $warning-light;
 $text-warning-light:                    $warning;
+
+$background-disable:                    $disable;
+$text-disable:                          $dark-grey;
 
 $background-dark:                       #15161A;
 $text-dark:                             $light;

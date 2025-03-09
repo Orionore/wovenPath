@@ -1,1 +1,1 @@
-import "../../../styles/pages/author/edit_story.scss";
+import "../../../styles/pages/author/new_edit_story.scss";

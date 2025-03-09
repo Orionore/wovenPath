@@ -51,7 +51,6 @@ class AuthorChapterController extends AbstractController
         $chapter = new Chapter();
         $chapter->setStory($story);
 
-        // Set position to be after the last chapter
         $position = $chapterRepository->getMaxPosition($story) + 1;
         $chapter->setPosition($position);
 

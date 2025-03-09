@@ -5,6 +5,7 @@
 
 @use "../components/button" as btn;
 @use "../components/cards" as card;
+@use "../partials/form_error";
 
 
 .box {
@@ -19,13 +20,6 @@
       margin: 15% auto;
     }
 
-    .title {
-      font-size: 1.6rem;
-      font-weight: bold;
-      color: $primary;
-      margin-bottom: 10px;
-      display: block;
-    }
 
     .error-list {
       padding-left: 0;

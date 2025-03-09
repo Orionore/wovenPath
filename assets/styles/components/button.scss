@@ -48,3 +48,15 @@
   background-color: $background-dark;
   color: $text-dark;
 }
+
+.btn-disabled {
+  @include btn-base;
+  background-color: $background-disable;
+  color: $text-disable;
+  cursor: default;
+
+  &:hover {
+    background-color: $background-disable;
+    color: $text-disable;
+  }
+}

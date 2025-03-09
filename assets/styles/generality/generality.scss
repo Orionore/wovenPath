@@ -101,6 +101,10 @@ a {
 }
 
 h1 {
-  font-family: "Inknut Antiqua", serif;
+  font-family: $main-font, serif;
   font-size: 1.8rem;
+}
+
+h2 {
+  font-family: $main-font, serif;
 }
