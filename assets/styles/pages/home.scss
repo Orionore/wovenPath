@@ -3,6 +3,7 @@
 @use "../core/theme" as *;
 
 @use "../partials/stories_grid.scss";
+@use "../partials/nav_story_research.scss";
 
 @use "../components/cards" as card;
 
@@ -89,6 +90,7 @@
         color: $text-dark;
         box-sizing: border-box;
       }
+
       img {
         position: absolute;
         right: 17px;
@@ -103,6 +105,4 @@
       color: $text-dark;
     }
   }
-
-
 }

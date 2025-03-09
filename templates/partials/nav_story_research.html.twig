@@ -1,0 +1,60 @@
+{% if totalPages > 1 %}
+    <nav aria-label="Navigation des pages" class="navigation-container">
+        <ul class="pagination justify-content-center">
+
+            {% if currentPage > 1 %}
+                <li class="page-item btn-primary">
+                    <a class="page-link" href="{{ path('app_home', {'page': currentPage - 1}|merge(app.request.query.all|filter((v, k) => k != 'page'))) }}">Précédent</a>
+                </li>
+            {% else %}
+                <li class="page-item btn-disabled">
+                    <span class="page-link">Précédent</span>
+                </li>
+            {% endif %}
+
+            {% if totalPages <= 5 %}
+                {% for i in 1..totalPages %}
+                    <li class="page-item btn-primary {{ i == currentPage ? 'active' : '' }}">
+                        <a class="page-link" href="{{ path('app_home', {'page': i}|merge(app.request.query.all|filter((v, k) => k != 'page'))) }}">{{ i }}</a>
+                    </li>
+                {% endfor %}
+            {% else %}
+                <li class="page-item btn-primary {{ 1 == currentPage ? 'active' : '' }}">
+                    <a class="page-link" href="{{ path('app_home', {'page': 1}|merge(app.request.query.all|filter((v, k) => k != 'page'))) }}">1</a>
+                </li>
+
+                {% if currentPage > 3 %}
+                    <li class="page-item disabled">
+                        <span class="page-link">...</span>
+                    </li>
+                {% endif %}
+
+                {% for i in max(2, currentPage - 1)..min(totalPages - 1, currentPage + 1) %}
+                    <li class="page-item btn-primary {{ i == currentPage ? 'active' : '' }}">
+                        <a class="page-link" href="{{ path('app_home', {'page': i}|merge(app.request.query.all|filter((v, k) => k != 'page'))) }}">{{ i }}</a>
+                    </li>
+                {% endfor %}
+
+                {% if currentPage < totalPages - 2 %}
+                    <li class="page-item disabled">
+                        <span class="page-link">...</span>
+                    </li>
+                {% endif %}
+
+                <li class="page-item btn-primary {{ totalPages == currentPage ? 'active' : '' }}">
+                    <a class="page-link" href="{{ path('app_home', {'page': totalPages}|merge(app.request.query.all|filter((v, k) => k != 'page'))) }}">{{ totalPages }}</a>
+                </li>
+            {% endif %}
+
+            {% if currentPage < totalPages %}
+                <li class="page-item btn-primary">
+                    <a class="page-link" href="{{ path('app_home', {'page': currentPage + 1}|merge(app.request.query.all|filter((v, k) => k != 'page'))) }}">Suivant</a>
+                </li>
+            {% else %}
+                <li class="page-item btn-disabled">
+                    <span class="page-link">Suivant</span>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+{% endif %}

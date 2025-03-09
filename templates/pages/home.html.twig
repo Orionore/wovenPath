@@ -63,38 +63,8 @@
                     {% endfor %}
                 </div>
 
-                {# Navigation de pagination #}
-                {% if totalPages > 1 %}
-                    <nav aria-label="Navigation des pages" class="mt-4">
-                        <ul class="pagination justify-content-center">
-                            {% if currentPage > 1 %}
-                                <li class="page-item">
-                                    <a class="page-link" href="{{ path('app_home', {'page': currentPage - 1}|merge(app.request.query.all|filter((v, k) => k != 'page'))) }}">Précédent</a>
-                                </li>
-                            {% else %}
-                                <li class="page-item disabled">
-                                    <span class="page-link">Précédent</span>
-                                </li>
-                            {% endif %}
+                {% include 'partials/nav_story_research.html.twig' %}
 
-                            {% for i in 1..totalPages %}
-                                <li class="page-item {{ i == currentPage ? 'active' : '' }}">
-                                    <a class="page-link" href="{{ path('app_home', {'page': i}|merge(app.request.query.all|filter((v, k) => k != 'page'))) }}">{{ i }}</a>
-                                </li>
-                            {% endfor %}
-
-                            {% if currentPage < totalPages %}
-                                <li class="page-item">
-                                    <a class="page-link" href="{{ path('app_home', {'page': currentPage + 1}|merge(app.request.query.all|filter((v, k) => k != 'page'))) }}">Suivant</a>
-                                </li>
-                            {% else %}
-                                <li class="page-item disabled">
-                                    <span class="page-link">Suivant</span>
-                                </li>
-                            {% endif %}
-                        </ul>
-                    </nav>
-                {% endif %}
             {% else %}
                 <div class="alert alert-info">
                     Aucune histoire trouvée.

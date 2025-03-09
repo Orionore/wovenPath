@@ -42,7 +42,7 @@
                     <p>{{ story.description }}</p>
                 </div>
             </div>
-            <div class="story-content mt-4">
+            <div class="chapter-container">
                 {% if hasChapters %}
                     <a href="{{ path('app_story_read', {'storyId': story.id}) }}" class="btn btn-secondary">Commencer l'histoire</a>
                 {% else %}
@@ -52,7 +52,7 @@
                 {% endif %}
             </div>
 
-            <div class="actions mt-4">
+            <div class="button-container">
 
                 {% if app.user and app.user.id == story.userId %}
                     <a href="{{ path('app_author_stories_edit', {'id': story.id}) }}" class="btn-author">Modifier cette histoire</a>

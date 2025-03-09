@@ -30,4 +30,10 @@
       max-width: 600px;
     }
   }
+
+  @include for-phone-portrait-only {
+    .chapter-container {
+      text-align: center;
+    }
+  }
 }
