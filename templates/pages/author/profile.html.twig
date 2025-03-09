@@ -28,10 +28,10 @@
 
             <div class="flex justify-between items-center mb-4">
                 <h2 class="text-xl font-bold">Mes histoires</h2>
-                <a href="{{ path('app_profile_stories_index') }}" class="btn">
+                <a href="{{ path('app_author_stories_index') }}" class="btn">
                     Voir toutes mes histoires
                 </a>
-                <a href="{{ path('app_profile_stories_new') }}" class="btn">
+                <a href="{{ path('app_author_stories_new') }}" class="btn">
                     Créer une nouvelle histoire
                 </a>
             </div>
@@ -55,7 +55,7 @@
                                 </span>
                                 </div>
                                 <p class="description">{{ story.description }}</p>
-                                <a href="{{ path('app_profile_stories_show', {'id': story.id}) }}" class="btn">
+                                <a href="{{ path('app_author_stories_show', {'id': story.id}) }}" class="btn">
                                     Voir plus
                                 </a>
                             </div>
@@ -65,7 +65,7 @@
             {% else %}
                 <div class="">
                     <p class="">Vous n'avez pas encore créé d'histoires.</p>
-                    <a href="{{ path('app_profile_stories_new') }}" class="btn">
+                    <a href="{{ path('app_author_stories_new') }}" class="btn">
                         Créer ma première histoire
                     </a>
                 </div>

@@ -16,22 +16,31 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[Route('/profile/stories')]
+/**
+ * Controller for managing stories by their authors
+ */
+#[Route('/author/stories')]
 #[IsGranted('ROLE_USER')]
-class StoryController extends AbstractController
+class AuthorStoryController extends AbstractController
 {
-    #[Route('/', name: 'app_profile_stories_index', methods: ['GET'])]
+    /**
+     * List all stories created by the authenticated user
+     */
+    #[Route('/', name: 'app_author_stories_index', methods: ['GET'])]
     public function index(StoryRepository $storyRepository): Response
     {
         $user = $this->getUser();
-        $stories = $storyRepository->findBy(['user_id' => $user->getId()]);
+        $stories = $storyRepository->findAllByUser($user->getId());
 
-        return $this->render('pages/profile/stories/index.html.twig', [
+        return $this->render('pages/author/stories/index.html.twig', [
             'stories' => $stories,
         ]);
     }
 
-    #[Route('/new', name: 'app_profile_stories_new', methods: ['GET', 'POST'])]
+    /**
+     * Create a new story
+     */
+    #[Route('/new', name: 'app_author_stories_new', methods: ['GET', 'POST'])]
     public function new(
         Request $request,
         EntityManagerInterface $entityManager,
@@ -40,7 +49,7 @@ class StoryController extends AbstractController
     {
         $story = new Story();
         $story->setUserId($this->getUser()->getId());
-        $story->setStatus(false);
+        $story->setStatus(false); // Default to draft mode
 
         $form = $this->createForm(StoryType::class, $story);
         $form->handleRequest($request);
@@ -55,7 +64,7 @@ class StoryController extends AbstractController
                 } catch (Exception $e) {
                     $this->addFlash('error', 'Une erreur est survenue lors du traitement de l\'image : ' . $e->getMessage());
 
-                    return $this->render('pages/profile/stories/new.html.twig', [
+                    return $this->render('pages/author/stories/new.html.twig', [
                         'story' => $story,
                         'form' => $form,
                     ]);
@@ -67,50 +76,40 @@ class StoryController extends AbstractController
 
             $this->addFlash('success', 'Votre histoire a été créée avec succès.');
 
-            return $this->redirectToRoute('app_profile_stories_index');
+            return $this->redirectToRoute('app_author_stories_index');
         }
 
-        return $this->render('pages/profile/stories/new.html.twig', [
+        return $this->render('pages/author/stories/new.html.twig', [
             'story' => $story,
             'form' => $form,
         ]);
     }
 
-    #[Route('/story/{id}', name: 'app_story_show', methods: ['GET'])]
-    public function showStory(Story $story, ChapterRepository $chapterRepository): Response
-    {
-        if (!$story->isStatus() && $story->getUserId() !== $this->getUser()?->getId()) {
-            throw $this->createAccessDeniedException('Vous n\'avez pas les permissions pour voir cette histoire');
-        }
-
-        $chapters = $chapterRepository->findByStory($story);
-        $hasChapters = count($chapters) > 0;
-
-        return $this->render('pages/profile/stories/show.html.twig', [
-            'story' => $story,
-            'chapters' => $chapters,
-            'hasChapters' => $hasChapters,
-        ]);
-    }
-
-    #[Route('/{id}', name: 'app_profile_stories_show', methods: ['GET'])]
+    /**
+     * Show detailed view of a story with management options
+     */
+    #[Route('/{id}', name: 'app_author_stories_show', methods: ['GET'])]
     public function show(Story $story, ChapterRepository $chapterRepository): Response
     {
-        if (!$story->isStatus() && $story->getUserId() !== $this->getUser()?->getId()) {
-            throw $this->createAccessDeniedException('Vous n\'avez pas les permissions pour voir cette histoire');
+        // Ensure user is the author of the story
+        if ($story->getUserId() !== $this->getUser()->getId()) {
+            throw $this->createAccessDeniedException('Vous n\'avez pas les permissions pour gérer cette histoire');
         }
 
         $chapters = $chapterRepository->findByStory($story);
         $hasChapters = count($chapters) > 0;
 
-        return $this->render('pages/profile/stories/show.html.twig', [
+        return $this->render('pages/author/stories/show.html.twig', [
             'story' => $story,
             'chapters' => $chapters,
             'hasChapters' => $hasChapters,
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_profile_stories_edit', methods: ['GET', 'POST'])]
+    /**
+     * Edit an existing story
+     */
+    #[Route('/{id}/edit', name: 'app_author_stories_edit', methods: ['GET', 'POST'])]
     public function edit(
         Request $request,
         Story $story,
@@ -118,7 +117,10 @@ class StoryController extends AbstractController
         MediaService $mediaService
     ): Response
     {
-        $this->denyAccessUnlessGranted('edit', $story);
+        // Ensure user is the author of the story
+        if ($story->getUserId() !== $this->getUser()->getId()) {
+            throw $this->createAccessDeniedException('Vous n\'avez pas les permissions pour modifier cette histoire');
+        }
 
         $form = $this->createForm(StoryType::class, $story);
         $form->handleRequest($request);
@@ -128,18 +130,18 @@ class StoryController extends AbstractController
 
             if ($imageFile) {
                 try {
-                    // Suppression de l'ancienne image si elle existe
+                    // Delete the old image if it exists
                     if ($story->getImageName()) {
                         $mediaService->deleteImage($story->getImageName());
                     }
 
-                    // Traitement et enregistrement de la nouvelle image
+                    // Process and save the new image
                     $imageName = $mediaService->processAndSaveImage($imageFile);
                     $story->setImageName($imageName);
                 } catch (Exception $e) {
                     $this->addFlash('error', 'Une erreur est survenue lors du traitement de l\'image : ' . $e->getMessage());
 
-                    return $this->render('pages/profile/stories/edit.html.twig', [
+                    return $this->render('pages/author/stories/edit.html.twig', [
                         'story' => $story,
                         'form' => $form,
                     ]);
@@ -150,16 +152,19 @@ class StoryController extends AbstractController
 
             $this->addFlash('success', 'Votre histoire a été mise à jour avec succès.');
 
-            return $this->redirectToRoute('app_profile_stories_index');
+            return $this->redirectToRoute('app_author_stories_index');
         }
 
-        return $this->render('pages/profile/stories/edit.html.twig', [
+        return $this->render('pages/author/stories/edit.html.twig', [
             'story' => $story,
             'form' => $form,
         ]);
     }
 
-    #[Route('/{id}', name: 'app_profile_stories_delete', methods: ['POST'])]
+    /**
+     * Delete a story (soft delete)
+     */
+    #[Route('/{id}/delete', name: 'app_author_stories_delete', methods: ['POST'])]
     public function delete(
         Request $request,
         Story $story,
@@ -167,30 +172,39 @@ class StoryController extends AbstractController
         MediaService $mediaService
     ): Response
     {
-        $this->denyAccessUnlessGranted('delete', $story);
+        // Ensure user is the author of the story
+        if ($story->getUserId() !== $this->getUser()->getId()) {
+            throw $this->createAccessDeniedException('Vous n\'avez pas les permissions pour supprimer cette histoire');
+        }
 
         if ($this->isCsrfTokenValid('delete'.$story->getId(), $request->request->get('_token'))) {
             if ($story->getImageName()) {
                 $mediaService->deleteImage($story->getImageName());
             }
 
+            // Soft delete by setting deletedAt field
             $story->setDeletedAt(new DateTime());
             $entityManager->flush();
 
             $this->addFlash('success', 'Histoire supprimée avec succès.');
         }
 
-        return $this->redirectToRoute('app_profile_stories_index');
+        return $this->redirectToRoute('app_author_stories_index');
     }
 
-    #[Route('/{id}/publish', name: 'app_profile_stories_publish', methods: ['POST'])]
+    /**
+     * Publish a story (make it visible to everyone)
+     */
+    #[Route('/{id}/publish', name: 'app_author_stories_publish', methods: ['POST'])]
     public function publish(
         Request $request,
         Story $story,
         EntityManagerInterface $entityManager
     ): Response
     {
-        $this->denyAccessUnlessGranted('edit', $story);
+        if ($story->getUserId() !== $this->getUser()->getId()) {
+            throw $this->createAccessDeniedException('Vous n\'avez pas les permissions pour publier cette histoire');
+        }
 
         if ($this->isCsrfTokenValid('publish'.$story->getId(), $request->request->get('_token'))) {
             $story->setStatus(true);
@@ -199,17 +213,22 @@ class StoryController extends AbstractController
             $this->addFlash('success', 'Votre histoire a été publiée avec succès.');
         }
 
-        return $this->redirectToRoute('app_profile_stories_show', ['id' => $story->getId()]);
+        return $this->redirectToRoute('app_author_stories_show', ['id' => $story->getId()]);
     }
 
-    #[Route('/{id}/unpublish', name: 'app_profile_stories_unpublish', methods: ['POST'])]
+    /**
+     * Unpublish a story (make it private/draft)
+     */
+    #[Route('/{id}/unpublish', name: 'app_author_stories_unpublish', methods: ['POST'])]
     public function unpublish(
         Request $request,
         Story $story,
         EntityManagerInterface $entityManager
     ): Response
     {
-        $this->denyAccessUnlessGranted('edit', $story);
+        if ($story->getUserId() !== $this->getUser()->getId()) {
+            throw $this->createAccessDeniedException('Vous n\'avez pas les permissions pour dépublier cette histoire');
+        }
 
         if ($this->isCsrfTokenValid('unpublish'.$story->getId(), $request->request->get('_token'))) {
             $story->setStatus(false);
@@ -218,6 +237,6 @@ class StoryController extends AbstractController
             $this->addFlash('success', 'Votre histoire a été retirée de la publication.');
         }
 
-        return $this->redirectToRoute('app_profile_stories_show', ['id' => $story->getId()]);
+        return $this->redirectToRoute('app_author_stories_show', ['id' => $story->getId()]);
     }
 }

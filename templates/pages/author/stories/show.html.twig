@@ -15,17 +15,17 @@
 {% block main %}
     <div class="container">
 
-        {% include 'partials/main-nav.html.twig' with {
+        {% include 'partials/main_nav.html.twig' with {
             'title': story.title,
-            'return_path': path('app_profile_stories_index'),
+            'return_path': path('app_author_stories_index'),
             'return_text': 'Retour à la liste',
             'actions': [
             {
-                'path': path('app_profile_stories_edit', {'id': story.id}),
+                'path': path('app_author_stories_edit', {'id': story.id}),
                 'text': 'Modifier l\'histoire'
             },
                 {
-                    'path': path('app_story_chapters', {'id': story.id}),
+                    'path': path('app_author_story_chapters', {'id': story.id}),
                     'text': 'Gérer les chapitres'
                 }
             ]
@@ -33,8 +33,8 @@
 
         {% include 'includes/flash_messages.html.twig' %}
 
-        <div class="bg-white rounded-lg shadow-lg overflow-hidden">
-            <div class="md:flex">
+        <div class="content-container">
+            <div class="flex">
                 <div class="md:flex-shrink-0 md:w-1/3">
                     {% if story.imageName %}
                         <img src="{{ asset('uploads/stories/' ~ story.imageName) }}" alt="{{ story.title }}">
@@ -75,10 +75,10 @@
         </div>
 
         <div>
-            <a href="{{ path('app_profile_stories_edit', {'id': story.id}) }}" class="btn">
+            <a href="{{ path('app_author_stories_edit', {'id': story.id}) }}" class="btn">
                 Modifier
             </a>
-            <form method="post" action="{{ path('app_profile_stories_delete', {'id': story.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette histoire ?');">
+            <form method="post" action="{{ path('app_author_stories_delete', {'id': story.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette histoire ?');">
                 <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ story.id) }}">
                 <button class="btn-danger">Supprimer</button>
             </form>
@@ -142,7 +142,7 @@
         </div>
 
         <div class="text-center">
-            <a href="{{ path('app_story_read_first_chapter', {'storyId': story.id}) }}" class="btn btn-success">
+            <a href="{{ path('app_story_read', {'storyId': story.id}) }}" class="btn btn-success">
                 Commencer la lecture
             </a>
         </div>
@@ -150,7 +150,7 @@
         <div class="alert alert-info">
             Cette histoire n'a pas encore de chapitres.
             {% if app.user and app.user.id == story.userId %}
-            <a href="{{ path('app_chapter_new', {'id': story.id}) }}">Cliquez ici pour ajouter le premier chapitre</a>.
+            <a href="{{ path('app_author_chapter_new', {'id': story.id}) }}">Cliquez ici pour ajouter le premier chapitre</a>.
             {% endif %}
         </div>
         {% endif %}

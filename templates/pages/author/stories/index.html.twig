@@ -16,23 +16,22 @@
 
     <div class="container">
 
-        {% include 'partials/main-nav.html.twig' with {
+        {% include 'partials/main_nav.html.twig' with {
             'title': 'Mes histoires',
             'return_path': path('app_profile'),
             'return_text': 'Retour au profil',
             'actions': [
                 {
-                    'path': path('app_profile_stories_new'),
+                    'path': path('app_author_stories_new'),
                     'text': 'Créer une histoire'
                 }
             ]
         } %}
 
-
         {% include 'includes/flash_messages.html.twig' %}
 
         {% if stories|length > 0 %}
-            <div class="stories-container">
+            <div class="stories-container content-container">
                 {% for story in stories %}
                     <div class="story-container">
                         <div class="img-container">
@@ -60,13 +59,13 @@
                             </div>
 
                             <div class="story-btn-container">
-                                <a href="{{ path('app_profile_stories_show', {'id': story.id}) }}" class="btn">
+                                <a href="{{ path('app_author_stories_show', {'id': story.id}) }}" class="btn">
                                     Voir
                                 </a>
-                                <a href="{{ path('app_profile_stories_edit', {'id': story.id}) }}" class="btn">
+                                <a href="{{ path('app_author_stories_edit', {'id': story.id}) }}" class="btn">
                                     Modifier
                                 </a>
-                                <form method="post" action="{{ path('app_profile_stories_delete', {'id': story.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette histoire ?');">
+                                <form method="post" action="{{ path('app_author_stories_delete', {'id': story.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette histoire ?');">
                                     <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ story.id) }}">
                                     <button class="btn-danger">Supprimer</button>
                                 </form>

@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-class ProfileController extends AbstractController
+class UserProfileController extends AbstractController
 {
     #[Route('/profile', name: 'app_profile')]
     #[IsGranted('ROLE_USER')]
@@ -31,7 +31,7 @@ class ProfileController extends AbstractController
             3
         );
 
-        return $this->render('pages/profile/profile.html.twig', [
+        return $this->render('pages/author/profile.html.twig', [
             'user' => $user,
             'recentStories' => $recentStories
         ]);
@@ -55,7 +55,7 @@ class ProfileController extends AbstractController
             return $this->redirectToRoute('app_profile');
         }
 
-        return $this->render('pages/profile/profile_edit.html.twig', [
+        return $this->render('pages/author/profile_edit.html.twig', [
             'form' => $form,
         ]);
     }

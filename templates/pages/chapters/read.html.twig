@@ -15,19 +15,19 @@
 {% block main %}
     <div class="container">
 
-        {% include 'partials/main-nav.html.twig' with {
+        {% include 'partials/main_nav.html.twig' with {
             'title': 'Chapitre ' ~ chapter.position ~ ', ' ~ chapter.title  ~ ' - ' ~ story.title,
-            'return_path': path('app_profile_stories_index'),
-            'return_text': 'Retour à la liste',
+            'return_path': path('app_story_show', {'id': story.id}),
+            'return_text': 'Retour à la page de l\'histoire',
             'actions': [
                 {
-                    'path': path('app_story_chapters', {'id': story.id}),
+                    'path': path('app_author_story_chapters', {'id': story.id}),
                     'text': 'Gérer les chapitres',
                     'class': 'btn btn-secondary',
                     'condition': app.user and app.user.id == story.userId
                 },
                 {
-                    'path': path('app_chapter_edit', {'id': chapter.id}),
+                    'path': path('app_author_chapter_edit', {'id': chapter.id}),
                     'text': 'Modifier',
                     'class': 'btn btn-primary',
                     'condition': app.user and app.user.id == story.userId
@@ -37,7 +37,7 @@
 
         {% include 'includes/flash_messages.html.twig' %}
 
-        <div class="row">
+        <div class="content-container">
             <div class="col-md-10 mx-auto">
 
                 <div class="card mb-5">
@@ -61,11 +61,11 @@
 
                     {% if nextChapter %}
                         <a href="{{ path('app_chapter_read', {'id': nextChapter.id}) }}" class="btn btn-outline-primary">
-                            Chapitre suivant <i class="bi bi-arrow-right"></i>
+                            Chapitre suivant
                         </a>
                     {% else %}
                         <a href="{{ path('app_story_show', {'id': story.id}) }}" class="btn btn-outline-secondary">
-                            Fin de l'histoire <i class="bi bi-arrow-right"></i>
+                            Fin de l'histoire
                         </a>
                     {% endif %}
                 </div>

@@ -14,40 +14,51 @@
 
 {% block main %}
     <div class="container">
-        <div class="story-header">
-            <h1>{{ story.title }}</h1>
-            <div class="story-meta">
-                <div class="genre-tags">
-                    {% for genre in story.genre %}
-                        <span class="badge badge-primary">{{ genre.value }}</span>
-                    {% endfor %}
+
+        {% include 'partials/main_nav.html.twig' with {
+            'title': story.title,
+            'return_path': path('app_home'),
+            'return_text': 'Retour à la recherche d\'histoires',
+        } %}
+
+        {% include 'includes/flash_messages.html.twig' %}
+
+        <div class="content-container">
+            <div class="story-header">
+                <div class="story-meta">
+                    <div class="genre-tags">
+                        {% for genre in story.genre %}
+                            <span class="badge badge-primary">{{ genre.value }}</span>
+                        {% endfor %}
+                    </div>
+                    {% if story.imageName %}
+                        <div class="story-image">
+                            <img src="{{ asset('uploads/stories/' ~ story.imageName) }}" alt="{{ story.title }}" class="img-fluid">
+                        </div>
+                    {% endif %}
                 </div>
-                {% if story.imageName %}
-                    <div class="story-image">
-                        <img src="{{ asset('uploads/stories/' ~ story.imageName) }}" alt="{{ story.title }}" class="img-fluid">
+                <div class="story-description">
+                    <p>{{ story.description }}</p>
+                </div>
+            </div>
+            <div class="story-content mt-4">
+                {% if hasChapters %}
+                    <a href="{{ path('app_story_read', {'storyId': story.id}) }}" class="btn btn-secondary">Commencer l'histoire</a>
+                {% else %}
+                    <div class="alert alert-info">
+                        Cette histoire n'a pas encore de chapitres.
                     </div>
                 {% endif %}
             </div>
-            <div class="story-description">
-                <p>{{ story.description }}</p>
+
+            <div class="actions mt-4">
+                <a href="{{ path('app_home') }}" class="btn btn-secondary">Retour à la liste</a>
+
+                {% if app.user and app.user.id == story.userId %}
+                    <a href="{{ path('app_author_stories_edit', {'id': story.id}) }}" class="btn">Modifier cette histoire</a>
+                {% endif %}
             </div>
         </div>
-        <div class="story-content mt-4">
-            {% if hasChapters %}
-                <a href="{{ path('app_chapter_read', {'id': story.id}) }}" class="btn btn-secondary">Commencer l'histoire</a>
-            {% else %}
-                <div class="alert alert-info">
-                    Cette histoire n'a pas encore de chapitres.
-                </div>
-            {% endif %}
-        </div>
 
-        <div class="actions mt-4">
-            <a href="{{ path('app_home') }}" class="btn btn-secondary">Retour à la liste</a>
-
-            {% if app.user and app.user.id == story.userId %}
-                <a href="{{ path('app_profile_stories_edit', {'id': story.id}) }}" class="btn">Modifier cette histoire</a>
-            {% endif %}
-        </div>
     </div>
 {% endblock %}

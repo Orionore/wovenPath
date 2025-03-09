@@ -11,8 +11,14 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
+/**
+ * Public controller for reading stories - no authentication required
+ */
 class MainStoryController extends AbstractController
 {
+    /**
+     * Display homepage with list of published stories
+     */
     #[Route('/', name: 'app_home', methods: ['GET'])]
     public function index(Request $request, StoryRepository $storyRepository): Response
     {
@@ -43,9 +49,13 @@ class MainStoryController extends AbstractController
         ]);
     }
 
-    #[Route('/stories/{id}', name: 'app_main_story_show', methods: ['GET'])]
+    /**
+     * Display a single story with its details and chapter list
+     */
+    #[Route('/stories/{id}', name: 'app_story_show', methods: ['GET'])]
     public function show(Story $story, ChapterRepository $chapterRepository): Response
     {
+        // Only allow viewing published stories unless the user is the author
         if (!$story->isStatus()) {
             if (!$this->getUser() || $story->getUserId() !== $this->getUser()->getId()) {
                 throw $this->createAccessDeniedException('Cette histoire n\'est pas encore publiée.');

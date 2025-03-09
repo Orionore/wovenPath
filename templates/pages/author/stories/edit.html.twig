@@ -18,11 +18,11 @@
 
         {% include 'partials/main-nav.html.twig' with {
             'title': 'Modifier l\'histoire',
-            'return_path': path('app_profile_stories_index'),
+            'return_path': path('app_author_stories_index'),
             'return_text': 'Retour à la liste',
             'actions': [
                 {
-                    'path': path('app_chapter_new', {'id': story.id}),
+                    'path': path('app_author_chapter_new', {'id': story.id}),
                     'text': 'Créer les chapitres'
                 }
             ]
@@ -30,7 +30,7 @@
 
         {% include 'includes/flash_messages.html.twig' %}
 
-        <div class="form-story-container">
+        <div class="form-story-container content-container">
             {{ form_start(form) }}
 
             {# ****** title ****** #}

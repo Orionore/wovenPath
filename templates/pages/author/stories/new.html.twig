@@ -16,15 +16,15 @@
 
     <div class="container">
 
-        {% include 'partials/main-nav.html.twig' with {
+        {% include 'partials/main_nav.html.twig' with {
             'title': 'Créer une nouvelle histoire',
-            'return_path': path('app_profile_stories_index'),
+            'return_path': path('app_author_stories_index'),
             'return_text': 'Retour à la liste',
         } %}
 
         {% include 'includes/flash_messages.html.twig' %}
 
-        <div class="new-story-container form-story-container">
+        <div class="new-story-container form-story-container content-container">
             {{ form_start(form) }}
 
             {# ****** title ****** #}

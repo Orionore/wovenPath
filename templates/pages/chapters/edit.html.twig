@@ -10,20 +10,20 @@
     {{ encore_entry_script_tags('page_chapter') }}
 {% endblock %}
 
-{% block title %}Nouveau chapitre pour {{ story.title }}{% endblock %}
+{% block title %}Modifier le chapitre{% endblock %}
 
 {% block main %}
     <div class="container">
 
-    {% include 'partials/main-nav.html.twig' with {
-        'title': 'Nouveau chapitre pour ' ~ story.title,
-        'return_path': path('app_profile_stories_index'),
-        'return_text': 'Retour à la liste',
-    } %}
+        {% include 'partials/main_nav.html.twig' with {
+            'title': 'Modifier le chapitre',
+            'return_path': path('app_author_story_chapters', {'id': story.id}),
+            'return_text': 'Retour aux chapitres',
+        } %}
 
-    {% include 'includes/flash_messages.html.twig' %}
+        {% include 'includes/flash_messages.html.twig' %}
 
-        <div class="row">
+        <div class="content-container">
             <div class="col-md-10 mx-auto">
                 <div class="card">
                     <div class="card-header d-flex justify-content-between align-items-center">
