@@ -2,7 +2,7 @@
 @use "../../../styles/components/cards" as card;
 @use "../../partials/form_error";
 
-.card {
+.card-container {
   @include card.card($background-dark, $radius);
   color: $text-dark;
   border: 1px solid $text;

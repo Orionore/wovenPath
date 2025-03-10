@@ -1,23 +1,6 @@
-{% extends 'layouts/main.html.twig' %}
-
-{% block stylesheets %}
-    {{ parent() }}
-    {{ encore_entry_link_tags('page_registration') }}
-{% endblock %}
-
-{% block javascripts %}
-    {{ parent() }}
-    {{ encore_entry_script_tags('page_registration') }}
-{% endblock %}
-
-{% block title %}Email de vérification{% endblock %}
-
-{% block main %}
 
     <div class="card">
         <p>Veuillez confirmer votre adresse email en cliquant sur le lien suivant :</p>
         <a href="{{ signedUrl }}">Confirmer mon adresse email</a>
         <p>Ce lien expirera le {{ expiresAt|date('d/m/Y H:i') }}.</p>
     </div>
-
-{% endblock %}
