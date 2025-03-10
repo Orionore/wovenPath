@@ -1,8 +1,13 @@
 @use "../core/mixins" as *;
+@use "../core/theme" as *;
 
 .navigation-container {
   width: 100%;
   margin: 15px 0;
+
+  a {
+    color: $text;
+  }
 
   ul.pagination {
     display: flex;

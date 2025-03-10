@@ -26,7 +26,7 @@
 
             {% if app.user %}
 
-            <div class="mb-3">
+            <div>
                 Vous êtes logué en tant que {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Se déconnecter</a>
             </div>
 
@@ -38,7 +38,11 @@
                 {{ form_start(registrationForm) }}
                     {{ form_errors(registrationForm) }}
                     {{ form_rest(registrationForm) }}
-                        <button type="submit" class="btn-primary">Créer un compte</button>
+
+                <div class="center">
+                    <button type="submit" class="btn-author">Créer un compte</button>
+                </div>
+
                 {{ form_end(registrationForm) }}
 
                 <div class="links-container">
