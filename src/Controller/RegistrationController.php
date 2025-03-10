@@ -1,12 +1,13 @@
 <?php
 
-// src/Controller/RegistrationController.php
 namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\RegistrationFormType;
 use App\Security\EmailVerifier;
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,6 +18,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
+use Symfony\Component\Form\FormError;
 
 class RegistrationController extends AbstractController
 {
@@ -28,7 +30,6 @@ class RegistrationController extends AbstractController
     }
 
     /**
-     * @throws TransportExceptionInterface
      */
     #[Route('/register', name: 'app_register')]
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
@@ -38,7 +39,6 @@ class RegistrationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // encode the plain password
             $user->setPassword(
                 $userPasswordHasher->hashPassword(
                     $user,
@@ -46,22 +46,33 @@ class RegistrationController extends AbstractController
                 )
             );
 
-            // Set the user as not verified initially
             $user->setVerified(false);
 
-            $entityManager->persist($user);
-            $entityManager->flush();
+            try {
+                $entityManager->persist($user);
+                $entityManager->flush();
 
-            // generate a signed url and email it to the user
-            $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
-                (new TemplatedEmail())
-                    ->from(new Address('mailer@wovenpaths.com', 'Woven Paths Mail Bot'))
-                    ->to($user->getEmail())
-                    ->subject('Please Confirm your Email')
-                    ->htmlTemplate('pages/registration/confirmation_email.html.twig')
-            );
+                $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
+                    (new TemplatedEmail())
+                        ->from(new Address('mailer@wovenpaths.com', 'Woven Paths Mail Bot'))
+                        ->to($user->getEmail())
+                        ->subject('Please Confirm your Email')
+                        ->htmlTemplate('pages/registration/confirmation_email.html.twig')
+                );
 
-            return $this->redirectToRoute('app_check_email');
+                return $this->redirectToRoute('app_check_email');
+            } catch (UniqueConstraintViolationException $e) {
+                $form->get('email')->addError(new FormError('This email is already used.'));
+
+                $this->addFlash('error', 'This email address is already registered.');
+            } catch (TransportExceptionInterface $e) {
+                $this->addFlash('error', 'Unable to send verification email. Please try again later.');
+
+                if ($user->getId()) {
+                    $entityManager->remove($user);
+                    $entityManager->flush();
+                }
+            }
         }
 
         return $this->render('pages/registration/register.html.twig', [
@@ -78,8 +89,8 @@ class RegistrationController extends AbstractController
             $this->addFlash('verify_email_error', $translator->trans($exception->getReason(), [], 'VerifyEmailBundle'));
 
             return $this->redirectToRoute('app_register');
-        } catch (\Exception $e) {
-
+        } catch (Exception $e) {
+            $this->addFlash('error', 'An unexpected error occurred. Please try again.');
         }
 
         $this->addFlash('success', 'Your email address has been verified.');
