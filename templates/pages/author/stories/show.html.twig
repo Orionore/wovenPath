@@ -132,7 +132,7 @@
         <div class="alert alert-info">
             Cette histoire n'a pas encore de chapitres.
             {% if app.user and app.user.id == story.userId %}
-            <a href="{{ path('app_author_chapter_new', {'id': story.id}) }}">Cliquez ici pour ajouter le premier chapitre</a>.
+            <a class="btn-primary" href="{{ path('app_author_chapter_new', {'id': story.id}) }}">Cliquez ici pour ajouter le premier chapitre</a>.
             {% endif %}
         </div>
         {% endif %}

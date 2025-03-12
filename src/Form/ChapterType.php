@@ -17,15 +17,27 @@ class ChapterType extends AbstractType
             ->add('title', TextType::class, [
                 'label' => 'Titre du chapitre',
                 'attr' => [
-                    'placeholder' => 'Entrez le titre du chapitre'
-                ]
+                    'placeholder' => 'Entrez le titre du chapitre',
+                    'aria-required' => 'true',
+                    'aria-describedby' => 'chapter-title-help',
+                ],
+                'label_attr' => [
+                    'id' => 'label-chapter-title',
+                    'class' => 'required-label',
+                ],
             ])
             ->add('content', TextareaType::class, [
                 'label' => 'Contenu',
                 'attr' => [
                     'placeholder' => 'Rédigez votre chapitre ici...',
-                    'rows' => 15
-                ]
+                    'rows' => 15,
+                    'aria-required' => 'true',
+                    'aria-describedby' => 'chapter-content-help',
+                ],
+                'label_attr' => [
+                    'id' => 'label-chapter-content',
+                    'class' => 'required-label',
+                ],
             ]);
     }
 

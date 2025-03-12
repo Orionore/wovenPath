@@ -46,7 +46,7 @@
                                 <div class="card-header">
                                     <h3>{{ story.title }}</h3>
                                     {% for genre in story.genre %}
-                                        <p>Genre : {{ genre.value }}</p>
+                                        <p>Genre : {{ genre.value|story_label }}</p>
                                     {% endfor %}
                                 </div>
 
@@ -60,12 +60,12 @@
                                             <span>Pas d'image</span>
                                         </div>
                                     {% endif %}
-                                </div>
-
-                                <div class="card-footer">
                                     <span class="statu {{ story.status ? 'published' : 'not-published' }}">
                                         {{ story.status ? 'Publié' : 'Brouillon' }}
                                     </span>
+                                </div>
+
+                                <div class="card-footer">
                                     <p class="description">{{ story.description }}</p>
                                     <div class="button-container">
                                         <a href="{{ path('app_author_stories_show', {'id': story.id}) }}" class="btn-primary">

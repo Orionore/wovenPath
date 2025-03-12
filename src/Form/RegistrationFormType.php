@@ -25,13 +25,29 @@ class RegistrationFormType extends AbstractType
         $builder
             ->add('username', TextType::class, [
                 'required' => true,
-                'label' => false,
-                'attr' => ['placeholder' => 'Pseudo'],
+                'label' => 'Pseudo',
+                'attr' => [
+                    'placeholder' => 'Pseudo',
+                    'aria-required' => 'true',
+                    'aria-describedby' => 'username-help',
+                ],
+                'label_attr' => [
+                    'id' => 'label-username',
+                    'class' => 'sr-only',
+                ],
             ])
             ->add('email', EmailType::class, [
                 'required' => true,
-                'label' => false,
-                'attr' => ['placeholder' => 'Email'],
+                'label' => 'Adresse email',
+                'attr' => [
+                    'placeholder' => 'Email',
+                    'aria-required' => 'true',
+                    'aria-describedby' => 'email-help',
+                ],
+                'label_attr' => [
+                    'id' => 'label-email',
+                    'class' => 'sr-only',
+                ],
                 'constraints' => [
                     new NotBlank(['message' => 'Veuillez entrer une adresse email']),
                     new Email(['message' => 'Veuillez entrer une adresse email valide']),
@@ -40,10 +56,17 @@ class RegistrationFormType extends AbstractType
             ])
             ->add('password', RepeatedType::class, [
                 'type' => PasswordType::class,
-                'label' => false,
+                'label' => 'Mot de passe',
                 'invalid_message' => 'Les mots de passes doivent être identiques.',
                 'first_options' => [
                     'label' => 'Mot de passe',
+                    'attr' => [
+                        'aria-required' => 'true',
+                        'aria-describedby' => 'password-requirements',
+                    ],
+                    'label_attr' => [
+                        'id' => 'label-password',
+                    ],
                     'constraints' => [
                         new NotBlank([
                             'message' => 'Veuillez entrer un mot de passe',
@@ -72,7 +95,16 @@ class RegistrationFormType extends AbstractType
                         new NotCompromisedPassword(),
                     ]
                 ],
-                'second_options' => ['label' => 'Confirmation du mot de passe'],
+                'second_options' => [
+                    'label' => 'Confirmation du mot de passe',
+                    'attr' => [
+                        'aria-required' => 'true',
+                        'aria-describedby' => 'confirm-password-help',
+                    ],
+                    'label_attr' => [
+                        'id' => 'label-confirm-password',
+                    ],
+                ],
                 'required' => true
             ])
         ;
@@ -83,6 +115,10 @@ class RegistrationFormType extends AbstractType
         $resolver->setDefaults([
             'data_class' => User::class,
             'validation_groups' => ["Default","register"],
+            'attr' => [
+                'aria-label' => 'Formulaire d\'inscription',
+                //'novalidate' => 'novalidate',
+            ],
         ]);
     }
 }

@@ -22,6 +22,7 @@ class ChangePasswordFormType extends AbstractType
                 'options' => [
                     'attr' => [
                         'autocomplete' => 'new-password',
+                        'aria-required' => 'true',
                     ],
                 ],
                 'first_options' => [
@@ -38,9 +39,23 @@ class ChangePasswordFormType extends AbstractType
                         new NotCompromisedPassword(),
                     ],
                     'label' => 'New password',
+                    'attr' => [
+                        'aria-describedby' => 'password-requirements',
+                        'aria-required' => 'true',
+                    ],
+                    'label_attr' => [
+                        'id' => 'label-new-password',
+                    ],
                 ],
                 'second_options' => [
                     'label' => 'Repeat Password',
+                    'attr' => [
+                        'aria-describedby' => 'password-confirmation-help',
+                        'aria-required' => 'true',
+                    ],
+                    'label_attr' => [
+                        'id' => 'label-confirm-password',
+                    ],
                 ],
                 'invalid_message' => 'The password fields must match.',
                 'mapped' => false,
