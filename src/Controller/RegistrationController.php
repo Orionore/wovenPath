@@ -81,15 +81,11 @@ class RegistrationController extends AbstractController
     }
 
     #[Route('/verify_email', name: 'app_verify_email')]
-    public function verifyUserEmail(Request $request, TranslatorInterface $translator): Response
+    public function verifyUserEmail(Request $request): Response
     {
         try {
             $this->emailVerifier->handleEmailConfirmation($request);
-        } catch (VerifyEmailExceptionInterface $exception) {
-            $this->addFlash('verify_email_error', $translator->trans($exception->getReason(), [], 'VerifyEmailBundle'));
-
-            return $this->redirectToRoute('app_register');
-        } catch (Exception $e) {
+        } catch (Exception) {
             $this->addFlash('error', 'An unexpected error occurred. Please try again.');
         }
 

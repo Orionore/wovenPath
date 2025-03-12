@@ -23,10 +23,6 @@ class UserRoleType extends AbstractType
                 'multiple' => true,
                 'expanded' => true,
             ])
-            ->add('isVerified', CheckboxType::class, [
-                'label' => 'Compte vérifié',
-                'required' => false,
-            ])
         ;
     }
 
