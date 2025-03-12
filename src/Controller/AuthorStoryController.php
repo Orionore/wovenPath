@@ -49,7 +49,7 @@ class AuthorStoryController extends AbstractController
     {
         $story = new Story();
         $story->setUserId($this->getUser()->getId());
-        $story->setStatus(false); // Default to draft mode
+        $story->setStatus(false);
 
         $form = $this->createForm(StoryType::class, $story);
         $form->handleRequest($request);
@@ -91,7 +91,6 @@ class AuthorStoryController extends AbstractController
     #[Route('/{id}', name: 'app_author_stories_show', methods: ['GET'])]
     public function show(Story $story, ChapterRepository $chapterRepository): Response
     {
-        // Ensure user is the author of the story
         if ($story->getUserId() !== $this->getUser()->getId()) {
             throw $this->createAccessDeniedException('Vous n\'avez pas les permissions pour gérer cette histoire');
         }
@@ -117,7 +116,6 @@ class AuthorStoryController extends AbstractController
         MediaService $mediaService
     ): Response
     {
-        // Ensure user is the author of the story
         if ($story->getUserId() !== $this->getUser()->getId()) {
             throw $this->createAccessDeniedException('Vous n\'avez pas les permissions pour modifier cette histoire');
         }
@@ -130,12 +128,10 @@ class AuthorStoryController extends AbstractController
 
             if ($imageFile) {
                 try {
-                    // Delete the old image if it exists
                     if ($story->getImageName()) {
                         $mediaService->deleteImage($story->getImageName());
                     }
 
-                    // Process and save the new image
                     $imageName = $mediaService->processAndSaveImage($imageFile);
                     $story->setImageName($imageName);
                 } catch (Exception $e) {
@@ -172,7 +168,6 @@ class AuthorStoryController extends AbstractController
         MediaService $mediaService
     ): Response
     {
-        // Ensure user is the author of the story
         if ($story->getUserId() !== $this->getUser()->getId()) {
             throw $this->createAccessDeniedException('Vous n\'avez pas les permissions pour supprimer cette histoire');
         }
@@ -182,7 +177,6 @@ class AuthorStoryController extends AbstractController
                 $mediaService->deleteImage($story->getImageName());
             }
 
-            // Soft delete by setting deletedAt field
             $story->setDeletedAt(new DateTime());
             $entityManager->flush();
 
