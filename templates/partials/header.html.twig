@@ -20,11 +20,17 @@
                                     <a href="{{ path('app_logout') }}">Se déconnecter</a>
                                 </li>
                                 <li>
+                                    <a href="{{ path('app_author_stories_index') }}" class="nav-title"><b>Créer une histoire</b></a>
+                                </li>
+                                <li>
                                     <a href="{{ path('app_profile') }}" class="nav-title">Profile</a>
                                 </li>
                             {% else %}
                                 <li>
                                     <a href="{{ path('app_login') }}">Se connecter</a>
+                                </li>
+                                <li>
+                                    <a href="{{ path('app_login') }}" class="nav-title"><b>Créer une histoire</b></a>
                                 </li>
                             {% endif %}
 

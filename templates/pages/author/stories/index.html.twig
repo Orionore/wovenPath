@@ -40,7 +40,7 @@
                                 <p>
                                     Genre :
                                     {% for genre in story.genre %}
-                                        {{ genre.value }}
+                                        {{ genre.value|story_label }}
                                     {% endfor %}
                                 </p>
 
@@ -54,13 +54,14 @@
                                         <img src="{{ asset('images/default/default.webp') }}" alt="{{ story.title }}">
                                     {% endif %}
                                 </div>
+                                <span class="statu {{ story.status ? 'published' : 'not-published' }}">
+                                    {{ story.status ? 'Publié' : 'Brouillon' }}
+                                </span>
                             </div>
 
                             <div class="card-footer">
 
-                                <span class="statu {{ story.status ? 'published' : 'not-published' }}">
-                                    {{ story.status ? 'Publié' : 'Brouillon' }}
-                                </span>
+
                                 <p class="description">{{ story.description }}</p>
 
                                 <div class="story-information-container">
@@ -90,7 +91,7 @@
         {% else %}
             <div class="bg-gray-100 p-8 rounded-lg text-center">
                 <p class="text-lg text-gray-600 mb-4">Vous n'avez pas encore créé d'histoires.</p>
-                <a href="{{ path('app_profile_stories_new') }}" class="inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                <a href="{{ path('app_author_stories_new') }}" class="btn-primary">
                     Créer ma première histoire
                 </a>
             </div>

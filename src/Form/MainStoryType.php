@@ -9,22 +9,24 @@ use Symfony\Component\Form\Extension\Core\Type\SearchType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class MainStoryType extends AbstractType
 {
+
+    public function __construct(private readonly TranslatorInterface $translator)
+    {
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $genres = [];
-        foreach (StoryEnum::cases() as $genre) {
-            $genres[$genre->value] = $genre->name;
-        }
 
         $builder
             ->add('genre', ChoiceType::class, [
                 'label' => false,
                 'required' => false,
                 'placeholder' => 'Chercher par genre',
-                'choices' => $genres,
+                'choices' => StoryEnum::getChoices($this->translator),
                 'attr' => [
                     'class' => 'genre-select'
                 ]

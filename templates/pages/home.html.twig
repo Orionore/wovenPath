@@ -41,7 +41,7 @@
                                 <p class="card-text">
                                     <small class="text-muted">
                                         {% for genre in story.genre %}
-                                            {{ genre.value }}{% if not loop.last %}, {% endif %}
+                                            {{ genre.value|story_label }}{% if not loop.last %}, {% endif %}
                                         {% endfor %}
                                     </small>
                                 </p>

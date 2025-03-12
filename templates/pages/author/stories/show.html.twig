@@ -59,7 +59,7 @@
                         <h3>Genres :</h3>
                         <div>
                             {% for genre in story.genre %}
-                                <span>{{ genre.value }}</span>
+                                <span>{{ genre.value|story_label }}</span>
                             {% endfor %}
                         </div>
                     </div>

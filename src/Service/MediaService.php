@@ -13,18 +13,15 @@ use Symfony\Component\Validator\ConstraintViolationListInterface;
 class MediaService
 {
     private string $uploadsDirectory;
-    private SluggerInterface $slugger;
     private ImageManager $imageManager;
     private ValidatorInterface $validator;
 
     public function __construct(
         string $uploadsDirectory,
-        SluggerInterface $slugger,
         ValidatorInterface $validator,
         ImageManager $imageManager
     ) {
         $this->uploadsDirectory = $uploadsDirectory;
-        $this->slugger = $slugger;
         $this->validator = $validator;
         $this->imageManager = $imageManager;
     }
@@ -48,10 +45,6 @@ class MediaService
             mkdir($targetDirectory, 0777, true);
         }
 
-        $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
-        $safeFilename = $this->slugger->slug($originalFilename);
-
-        // Génération d'un nom unique avec une chaîne de caractères aléatoire
         $randomString = bin2hex(random_bytes(8));
         $newFilename = $randomString . '-' . uniqid() . '.webp';
 
@@ -61,7 +54,6 @@ class MediaService
         $image = $image->cover(300, 150);
         $image->toWebp(90)->save($fullPath);
 
-        // Retourner seulement le nom du fichier pour rester compatible avec le code existant
         return $newFilename;
     }
 

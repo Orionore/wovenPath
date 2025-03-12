@@ -3,14 +3,10 @@
 namespace App\Repository;
 
 use App\Entity\Story;
-use App\Enum\StoryEnum;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 
-/**
- * @extends ServiceEntityRepository<Story>
- */
 class StoryRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
@@ -90,19 +86,12 @@ class StoryRepository extends ServiceEntityRepository
         }
 
         if ($genre && $genre !== '') {
-            $genreExists = false;
-            foreach (StoryEnum::cases() as $storyEnum) {
-                if ($storyEnum->name === $genre) {
-                    $genreExists = true;
-                    break;
-                }
-            }
-
-            if ($genreExists) {
-                $queryBuilder
-                    ->andWhere('s.genre LIKE :genre')
-                    ->setParameter('genre', '%' . $genre . '%');
-            }
+            $queryBuilder
+                ->andWhere('s.genre LIKE :genre OR s.genre LIKE :genreStart OR s.genre LIKE :genreMiddle OR s.genre LIKE :genreEnd')
+                ->setParameter('genre', $genre)
+                ->setParameter('genreStart', $genre.',%')
+                ->setParameter('genreMiddle', '%,'.$genre.',%')
+                ->setParameter('genreEnd', '%,'.$genre);
         }
 
         $queryBuilder

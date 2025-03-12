@@ -2,6 +2,8 @@
 @use "../../core/font" as *;
 @use "../../core/theme" as *;
 
+@use "../../partials/status_story.scss";
+
 .container {
 
   .content-container {
@@ -18,27 +20,6 @@
   }
 
   .story-information-container {
-
-    .story-title-container {
-
-      .published, .not-published {
-        padding: 1px 15px;
-        border-radius: $radius;
-        margin-bottom: 1em;
-        display: block;
-        width: fit-content;
-      }
-
-      .published {
-        background-color: $background-success;
-        color: $text-success;
-      }
-
-      .not-published {
-        background-color: $background-warning;
-        color: $text-warning;
-      }
-    }
 
     .genre-container {
       margin: 10px 0;
