@@ -60,12 +60,12 @@
                                             <span>Pas d'image</span>
                                         </div>
                                     {% endif %}
-                                </div>
-
-                                <div class="card-footer">
                                     <span class="statu {{ story.status ? 'published' : 'not-published' }}">
                                         {{ story.status ? 'Publié' : 'Brouillon' }}
                                     </span>
+                                </div>
+
+                                <div class="card-footer">
                                     <p class="description">{{ story.description }}</p>
                                     <div class="button-container">
                                         <a href="{{ path('app_author_stories_show', {'id': story.id}) }}" class="btn-primary">

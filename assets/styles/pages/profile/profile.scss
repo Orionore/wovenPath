@@ -3,6 +3,7 @@
 @use "../../core/theme" as *;
 
 @use "../../components/cards" as card;
+@use "../../partials/status_story";
 
 .profile-container {
   @include card.card($background-primary, $radius);
@@ -83,28 +84,12 @@
             width: 100%;
             border-radius: $radius;
           }
+          .published, .not-published {
+            float: right;
+          }
         }
 
         .card-footer {
-
-          .published, .not-published {
-            padding: 1px 15px;
-            border-radius: $radius;
-            margin-bottom: 1em;
-            display: block;
-            width: fit-content;
-          }
-
-          .published {
-            background-color: $background-success;
-            color: $text-success;
-          }
-
-          .not-published {
-            background-color: $background-warning;
-            color: $text-warning;
-          }
-
            .button-container {
              text-align: center;
            }
