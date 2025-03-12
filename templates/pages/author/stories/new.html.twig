@@ -13,9 +13,7 @@
 {% block title %}Créer une nouvelle histoire{% endblock %}
 
 {% block main %}
-
     <div class="container">
-
         {% include 'partials/main_nav.html.twig' with {
             'title': 'Créer une nouvelle histoire',
             'return_path': path('app_author_stories_index'),
@@ -27,70 +25,74 @@
 
             {# ****** title ****** #}
             <div class="form-title-container">
-                {{ form_label(form.title, null, {'label_attr': {'class': 'title'}}) }}
-                {{ form_widget(form.title, {'attr': {'class': 'block'}}) }}
+                {{ form_label(form.title) }}
+                {{ form_widget(form.title) }}
+                {{ form_help(form.title) }}
                 {{ form_errors(form.title, {'errors_attr': {'class': 'form-error'}}) }}
             </div>
 
             {# ****** description ****** #}
             <div class="form-description-container">
-                {{ form_label(form.description, null, {'label_attr': {'class': 'title'}}) }}
-                {{ form_widget(form.description, {'attr': {'class': 'block'}}) }}
+                {{ form_label(form.description) }}
+                {{ form_widget(form.description) }}
+                {{ form_help(form.description) }}
                 {{ form_errors(form.description, {'errors_attr': {'class': 'form-error'}}) }}
             </div>
 
             {# ****** genre ****** #}
             <div class="form-genre-container">
-                {{ form_label(form.genre, 'Genre', {'label_attr': {'class': 'title'}}) }}
-
+                {{ form_label(form.genre) }}
                 {{ form_widget(form.genre) }}
-
+                {{ form_help(form.genre) }}
                 {{ form_errors(form.genre, {'errors_attr': {'class': 'form-error'}}) }}
             </div>
 
             {# ****** images ****** #}
-            <div class="story-image-preview ">
-                {{ form_label(form.imageFile, null, {'label_attr': {'class': 'title'}}) }}
-                <div
-                    {{ stimulus_controller('story-image-preview') }}
-                    class="mt-1"
-                >
-                    {% if story.imageName %}
+            <div class="story-image-preview">
+                {{ form_label(form.imageFile) }}
+                <div {{ stimulus_controller('story-image-preview') }} class="mt-1">
+                    {% if story.imageName is defined and story.imageName %}
                         <div class="mb-3">
-                            <p class="text-sm text-gray-600 mb-1">Image actuelle:</p>
-                            <img src="{{ asset('uploads/stories/' ~ story.imageName) }}" alt="{{ story.title }}" class="max-h-48 rounded">
+                            <p class="text-sm text-gray-600 mb-1" id="current-image-desc">Image actuelle:</p>
+                            <img src="{{ asset('uploads/stories/' ~ story.imageName) }}"
+                                 alt="{{ story.title }}"
+                                 class="max-h-48 rounded"
+                                 aria-labelledby="current-image-desc">
                         </div>
                     {% endif %}
 
                     <div class="custom-file-upload">
                         {{ form_widget(form.imageFile, {
                             'attr': {
-                                'class': 'file-input',
                                 'data-story-image-preview-target': 'input',
                                 'data-action': 'story-image-preview#preview'
                             }
                         }) }}
                         <label for="{{ form.imageFile.vars.id }}" class="file-label">
-                            <span class="button">Choisir un fichier</span>
-                            <span class="file-name" data-story-image-preview-target="fileName">Aucun fichier choisi</span>
+                            <span class="button" role="button" tabindex="0">Choisir un fichier</span>
+                            <span class="file-name" data-story-image-preview-target="fileName" aria-live="polite">
+                                Aucun fichier choisi
+                            </span>
                         </label>
                     </div>
+                    {{ form_help(form.imageFile) }}
                     <div data-story-image-preview-target="preview">
-                        <img src="#" data-story-image-preview-target="image" alt="">
+                        <img src="#" data-story-image-preview-target="image" alt="Aperçu de l'image sélectionnée">
                     </div>
+                    {{ form_errors(form.imageFile, {'attr': {'class': 'form-error'}}) }}
                 </div>
-                {{ form_errors(form.imageFile, {'attr': {'class': 'form-error'}}) }}
             </div>
 
             {# ****** set publish ****** #}
-            <div>
-                {{ form_widget(form.status, {'attr': {'class': 'h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500 mr-2'}}) }}
-                {{ form_label(form.status, null, {'label_attr': {'class': 'text-sm font-medium text-gray-700'}}) }}
+            <div class="checkbox-wrapper">
+                {{ form_widget(form.status) }}
+                {{ form_label(form.status) }}
+                {{ form_help(form.status) }}
                 {{ form_errors(form.status, {'errors_attr': {'class': 'form-error'}}) }}
             </div>
 
             <div class="flex justify-end">
-                <button type="submit" class="btn-primary">
+                <button type="submit" class="btn-primary" aria-label="Enregistrer l'histoire">
                     Enregistrer les modifications
                 </button>
             </div>

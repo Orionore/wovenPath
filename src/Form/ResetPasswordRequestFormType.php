@@ -14,7 +14,14 @@ class ResetPasswordRequestFormType extends AbstractType
     {
         $builder
             ->add('email', EmailType::class, [
-                'attr' => ['autocomplete' => 'email'],
+                'attr' => [
+                    'autocomplete' => 'email',
+                    'aria-required' => 'true',
+                    'aria-describedby' => 'email-reset-help',
+                ],
+                'label_attr' => [
+                    'id' => 'label-email-reset',
+                ],
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Please enter your email',
@@ -26,6 +33,10 @@ class ResetPasswordRequestFormType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults([]);
+        $resolver->setDefaults([
+            'attr' => [
+                'aria-label' => 'Formulaire de demande de réinitialisation de mot de passe',
+            ],
+        ]);
     }
 }

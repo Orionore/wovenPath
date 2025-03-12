@@ -31,6 +31,12 @@ class ProfileEditType extends AbstractType
                     ]),
                 ],
                 'required' => false,
+                'attr' => [
+                    'aria-describedby' => 'username-help',
+                ],
+                'label_attr' => [
+                    'id' => 'label-username',
+                ],
             ])
         ;
     }
@@ -39,6 +45,9 @@ class ProfileEditType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => User::class,
+            'attr' => [
+                'aria-label' => 'Formulaire de modification de profil',
+            ],
         ]);
     }
 }

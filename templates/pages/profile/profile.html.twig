@@ -46,7 +46,7 @@
                                 <div class="card-header">
                                     <h3>{{ story.title }}</h3>
                                     {% for genre in story.genre %}
-                                        <p>Genre : {{ genre.value }}</p>
+                                        <p>Genre : {{ genre.value|story_label }}</p>
                                     {% endfor %}
                                 </div>
 
