@@ -55,7 +55,6 @@ class MainStoryController extends AbstractController
     #[Route('/stories/{id}', name: 'app_story_show', methods: ['GET'])]
     public function show(Story $story, ChapterRepository $chapterRepository): Response
     {
-        // Only allow viewing published stories unless the user is the author
         if (!$story->isStatus()) {
             if (!$this->getUser() || $story->getUserId() !== $this->getUser()->getId()) {
                 throw $this->createAccessDeniedException('Cette histoire n\'est pas encore publiée.');

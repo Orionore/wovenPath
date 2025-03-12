@@ -1,0 +1,21 @@
+@use "../core/theme" as *;
+
+.published, .not-published {
+  padding: 1px 15px;
+  border-radius: $radius;
+  margin-bottom: 1em;
+  display: block;
+  width: fit-content;
+  font-size: 1.3rem;
+  margin-top: 5px;
+}
+
+.published {
+  background-color: $background-success;
+  color: $text-success;
+}
+
+.not-published {
+  background-color: $background-warning;
+  color: $text-warning;
+}

@@ -34,7 +34,7 @@ class EmailVerifier
             $verifyEmailRouteName,
             (string)$user->getId(),
             $user->getEmail(),
-            ['id' => $user->getId()]  // Include the user ID in the URL parameters
+            ['id' => $user->getId()]
         );
 
         $context = $email->getContext();
@@ -47,7 +47,7 @@ class EmailVerifier
     }
 
     /**
-     * @throws VerifyEmailExceptionInterface|Exception
+     * @throws Exception
      */
     public function handleEmailConfirmation(Request $request): void
     {

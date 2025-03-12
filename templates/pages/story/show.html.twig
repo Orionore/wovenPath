@@ -26,7 +26,7 @@
                 <div class="story-meta">
                     <div class="genre-tags">
                         {% for genre in story.genre %}
-                            <p>Genre : <span class="badge badge-primary">{{ genre.value }}</span></p>
+                            <p>Genre : <span class="badge badge-primary">{{ genre.value|story_label }}</span></p>
 
                         {% endfor %}
                     </div>

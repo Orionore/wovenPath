@@ -30,7 +30,7 @@ class UserProfileController extends AbstractController
             3
         );
 
-        return $this->render('pages/author/profile.html.twig', [
+        return $this->render('pages/profile/profile.html.twig', [
             'user' => $user,
             'recentStories' => $recentStories
         ]);
@@ -54,7 +54,7 @@ class UserProfileController extends AbstractController
             return $this->redirectToRoute('app_profile');
         }
 
-        return $this->render('pages/author/profile_edit.html.twig', [
+        return $this->render('pages/profile/profile_edit.html.twig', [
             'form' => $form,
         ]);
     }

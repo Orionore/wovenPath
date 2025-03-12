@@ -14,9 +14,14 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class StoryType extends AbstractType
 {
+    public function __construct(private readonly TranslatorInterface $translator)
+    {
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -52,7 +57,7 @@ class StoryType extends AbstractType
             ->add('genre', EnumType::class, [
                 'label' => 'Genre',
                 'class' => StoryEnum::class,
-                'choice_label' => fn (StoryEnum $genre) => $genre->value,
+                'choice_label' => fn (StoryEnum $genre) => $genre->getLabel($this->translator),
                 'multiple' => true,
                 'expanded' => false,
             ])

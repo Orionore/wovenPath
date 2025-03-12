@@ -2,6 +2,8 @@
 
 namespace App\Enum;
 
+use Symfony\Contracts\Translation\TranslatorInterface;
+
 enum StoryEnum: string
 {
     case DETECTIVE = 'detective';
@@ -24,5 +26,27 @@ enum StoryEnum: string
     case FAIRYTALE = 'fairytale';
     case MYTHOLOGY = 'mythology';
     case SATIRE = 'satire';
-    case MYSTERY = 'mystère';
+    case MYSTERY = 'mystery';
+
+    /**
+     * Return the label translation
+     */
+    public function getLabel(TranslatorInterface $translator): string
+    {
+        return $translator->trans('story_enum.' . $this->value, [], 'enums');
+    }
+
+    /**
+     * Returns all cases with their translated labels
+     *
+     * @return array<string, string>
+     */
+    public static function getChoices(TranslatorInterface $translator): array
+    {
+        $choices = [];
+        foreach (self::cases() as $case) {
+            $choices[$case->getLabel($translator)] = $case->value;
+        }
+        return $choices;
+    }
 }
